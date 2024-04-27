@@ -308,6 +308,6 @@ def create_graphs(data):
     for x in data:
         dff = df[df["country"]==x]
         fig = px.line(dff, x="year", y="lifeExp", title=f'Life expectancy in {x}')
-        fig.show()
+        st.write(fig)
 
 create_graphs(["Canada","France","Germany"])
