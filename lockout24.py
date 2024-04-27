@@ -259,7 +259,7 @@ all_weeks['Cum_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 ##### CREATE SUBSETS FOR TABLES #####
 ##### CREATE SUBSETS FOR TABLES #####
 
-cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Overall_Wins']
+cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Overall_Total','Overall_Wins']
 best_weeks = all_weeks[cols]
 
 cols = ['Week','team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
