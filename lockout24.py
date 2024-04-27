@@ -303,5 +303,5 @@ st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 ## test
 
 df = all_weeks[all_weeks["Week"] == 4]
-fig = px.scatter(df, x="Week_Expected", y="Wins", facet_col="team")
+fig = px.scatter(df, x="Week_Expected", y="Wins", facet_col="team",facet_col_wrap=4)
 st.write(fig)
