@@ -259,8 +259,15 @@ all_weeks['Cum_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 ##### CREATE SUBSETS FOR TABLES #####
 ##### CREATE SUBSETS FOR TABLES #####
 
-cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Overall_Total','Overall_Wins']
+cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Overall_Wins']
 best_weeks = all_weeks[cols]
+best_weeks = best_weeks.sort_values('Overall_Wins',ascending = False).head(10)
+
+cols = ['Week','team','opponent','Week_Expected','Wins','Wins_Diff']
+lucky_weeks = all_weeks[cols]
+lucky_weeks = lucky_weeks.sort_values('Wins_Diff',ascending = False).head(10)
+unlucky_weeks = lucky_weeks.sort_values('Wins_Diff',ascending = True).head(10)
+
 
 cols = ['Week','team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
         ,'R_avg3','HR_avg3','RBI_avg3','SB_avg3','OBP_avg3','ERA_avg3','WHIP_avg3','K_avg3','QS_avg3','SV+H_avg3']
@@ -287,6 +294,8 @@ st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
 
 
 st.write(best_weeks)
+st.write(lucky_weeks)
+st.write(unlucky_weeks)
 
 cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins")
 st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
