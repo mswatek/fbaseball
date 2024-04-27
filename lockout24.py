@@ -305,7 +305,7 @@ st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 cumrank_current = cumrank_df[cumrank_df['Week']==4]
 cumrank_radar = pd.melt(cumrank_current, id_vars='team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
 
-fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
+fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True,facet_col="team",facet_col_wrap=3).update_traces(fill='toself')
 
 st.write(fig)
 
