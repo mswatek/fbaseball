@@ -220,7 +220,7 @@ all_weeks['Week_Expected'] = (all_weeks['Week_Total']-10)/110*10
 totalrank_list = ['R_totalrank','HR_totalrank','RBI_totalrank','SB_totalrank','OBP_totalrank','ERA_totalrank','WHIP_totalrank','K_totalrank','QS_totalrank','SV+H_totalrank']
 all_weeks['Overall_Total']=all_weeks.loc[:,totalrank_list].sum(axis=1)
 maxweek = all_weeks['Week'].max()
-all_weeks['Overall_Wins'] = (all_weeks['Overall_Total']-10)/(maxweek*120-10)*10
+all_weeks['Overall_Wins'] = (all_weeks['Overall_Total']-10)/((maxweek-1)*120-10)*10
 
 all_weeks['Wins_Diff'] = all_weeks['Wins'] - all_weeks['Week_Expected']
 all_weeks['Wins_Diff_cum'] = all_weeks.groupby('team')['Wins_Diff'].cumsum()
