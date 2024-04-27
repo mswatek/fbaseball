@@ -302,12 +302,6 @@ st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
 ## test
 
-df = px.data.gapminder()
-
-def create_graphs(data):
-    for x in data:
-        dff = df[df["country"]==x]
-        fig = px.line(dff, x="year", y="lifeExp", title=f'Life expectancy in {x}')
-        st.write(fig)
-
-create_graphs(["Canada","France","Germany"])
+df = all_weeks[all_weeks["Week"] == 4]
+fig = px.scatter(df, x="Week_Expected", y="Wins", facet_col="team")
+print(fig)
