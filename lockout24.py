@@ -305,23 +305,15 @@ st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
 st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
 
-## test
-line3 = st.selectbox("Choose Team:", ['Lumberjacks','Frozen Ropes','Angels'])
 
-cumrank_current = cumrank_df[cumrank_df['Week']==4]
+line3 = st.selectbox("Choose Team:", ['Acuña Moncada','Aluminum Power','Bryzzo','El Squeezo Bunto Dos','Frozen Ropes'\
+                                     ,'Humdingers', 'I Shota The Sheriff','Lumberjacks','The Chandler Mandrills','Baseball GPT','Santos L. Halper','Sheangels'])
+
+maxweek = all_weeks['Week'].max()
+cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
 cumrank_radar = pd.melt(cumrank_current, id_vars='team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
 
 cumrank_radar = cumrank_radar[cumrank_radar['team']==line3]
 fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
 
 st.write(fig)
-
-'''
-fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True, facet_col="team",facet_col_wrap=3)
-fig.update_traces(fill='toself')
-st.write(fig)
-
-
-facet_col="team",facet_col_wrap=3
-
-'''
