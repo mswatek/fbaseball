@@ -299,3 +299,15 @@ st.write(unlucky_weeks)
 
 cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins").update_xaxes(type='category')
 st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
+
+## test
+
+df = px.data.gapminder()
+
+def create_graphs(data):
+    for x in data:
+        dff = df[df["country"]==x]
+        fig = px.line(dff, x="year", y="lifeExp", title=f'Life expectancy in {x}')
+        fig.show()
+
+create_graphs(["Canada","France","Germany"])
