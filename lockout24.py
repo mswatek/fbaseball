@@ -215,11 +215,12 @@ for col in cat_cols2:
 
 weekrank_list = ['R_weekrank','HR_weekrank','RBI_weekrank','SB_weekrank','OBP_weekrank','ERA_weekrank','WHIP_weekrank','K_weekrank','QS_weekrank','SV+H_weekrank']
 all_weeks['Week_Total'] =all_weeks.loc[:,weekrank_list].sum(axis=1)
-all_weeks['Week_Expected'] = all_weeks['Week_Total']/10-1
+all_weeks['Week_Expected'] = (all_weeks['Week_Total']-10)/110*10
 
 totalrank_list = ['R_totalrank','HR_totalrank','RBI_totalrank','SB_totalrank','OBP_totalrank','ERA_totalrank','WHIP_totalrank','K_totalrank','QS_totalrank','SV+H_totalrank']
 all_weeks['Overall_Total']=all_weeks.loc[:,totalrank_list].sum(axis=1)
-all_weeks['Overall_Wins'] = all_weeks['Overall_Total']/((all_weeks['Week'].max()-1)*10)-1
+maxweek = all_weeks['Week'].max()
+all_weeks['Overall_Wins'] = (all_weeks['Overall_Total']-maxweek*10)/(maxweek*110*10)
 
 all_weeks['Wins_Diff'] = all_weeks['Wins'] - all_weeks['Week_Expected']
 all_weeks['Wins_Diff_cum'] = all_weeks.groupby('team')['Wins_Diff'].cumsum()
