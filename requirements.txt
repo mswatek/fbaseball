@@ -2,3 +2,4 @@ yahoofantasy
 streamlit
 pandas
 numpy
+plotly.express
