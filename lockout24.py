@@ -189,9 +189,9 @@ all_weeks['ERA_cum'] = all_weeks['Earned_Runs_cum']/all_weeks['IP_New_cum']*9
 all_weeks['ERA_avg'] = all_weeks['Earned_Runs_avg']/all_weeks['IP_New_avg']*9
 all_weeks['ERA_avg3'] = all_weeks['Earned_Runs_avg3']/all_weeks['IP_New_avg3']*9
 
-all_weeks['WHIP_cum'] = all_weeks['Walk_Hits_cum']*all_weeks['IP_New_cum']
-all_weeks['WHIP_avg'] = all_weeks['Walk_Hits_avg']*all_weeks['IP_New_avg']
-all_weeks['WHIP_avg3'] = all_weeks['Walk_Hits_avg3']*all_weeks['IP_New_avg3']
+all_weeks['WHIP_cum'] = all_weeks['Walk_Hits_cum']/all_weeks['IP_New_cum']
+all_weeks['WHIP_avg'] = all_weeks['Walk_Hits_avg']/all_weeks['IP_New_avg']
+all_weeks['WHIP_avg3'] = all_weeks['Walk_Hits_avg3']/all_weeks['IP_New_avg3']
 
 ##### WEEKLY RANKS #####
 ##### WEEKLY RANKS #####
@@ -299,11 +299,6 @@ st.write(unlucky_weeks)
 
 cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins").update_xaxes(type='category')
 st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
-
-
-   
-cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
-st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
 
 
 line3 = st.selectbox("Choose Team:", ['Acuña Moncada','Aluminum Power','Bryzzo','El Squeezo Bunto Dos','Frozen Ropes'\
