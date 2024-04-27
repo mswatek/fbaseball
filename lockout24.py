@@ -289,7 +289,7 @@ st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
 
 line2 = st.selectbox("Choose Metric:", ['R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg'])
    
-cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week")
+cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
 st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
 
 
@@ -297,5 +297,5 @@ st.write(best_weeks)
 st.write(lucky_weeks)
 st.write(unlucky_weeks)
 
-cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins")
+cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins").update_xaxes(type='category')
 st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
