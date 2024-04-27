@@ -272,10 +272,6 @@ rank_df = all_weeks[cols]
 cols = ['Week','team','R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank']
 cumrank_df = all_weeks[cols]
 
-st.write(all_weeks)
-
-'''
-
 
 line = st.selectbox("Choose Metric:", ['Cum_Total','Cum_Total3'])
    
@@ -291,13 +287,5 @@ st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
 
 st.write(best_weeks)
 
-
-
-
-
-st.write(weekly_df)
-st.write(avg_df)
-st.write(rank_df)
-st.write(cumrank_df)
-
-'''
+cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins")
+st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
