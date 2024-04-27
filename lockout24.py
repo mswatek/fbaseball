@@ -283,7 +283,7 @@ cumrank_df = all_weeks[cols]
 
 line = st.selectbox("Choose Metric:", ['Cum_Total','Cum_Total3'])
    
-cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='team',title="Roto Score by Week")
+cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='team',title="Roto Score by Week").update_xaxes(type='category')
 st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
 
 
