@@ -264,9 +264,9 @@ best_weeks = all_weeks[cols]
 best_weeks = best_weeks.sort_values('Overall_Wins',ascending = False).head(10)
 
 cols = ['Week','team','opponent','Week_Expected','Wins','Wins_Diff']
-lucky_weeks = all_weeks[cols]
-lucky_weeks = lucky_weeks.sort_values('Wins_Diff',ascending = False).head(10)
-unlucky_weeks = lucky_weeks.sort_values('Wins_Diff',ascending = True).head(10)
+difference = all_weeks[cols]
+lucky_weeks = difference.sort_values('Wins_Diff',ascending = False).head(10)
+unlucky_weeks = difference.sort_values('Wins_Diff',ascending = True).head(10)
 
 
 cols = ['Week','team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
