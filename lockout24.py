@@ -291,6 +291,10 @@ line2 = st.selectbox("Choose Metric:", ['R_avg','HR_avg','RBI_avg','SB_avg','OBP
    
 cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
 st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
+cats_table = best_weeks.sort_values(line2,ascending = False).head(10)
+st.write(cats_table)
+
+
 
 
 st.write(best_weeks)
