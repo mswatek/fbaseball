@@ -268,6 +268,9 @@ difference = all_weeks[cols]
 lucky_weeks = difference.sort_values('Wins_Diff',ascending = False).head(10)
 unlucky_weeks = difference.sort_values('Wins_Diff',ascending = True).head(10)
 
+cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Wins','Overall_Wins']
+reduced_weeks = all_weeks[cols]
+
 
 cols = ['Week','team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
         ,'R_avg3','HR_avg3','RBI_avg3','SB_avg3','OBP_avg3','ERA_avg3','WHIP_avg3','K_avg3','QS_avg3','SV+H_avg3']
@@ -291,8 +294,8 @@ line2 = st.selectbox("Choose Metric:", ['R_avg','HR_avg','RBI_avg','SB_avg','OBP
    
 cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
 st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
-cats_table = best_weeks.sort_values(line2,ascending = False).head(10)
-st.write(cats_table)
+#cats_table = best_weeks.sort_values(line2,ascending = False).head(10)
+#st.write(cats_table)
 
 
 
@@ -315,4 +318,11 @@ cumrank_radar = pd.melt(cumrank_current, id_vars='team', value_vars=['R_avg_cumr
 cumrank_radar = cumrank_radar[cumrank_radar['team']==line3]
 fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
 
+team_individual = reduced_weeks[reduced_weeks['team']== line3]
+
+indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(10)
+indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(10)
+
 st.write(fig)
+st.write(indi_best)
+st.write(indi_worst)
