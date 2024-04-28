@@ -318,10 +318,10 @@ cumrank_radar = pd.melt(cumrank_current, id_vars='team', value_vars=['R_avg_cumr
 cumrank_radar = cumrank_radar[cumrank_radar['team']==line3]
 fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
 
-team_individual = reduced_weeks[reduced_weeks['team']== line3]
+team_individual = reduced_weeks[reduced_weeks['team']== line3 & reduced_weeks['Week']>1]
 
-indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(10)
-indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(10)
+indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
+indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
 
 st.write(fig)
 st.write(indi_best)
