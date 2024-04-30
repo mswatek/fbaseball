@@ -36,10 +36,8 @@ elif now > '2024-04-14': currentweek=3
 elif now > '2024-04-07': currentweek=2
 else: currentweek=1
 
-if dow>0: theweek = currentweek
+if dow>1: theweek = currentweek
 else: theweek=currentweek-1
-
-
 
 
 ##### ESTABLISH THE CONNECTION #####
@@ -109,7 +107,7 @@ except Exception:
 ##### BRING IN ALL WEEKS #####
     
 all_weeks=pd.DataFrame()
-for i in range(0,4): #need to automate which week it is. don't pull new week until friday maybe?
+for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
     week = league.weeks()[i]
     df = pd.DataFrame({'team':[],'opponent':[], 'cat':[], 'stat':[]})
     df2 = pd.DataFrame({'team':[], 'opponent':[],'cat':[], 'stat':[]})
