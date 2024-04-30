@@ -117,11 +117,11 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
             df2.loc[len(df2)] = [matchup.team2.name,matchup.team1.name, team2_stat.display, team2_stat.value]
 
     df_combined = pd.concat([df,df2])
-    df_wide = pd.pivot(df_combined, index=['team','opponent'], columns='cat', values='stat')
+    df_wide = pd.pivot(df_combined, index=['team','opponent'], columns='cat', values='stat').reset_index()
     df_wide['Week'] = i+1
     frames= [all_weeks,df_wide]
     all_weeks = pd.concat(frames)
 
-all_weeks = all_weeks.reset_index()
+all_weeks.reset_index()
 
 st.write(all_weeks)
