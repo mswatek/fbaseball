@@ -4,11 +4,48 @@ import pandas as pd
 import numpy as np
 import requests,base64
 import plotly.express as px
+from datetime import datetime
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
 
-st.set_page_config(layout="wide",page_title="LaVar Ball Academy")
+st.set_page_config(layout="wide",page_title="No Lockout!")
 st.title(":blue[No More Lockouts in MLB!]")
+
+now = datetime.now()
+now = now.strftime('%Y-%m-%d')
+
+dow = datetime.today().weekday()
+
+if  now > '2024-08-11': currentweek=19
+elif now > '2024-08-04': currentweek=18
+elif now > '2024-07-28': currentweek=17
+elif now > '2024-07-21': currentweek=16
+elif now > '2024-07-07': currentweek=15
+elif now > '2024-06-30': currentweek=14
+elif now > '2024-06-23': currentweek=13
+elif now > '2024-06-16': currentweek=12
+elif now > '2024-06-09': currentweek=11
+elif now > '2024-06-02': currentweek=10
+elif now > '2024-05-26': currentweek=9
+elif now > '2024-05-19': currentweek=8
+elif now > '2024-05-12': currentweek=7
+elif now > '2024-05-05': currentweek=6
+elif now > '2024-04-28': currentweek=5
+elif now > '2024-04-21': currentweek=4
+elif now > '2024-04-14': currentweek=3
+elif now > '2024-04-07': currentweek=2
+else: currentweek=1
+
+if dow>0: theweek = currentweek
+else: theweek=currentweek-1
+
+
+
+
+##### ESTABLISH THE CONNECTION #####
+##### ESTABLISH THE CONNECTION #####
+##### ESTABLISH THE CONNECTION #####
+
 
 def refreshAuthorizationToken(refreshToken:str) -> dict:
     """Uses existing refresh token to get the new access token"""
@@ -72,7 +109,7 @@ except Exception:
 ##### BRING IN ALL WEEKS #####
     
 all_weeks=pd.DataFrame()
-for i in range(0,4): #need to automate which week it is. don't pull new week until friday maybe?
+for i in range(0,theweek+1): #need to automate which week it is. don't pull new week until friday maybe?
     week = league.weeks()[i]
     df = pd.DataFrame({'team':[],'opponent':[], 'cat':[], 'stat':[]})
     df2 = pd.DataFrame({'team':[], 'opponent':[],'cat':[], 'stat':[]})
@@ -326,3 +363,4 @@ indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(
 st.write(fig)
 st.write(indi_best)
 st.write(indi_worst)
+
