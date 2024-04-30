@@ -36,7 +36,7 @@ elif now > '2024-04-14': currentweek=3
 elif now > '2024-04-07': currentweek=2
 else: currentweek=1
 
-if dow>1: theweek = currentweek
+if dow>2: theweek = currentweek
 else: theweek=currentweek-1
 
 
@@ -123,6 +123,11 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
     all_weeks = pd.concat(frames)
 
 all_weeks.reset_index(inplace=True)
+
+st.write(all_weeks)
+
+
+'''
 
 
 ##### Create Matchup Variable #####
@@ -362,3 +367,4 @@ st.write(fig)
 st.write(indi_best)
 st.write(indi_worst)
 
+'''
