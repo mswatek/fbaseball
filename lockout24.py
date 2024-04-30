@@ -109,7 +109,7 @@ except Exception:
 ##### BRING IN ALL WEEKS #####
     
 all_weeks=pd.DataFrame()
-for i in range(0,theweek+1): #need to automate which week it is. don't pull new week until friday maybe?
+for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
     week = league.weeks()[i]
     df = pd.DataFrame({'team':[],'opponent':[], 'cat':[], 'stat':[]})
     df2 = pd.DataFrame({'team':[], 'opponent':[],'cat':[], 'stat':[]})
