@@ -294,6 +294,6 @@ all_weeks['Cum_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 ##### CREATE SUBSETS FOR TABLES #####
 ##### CREATE SUBSETS FOR TABLES #####
 
-all_weeks=all_weeks.reset_index()
+all_weeks=all_weeks.reset_index(drop=True)
 
 st.write(all_weeks)
