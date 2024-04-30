@@ -122,6 +122,10 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
     frames= [all_weeks,df_wide]
     all_weeks = pd.concat(frames)
 
+all_weeks=all_weeks.reset_index()
+
+st.write(all_weeks)
+
 
 
 ##### Create Matchup Variable #####
@@ -177,9 +181,9 @@ def scores(df):
     count_min = df.eq(min_val, axis=1).sum(axis=1).reset_index(name ='Wins')
 
     total_1 = pd.concat([count_max,count_min])
-    total_1 = total_1.groupby(['team'])[["Wins"]].apply(lambda x : x.astype(int).sum())
+    total_1 = total_1.groupby(['index'])[["Wins"]].apply(lambda x : x.astype(int).sum())
 
-    df = df.merge(total_1, left_on='team', right_on='team')
+    df = df.merge(total_1, left_index=True, right_on='index')
 
     cols = ['Week','team','opponent','Matchup','R','HR','RBI','SB','OBP','K','QS','SV+H','ERA','WHIP','IP','IP_New','Earned_Runs','Walk_Hits','Wins']
     df = df[cols]
