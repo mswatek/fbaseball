@@ -124,9 +124,6 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
 
 all_weeks=all_weeks.reset_index()
 
-st.write(all_weeks)
-
-
 
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
@@ -297,71 +294,6 @@ all_weeks['Cum_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 ##### CREATE SUBSETS FOR TABLES #####
 ##### CREATE SUBSETS FOR TABLES #####
 
-cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Overall_Wins']
-best_weeks = all_weeks[cols]
-best_weeks = best_weeks.sort_values('Overall_Wins',ascending = False).head(10)
+all_weeks=all_weeks.reset_index()
 
-cols = ['Week','team','opponent','Week_Expected','Wins','Wins_Diff']
-difference = all_weeks[cols]
-lucky_weeks = difference.sort_values('Wins_Diff',ascending = False).head(10)
-unlucky_weeks = difference.sort_values('Wins_Diff',ascending = True).head(10)
-
-cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Wins','Overall_Wins']
-reduced_weeks = all_weeks[cols]
-
-
-cols = ['Week','team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
-        ,'R_avg3','HR_avg3','RBI_avg3','SB_avg3','OBP_avg3','ERA_avg3','WHIP_avg3','K_avg3','QS_avg3','SV+H_avg3']
-avg_df = all_weeks[cols]
-
-cols = ['Week','team','R_weekrank','HR_weekrank','RBI_weekrank','SB_weekrank','OBP_weekrank','ERA_weekrank','WHIP_weekrank','K_weekrank','QS_weekrank','SV+H_weekrank', 'Week_Total', 'Week_Expected' \
-        ,'R_totalrank','HR_totalrank','RBI_totalrank','SB_totalrank','OBP_totalrank','ERA_totalrank','WHIP_totalrank','K_totalrank','QS_totalrank','SV+H_totalrank', 'Overall_Total','Overall_Wins']
-rank_df = all_weeks[cols]
-
-cols = ['Week','team','R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank']
-cumrank_df = all_weeks[cols]
-
-
-line = st.selectbox("Choose Metric:", ['Cum_Total','Cum_Total3'])
-   
-cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='team',title="Roto Score by Week").update_xaxes(type='category')
-st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
-
-
-line2 = st.selectbox("Choose Metric:", ['R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg'])
-   
-cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
-st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
-#cats_table = best_weeks.sort_values(line2,ascending = False).head(10)
-#st.write(cats_table)
-
-
-
-
-st.write(best_weeks)
-st.write(lucky_weeks)
-st.write(unlucky_weeks)
-
-cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins").update_xaxes(type='category')
-st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
-
-
-line3 = st.selectbox("Choose Team:", ['Acuña Moncada','Aluminum Power','Bryzzo','El Squeezo Bunto Dos','Frozen Ropes'\
-                                     ,'Humdingers', 'I Shota The Sheriff','Lumberjacks','The Chandler Mandrills','Baseball GPT','Santos L. Halper','Sheangels'])
-
-maxweek = all_weeks['Week'].max()
-cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
-cumrank_radar = pd.melt(cumrank_current, id_vars='team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
-
-cumrank_radar = cumrank_radar[cumrank_radar['team']==line3]
-fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
-
-team_individual = reduced_weeks[(reduced_weeks['team']== line3) & (reduced_weeks['Week']>1)]
-
-indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
-indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
-
-st.write(fig)
-st.write(indi_best)
-st.write(indi_worst)
-
+st.write(all_weeks)
