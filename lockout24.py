@@ -206,6 +206,6 @@ all_weeks = all_weeks.drop_duplicates()
 all_weeks = all_weeks.sort_values(['Week', 'team'], ascending=[True, True])
 
 
-all_weeks=all_weeks.reset_index(drop=True)
+
 
 st.write(all_weeks)
