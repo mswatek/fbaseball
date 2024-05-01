@@ -36,7 +36,7 @@ elif now > '2024-04-14': currentweek=3
 elif now > '2024-04-07': currentweek=2
 else: currentweek=1
 
-if dow>2: theweek = currentweek
+if dow>1: theweek = currentweek
 else: theweek=currentweek-1
 
 
