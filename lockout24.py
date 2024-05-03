@@ -154,7 +154,7 @@ for team in league.standings():
     
 all_transactions=pd.DataFrame()
 for transaction in league.transactions():
-    player = transaction.players.player
+    player = transaction.players
     data1 = pd.DataFrame(player)
     frames = [all_transactions,data1]
     all_transactions= pd.concat(frames)
