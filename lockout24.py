@@ -152,14 +152,11 @@ for team in league.standings():
     st.write(f"#{team.team_standings.rank}\t{team.name}\t"
           f"({outcomes.wins}-{outcomes.losses}-{outcomes.ties})")
     
-st.write(league.transactions)
-    
-
 
 for transaction in league.transactions():
     Type = transaction.type
     st.write(f"#{transaction.type}\t{transaction.status}\t"
-          f"({transaction.players.player})")
+          f"({transaction.players.player.name})")
 '''    
 
 ##### Create Matchup Variable #####
