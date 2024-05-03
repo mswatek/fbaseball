@@ -11,12 +11,13 @@ from datetime import datetime
 ###### to-do list! #####
 #have best weeks for each category come up on the same trigger as the average cumulative category trend charts
 #get rid of index columns on all tables
-#change team and opponent to capital first letters
 #scatterplot of moves, games played and innings pitched (refer to previous league reports)
 #transactions counter - by position, player names, repeats per team
+
 #should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
 #other cool stuff to add would be the all-time trade history and a map of where everyone lives
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
+
 #other individual manager stuff? lucky and unlucky based on how their opponents did compared to average weeks (e.g., I should be expected to do better but a team could get lucky if I have a down week)
 #do I take out week 1 for calculating rolling average?
 #redo the teams_df table so that it's not hard-coded...will be easier to update next season
@@ -356,12 +357,12 @@ with tab1:
    cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='Team',title="Avg Cats by Week").update_xaxes(type='category')
    st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
    st.write("Here are the best individual weeks of the season.")
-   st.write(best_weeks.style.hide(axis="index"))
+   st.dataframe(best_weeks,hide_index=True,use_container_width=True)
 
 with tab2:
    st.header("As Luck Would Have It")
-   st.write(lucky_weeks.style.hide(axis="index"))
-   st.write(unlucky_weeks.style.hide(axis="index"))
+   st.dataframe(lucky_weeks,hide_index=True,use_container_width=True)
+   st.dataframe(unlucky_weeks,hide_index=True,use_container_width=True)
    cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='Team',title="Diff in Expected Wins").update_xaxes(type='category')
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
@@ -379,7 +380,5 @@ with tab3:
    indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
    indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
    st.write(fig)
-   st.write(indi_best.style.hide(axis="index"))
-   st.write(indi_worst.style.hide(axis="index"))
-
-   
+   st.dataframe(indi_best,hide_index=True,use_container_width=True)
+   st.dataframe(indi_worst,hide_index=True,use_container_width=True)
