@@ -157,13 +157,12 @@ data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzz
 teams_df = pd.DataFrame(data, columns=['Team', 'roster_id'])
 
 all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Team',how='left').reset_index(drop=True)
+all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Team',how='left').reset_index(drop=True)
 
 st.write(all_weeks)
 st.write(all_weeks.dtypes)
 
 '''
-
-all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Team',how='left').reset_index(drop=True)
 all_weeks['Matchup1'] = (all_weeks['roster_id_x']+all_weeks['roster_id_y'])
 all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].astype(str)
 
