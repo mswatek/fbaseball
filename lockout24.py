@@ -315,7 +315,7 @@ strength_df = all_weeks[cols]
 strength_df['Avg_Wins'] = strength_df.groupby('Team')['Week_Expected'].transform('mean')
 strength_df['Difference'] = strength_df['Week_Expected'] - strength_df['Avg_Wins']
 strength_df['% Difference'] = (strength_df['Week_Expected'] - strength_df['Avg_Wins'])/strength_df['Avg_Wins']
-strength_df = strength_df['Opponent', 'Team','Week','Week_Expected','Avg_Wins','Difference','% Difference']
+strength_df = strength_df[['Opponent', 'Team','Week','Week_Expected','Avg_Wins','Difference','% Difference']]
 
 #strength_overall = strength_df.groupby('Opponent').agg(DiffSum=('% Difference', 'sum'),DiffCount=('Difference', 'count'),DiffAvg=('% Difference', 'mean')).reset_index()
 
