@@ -158,11 +158,10 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
         st.write(matchup)
 
 for transaction in league.transactions():
-    st.write(transaction)
+    st.write(transaction.players.player)
 
 
 for transaction in league.transactions():
-    Type = transaction.type
     st.write(f"#{transaction.type}\t{transaction.status}\t"
           f"({transaction.players.player})")
     
