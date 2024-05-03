@@ -356,12 +356,12 @@ with tab1:
    cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='Team',title="Avg Cats by Week").update_xaxes(type='category')
    st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
    st.write("Here are the best individual weeks of the season.")
-   st.write(best_weeks)
+   st.write(best_weeks.style.hide(axis="index"))
 
 with tab2:
    st.header("As Luck Would Have It")
-   st.write(lucky_weeks)
-   st.write(unlucky_weeks)
+   st.write(lucky_weeks.style.hide(axis="index"))
+   st.write(unlucky_weeks.style.hide(axis="index"))
    cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='Team',title="Diff in Expected Wins").update_xaxes(type='category')
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
@@ -379,7 +379,7 @@ with tab3:
    indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
    indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
    st.write(fig)
-   st.write(indi_best)
-   st.write(indi_worst)
+   st.write(indi_best.style.hide(axis="index"))
+   st.write(indi_worst.style.hide(axis="index"))
 
    
