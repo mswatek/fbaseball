@@ -312,7 +312,7 @@ all_weeks['Cumulative_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 
 cols = ['Week','Team','Week_Expected']
 strength_df = all_weeks[cols]
-strength_df ['Avg_Expected'] = all_weeks.groupby('Team')['Week_Expected'].mean()
+strength_df['Avg_Expected'] = strength_df.groupby('Team')['Week_Expected'].mean()
 
 st.write(strength_df)
 
