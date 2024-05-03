@@ -154,10 +154,10 @@ data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzz
 ['The Chandler Mandrills', 256],['Baseball GPT', 512],['Santos L. Halper', 1024],['Sheangels',2048]]
 
 # Create the pandas DataFrame
-teams_df = pd.DataFrame(data, columns=['Team', 'roster_id'])
+teams_df = pd.DataFrame(data, columns=['Name', 'roster_id'])
 
-all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Team',how='left').reset_index(drop=True)
-all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Team',how='left')
+all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Name',how='left')
+all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Name',how='left')
 
 st.write(all_weeks)
 st.write(all_weeks.dtypes)
