@@ -153,7 +153,8 @@ for team in league.standings():
           f"({outcomes.wins}-{outcomes.losses}-{outcomes.ties})")
     
 st.write(league.transactions)
-    '''
+    
+'''
 
 for transaction in league.transactions():
     player = transaction.transaction
