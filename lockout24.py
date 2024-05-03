@@ -157,9 +157,9 @@ st.write(league.transactions)
 
 
 for transaction in league.transactions():
-    test = transaction.type
-    st.write(f"#{test}")
-    
+    Type = transaction.type
+    st.write(f"#{transaction.type}\t{transaction.status}\t"
+          f"({transaction.players.player.name.full}-{transaction.players.player.editorial_team_abbr}-{transaction.timestamp})")
 '''    
 
 ##### Create Matchup Variable #####
