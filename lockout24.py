@@ -151,11 +151,14 @@ all_weeks=all_weeks.reset_index()
 ##### Create Matchup Variable #####
 
 team_list = all_weeks['Team'].tolist()
+id_list = [1,2,4,8,16,32,64,128,256,512,1024,2048]
 
-d = {'Name': team_list, 'roster_id': [1,2,4,8,16,32,64,128,256,512,1024,2048]}
-df = pd.DataFrame(data=d)
+mydf = pd.DataFrame(list(zip(team_list, id_list)), columns = ['Name', 'roster_id'])
 
-st.write(df)
+#d = {'Name': team_list, 'roster_id': [1,2,4,8,16,32,64,128,256,512,1024,2048]}
+#df = pd.DataFrame(data=d)
+
+st.write(mydf)
 
 
 '''
