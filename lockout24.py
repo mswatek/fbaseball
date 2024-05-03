@@ -156,7 +156,7 @@ for team in league.standings():
 for transaction in league.transactions():
     Type = transaction.type
     st.write(f"#{transaction.type}\t{transaction.status}\t"
-          f"({transaction.players.name})")
+          f"({transaction.players.player})")
 '''    
 
 ##### Create Matchup Variable #####
