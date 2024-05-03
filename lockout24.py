@@ -154,13 +154,13 @@ for team in league.standings():
     
 st.write(league.transactions)
     
-'''
+
 
 for transaction in league.transactions():
-    player = transaction.transaction
-    st.write(f"#{player.player}")
+    test = transaction.type
+    st.write(f"#{test}")
     
-    
+'''    
 
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
