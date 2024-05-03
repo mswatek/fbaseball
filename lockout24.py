@@ -18,6 +18,7 @@ from datetime import datetime
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 #other individual manager stuff? lucky and unlucky based on how their opponents did compared to average weeks (e.g., I should be expected to do better but a team could get lucky if I have a down week)
 #do I take out week 1 for calculating rolling average?
+#redo the teams_df table so that it's not hard-coded...will be easier to update next season
 #change variable names (e.g.,  cum_total etc)
 #add text
 #reformat charts
@@ -127,20 +128,19 @@ except Exception:
 all_weeks=pd.DataFrame()
 for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
     week = league.weeks()[i]
-    df = pd.DataFrame({'team':[],'opponent':[], 'cat':[], 'stat':[]})
-    df2 = pd.DataFrame({'team':[], 'opponent':[],'cat':[], 'stat':[]})
+    df = pd.DataFrame({'Team':[],'Opponent':[], 'cat':[], 'stat':[]})
+    df2 = pd.DataFrame({'Team':[], 'Opponent':[],'cat':[], 'stat':[]})
     for matchup in week.matchups:
         for team1_stat, team2_stat in zip(matchup.team1_stats, matchup.team2_stats):
             df.loc[len(df)] = [matchup.team1.name,matchup.team2.name, team1_stat.display, team1_stat.value]
             df2.loc[len(df2)] = [matchup.team2.name,matchup.team1.name, team2_stat.display, team2_stat.value]
 
     df_combined = pd.concat([df,df2])
-    df_wide = pd.pivot(df_combined, index=['team','opponent'], columns='cat', values='stat')
+    df_wide = pd.pivot(df_combined, index=['Team','Opponent'], columns='cat', values='stat')
     df_wide['Week'] = i+1
     frames= [all_weeks,df_wide]
     all_weeks = pd.concat(frames)
-
-all_weeks = all_weeks.rename(columns={'team':'Team', 'opponent':'Opponent'})
+    
 all_weeks=all_weeks.reset_index()
 
 st.write(all_weeks)
