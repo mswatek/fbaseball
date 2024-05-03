@@ -316,14 +316,9 @@ strength_df['Avg_Wins'] = strength_df.groupby('Team')['Week_Expected'].transform
 strength_df['Difference'] = strength_df['Week_Expected'] - strength_df['Avg_Wins']
 strength_df['% Difference'] = (strength_df['Week_Expected'] - strength_df['Avg_Wins'])/strength_df['Avg_Wins']
 strength_df = strength_df[['Opponent', 'Team','Week','Week_Expected','Avg_Wins','Difference','% Difference']] #re-arrange the order
-strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent'},inplace=True)
+strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent','Week_Expected':'Opponent_Expected','Avg_Wins':'Opponent_Avg'},inplace=True)
 
 strength_overall = strength_df.groupby('Team').agg(DiffSum=('Difference', 'sum'),PercentDiff=('% Difference', 'mean')).reset_index()
-
-st.write(strength_df)
-st.write(strength_overall)
-
-'''
 
 
 ##### CREATE SUBSETS FOR TABLES #####
@@ -394,8 +389,13 @@ with tab3:
    team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (reduced_weeks['Week']>1)]
    indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
    indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
+   strength_indi = strength_df[strength_df['Team']==line3]
    st.write(fig)
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
+   st.dataframe(strength_indi,hide_index=True,use_container_width=True)
+   st.dataframe(strength_overall,hide_index=True,use_container_width=True)
+   test_chart = px.bar(strength_overall, x="Team", y="PercentDiff").update_layout(title="testing")
 
-   '''
+
+   
