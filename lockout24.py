@@ -6,10 +6,27 @@ import requests,base64
 import plotly.express as px
 from datetime import datetime
 
+###### to-do list! #####
+###### to-do list! #####
+###### to-do list! #####
+#have best weeks for each category come up on the same trigger as the average cumulative category trend charts
+#get rid of index columns on all tables
+#change team and opponent to capital first letters
+#scatterplot of moves, games played and innings pitched (refer to previous league reports)
+#transactions counter - by position, player names, repeats per team
+#should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
+#eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
+#other individual manager stuff? lucky and unlucky based on how their opponents did compared to average weeks (e.g., I should be expected to do better but a team could get lucky if I have a down week)
+#add text
+#reorganize tabs
+#reformat charts
+
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
 
 st.set_page_config(layout="wide",page_title="No Lockout!")
 st.title(":blue[No More Lockouts in MLB!]")
+
+tab1, tab2, tab3= st.tabs(["League Trends", "Expected Stats", "Individual Team Stats"])
 
 now = datetime.now()
 now = now.strftime('%Y-%m-%d')
@@ -317,46 +334,46 @@ cols = ['Week','team','R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg
 cumrank_df = all_weeks[cols]
 
 
-line = st.selectbox("Choose Metric:", ['Cum_Total','Cum_Total3'])
-   
-cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='team',title="Roto Score by Week").update_xaxes(type='category')
-st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
+############################################################################################################
+############################################################################################################
+############################################################################################################
 
+with tab1:
+   st.header("Roto Score by Week")
+   st.write("These charts show the standings for if we were in a roto league, where each team is ranked by how well they did in each stat category (10 points for 1st place, 1 for last)."\
+              ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
+                 ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
+   line = st.selectbox("Choose Metric:", ['Cum_Total','Cum_Total3'])
+   cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='team',title="Roto Score by Week").update_xaxes(type='category')
+   st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
+   st.write("Click on each stat category to see how your team has progressed in each category over the season. Below the chart is a list of the 10 best weeks for each category."
+            ," Note: I took out Weeks 1 and 15 for all counting stats since it was longer than the typical week.")
+   line2 = st.selectbox("Choose Metric:", ['R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg'])
+   cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
+   st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
+   st.write("Here are the best individual weeks of the season.")
+   st.write(best_weeks)
 
-line2 = st.selectbox("Choose Metric:", ['R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg'])
-   
-cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
-st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
-#cats_table = best_weeks.sort_values(line2,ascending = False).head(10)
-#st.write(cats_table)
+with tab2:
+   st.header("As Luck Would Have It")
+   st.write(lucky_weeks)
+   st.write(unlucky_weeks)
+   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins").update_xaxes(type='category')
+   st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
-
-
-
-st.write(best_weeks)
-st.write(lucky_weeks)
-st.write(unlucky_weeks)
-
-cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins").update_xaxes(type='category')
-st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
-
-
-line3 = st.selectbox("Choose Team:", ['Acuña Moncada','Aluminum Power','Bryzzo','El Squeezo Bunto Dos','Frozen Ropes'\
+with tab3:
+   st.header("Individual Teams")
+   line3 = st.selectbox("Choose Team:", ['Acuña Moncada','Aluminum Power','Bryzzo','El Squeezo Bunto Dos','Frozen Ropes'\
                                      ,'Humdingers', 'I Shota The Sheriff','Lumberjacks','The Chandler Mandrills','Baseball GPT','Santos L. Halper','Sheangels'])
+   maxweek = all_weeks['Week'].max()
+   cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
+   cumrank_radar = pd.melt(cumrank_current, id_vars='team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
 
-maxweek = all_weeks['Week'].max()
-cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
-cumrank_radar = pd.melt(cumrank_current, id_vars='team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
-
-cumrank_radar = cumrank_radar[cumrank_radar['team']==line3]
-fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
-
-team_individual = reduced_weeks[(reduced_weeks['team']== line3) & (reduced_weeks['Week']>1)]
-
-indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
-indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
-
-st.write(fig)
-st.write(indi_best)
-st.write(indi_worst)
-
+   cumrank_radar = cumrank_radar[cumrank_radar['team']==line3]
+   fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
+   team_individual = reduced_weeks[(reduced_weeks['team']== line3) & (reduced_weeks['Week']>1)]
+   indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
+   indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
+   st.write(fig)
+   st.write(indi_best)
+   st.write(indi_worst)
