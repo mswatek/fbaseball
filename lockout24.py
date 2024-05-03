@@ -25,6 +25,7 @@ from datetime import datetime
 #add text
 #make charts nicer
 #format numbers so they look nicer in the tables
+#add more comments throughout
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
 
@@ -151,25 +152,16 @@ all_weeks=all_weeks.reset_index()
 ##### Create Matchup Variable #####
 
 team_list = all_weeks['Team'].tolist()
-id_list = [1,2,4,8,16,32,64,128,256,512,1024,2048]
+id_list = [1,2,4,8,16,32,64,128,256,512,1024,2048] ##creating unique IDs that are unique no matter the combination of adding two together
 
-mydf = pd.DataFrame(list(zip(team_list, id_list)), columns = ['Name', 'roster_id'])
-
-#d = {'Name': team_list, 'roster_id': [1,2,4,8,16,32,64,128,256,512,1024,2048]}
-#df = pd.DataFrame(data=d)
-
-st.write(mydf)
-
-
-'''
-
+teams_df = pd.DataFrame(list(zip(team_list, id_list)), columns = ['Name', 'roster_id'])
 
 # initialize list of lists
-data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzzo', 8],['El Squeezo Bunto Dos', 16],['Frozen Ropes',32],['Humdingers', 64], ['I Shota The Sheriff', 128], \
-['The Chandler Mandrills', 256],['Baseball GPT', 512],['Santos L. Halper', 1024],['Sheangels',2048]]
+#data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzzo', 8],['El Squeezo Bunto Dos', 16],['Frozen Ropes',32],['Humdingers', 64], ['I Shota The Sheriff', 128], \
+#['The Chandler Mandrills', 256],['Baseball GPT', 512],['Santos L. Halper', 1024],['Sheangels',2048]]
 
 # Create the pandas DataFrame
-teams_df = pd.DataFrame(data, columns=['Name', 'roster_id'])
+#teams_df = pd.DataFrame(data, columns=['Name', 'roster_id'])
 
 all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Name',how='left')
 all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Name',how='left')
@@ -178,6 +170,10 @@ all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].a
 all_weeks.drop(['roster_id_x', 'roster_id_y', 
                 'Matchup1','Name_x','Name_y'], axis=1, inplace=True)
 
+
+st.write(all_weeks)
+
+'''
 
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
