@@ -154,7 +154,7 @@ for team in league.standings():
 
 for transaction in league.transactions():
     player = transaction.transaction
-    st.write(f"#{transaction.player}")
+    st.write(f"#{player.player}")
     
     '''
 
