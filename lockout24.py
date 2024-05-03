@@ -318,13 +318,10 @@ strength_df['% Difference'] = (strength_df['Week_Expected'] - strength_df['Avg_W
 strength_df = strength_df[['Opponent', 'Team','Week','Week_Expected','Avg_Wins','Difference','% Difference']] #re-arrange the order
 strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent'},inplace=True)
 
-#strength_overall = strength_df.groupby('Opponent').agg(DiffSum=('% Difference', 'sum'),DiffCount=('Difference', 'count'),DiffAvg=('% Difference', 'mean')).reset_index()
-
-#strength_overall.rename(columns={'Opponent': 'Team','Team':'Opponent'},inplace=True)
-
+strength_overall = strength_df.groupby('Team').agg(DiffSum=('Difference', 'sum'),PercentDiff=('% Difference', 'mean')).reset_index()
 
 st.write(strength_df)
-#st.write(strength_overall)
+st.write(strength_overall)
 
 '''
 
