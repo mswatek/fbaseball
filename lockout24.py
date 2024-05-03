@@ -145,46 +145,6 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
 
 all_weeks=all_weeks.reset_index()
 
-###im doing something!
-
-for team in league.standings():
-    outcomes = team.team_standings.outcome_totals
-    st.write(f"#{team.team_standings.rank}\t{team.name}\t"
-          f"({outcomes.wins}-{outcomes.losses}-{outcomes.ties})")
-    
-for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
-    week = league.weeks()[i]
-    for matchup in week.matchups:
-        st.write(matchup.stat_winners)
-     
-'''    
-for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
-    week = league.weeks()[i]
-    for matchup in week.matchups:
-        st.write(matchup)
-
-
-
-
-
-for transaction in league.transactions():
-    st.write(transaction.players.player)
-
-
-for transaction in league.transactions():
-    st.write(f"#{transaction.type}\t{transaction.status}\t"
-          f"({transaction.players.player})")
-    
-all_transactions=pd.DataFrame()
-for transaction in league.transactions():
-    player = transaction.players
-    data1 = pd.DataFrame(player)
-    frames = [all_transactions,data1]
-    all_transactions= pd.concat(frames)
-
-st.write(all_transactions)
-
-  
 
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
@@ -438,4 +398,4 @@ with tab3:
    strength_chart = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
    st.plotly_chart(strength_chart, theme=None,use_container_width=True)
 
-   '''
+   
