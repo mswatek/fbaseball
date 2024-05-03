@@ -152,21 +152,16 @@ for team in league.standings():
     st.write(f"#{team.team_standings.rank}\t{team.name}\t"
           f"({outcomes.wins}-{outcomes.losses}-{outcomes.ties})")
     
-all_transactions=pd.DataFrame()
-for transaction in league.transactions():
-    player = transaction.players
-    data1 = pd.DataFrame(player)
-    frames = [all_transactions,data1]
-    all_transactions= pd.concat(frames)
 
-st.write(all_transactions)
 
-'''  
+  
     
 for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
     week = league.weeks()[i]
     for matchup in week.matchups:
         st.write(matchup)
+
+'''
 
 for transaction in league.transactions():
     st.write(transaction.players.player)
@@ -176,7 +171,14 @@ for transaction in league.transactions():
     st.write(f"#{transaction.type}\t{transaction.status}\t"
           f"({transaction.players.player})")
     
+all_transactions=pd.DataFrame()
+for transaction in league.transactions():
+    player = transaction.players
+    data1 = pd.DataFrame(player)
+    frames = [all_transactions,data1]
+    all_transactions= pd.concat(frames)
 
+st.write(all_transactions)
 
   
 
