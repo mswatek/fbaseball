@@ -142,9 +142,12 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
     frames= [all_weeks,df_wide]
     all_weeks = pd.concat(frames)
 
-#all_weeks=all_weeks.reset_index()
+all_weeks=all_weeks.reset_index()
 
+st.write(all_weeks)
+st.write(all_weeks.dtypes)
 
+'''
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
@@ -163,10 +166,7 @@ all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].a
 all_weeks.drop(['roster_id_x', 'roster_id_y', 
                 'Matchup1','Team_x','Team_y'], axis=1, inplace=True)
 
-st.write(all_weeks)
-st.write(all_weeks.dtypes)
 
-'''
 
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
