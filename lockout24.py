@@ -396,6 +396,6 @@ with tab3:
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
    st.dataframe(strength_overall,hide_index=True,use_container_width=True)
    test_chart = px.bar(strength_overall, x="Team", y="PercentDiff").update_layout(title="testing")
-   st.plotly(test_chart, theme=None,use_container_width=True)
+   st.plotly_chart(test_chart, theme=None,use_container_width=True)
 
    
