@@ -10,7 +10,6 @@ from datetime import datetime
 ###### to-do list! #####
 ###### to-do list! #####
 #have best weeks for each category come up on the same trigger as the average cumulative category trend charts
-#get rid of index columns on all tables
 #scatterplot of moves, games played and innings pitched (refer to previous league reports)
 #transactions counter - by position, player names, repeats per team
 
@@ -20,8 +19,7 @@ from datetime import datetime
 
 #other individual manager stuff? lucky and unlucky based on how their opponents did compared to average weeks (e.g., I should be expected to do better but a team could get lucky if I have a down week)
 #do I take out week 1 for calculating rolling average?
-#redo the teams_df table so that it's not hard-coded...will be easier to update next season
-#change variable names (e.g.,  cum_total etc)
+#change variable names (e.g.,  cumrank etc)
 #add text
 #make charts nicer
 #format numbers so they look nicer in the tables
@@ -155,13 +153,6 @@ team_list = all_weeks['Team'].tolist()
 id_list = [1,2,4,8,16,32,64,128,256,512,1024,2048] ##creating unique IDs that are unique no matter the combination of adding two together
 
 teams_df = pd.DataFrame(list(zip(team_list, id_list)), columns = ['Name', 'roster_id'])
-
-# initialize list of lists
-#data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzzo', 8],['El Squeezo Bunto Dos', 16],['Frozen Ropes',32],['Humdingers', 64], ['I Shota The Sheriff', 128], \
-#['The Chandler Mandrills', 256],['Baseball GPT', 512],['Santos L. Halper', 1024],['Sheangels',2048]]
-
-# Create the pandas DataFrame
-#teams_df = pd.DataFrame(data, columns=['Name', 'roster_id'])
 
 all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Name',how='left')
 all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Name',how='left')
@@ -315,6 +306,18 @@ for col in cat_cols2:
 cumtotal3_list = ['R_avg3_cumrank','HR_avg3_cumrank','RBI_avg3_cumrank','SB_avg3_cumrank','OBP_avg3_cumrank','ERA_avg3_cumrank','WHIP_avg3_cumrank','K_avg3_cumrank','QS_avg3_cumrank','SV+H_avg3_cumrank']
 all_weeks['Cumulative_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 
+##### Create Strength of Schedule #####
+##### Create Strength of Schedule #####
+##### Create Strength of Schedule #####
+
+cols = ['Week','Team','Week_Expected']
+strength_df = all_weeks[cols]
+strength_df ['Avg_Expected'] = all_weeks.groupby('Team')['Week_Expected'].mean()
+
+st.write(strength_df)
+
+'''
+
 
 ##### CREATE SUBSETS FOR TABLES #####
 ##### CREATE SUBSETS FOR TABLES #####
@@ -388,4 +391,4 @@ with tab3:
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
 
-   
+   '''
