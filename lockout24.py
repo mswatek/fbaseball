@@ -140,7 +140,7 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
     frames= [all_weeks,df_wide]
     all_weeks = pd.concat(frames)
 
-all_weeks.rename(columns={'team':'Team', 'opponent':'Opponent'}, inplace=True)
+all_weeks = all_weeks.rename(columns={'team':'Team', 'opponent':'Opponent'})
 all_weeks=all_weeks.reset_index()
 
 st.write(all_weeks)
