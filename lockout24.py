@@ -151,6 +151,10 @@ for team in league.standings():
     outcomes = team.team_standings.outcome_totals
     st.write(f"#{team.team_standings.rank}\t{team.name}\t"
           f"({outcomes.wins}-{outcomes.losses}-{outcomes.ties})")
+
+for transaction in league.transactions():
+    player = transaction.transaction
+    st.write(f"#{transaction.player}")
     
     '''
 
