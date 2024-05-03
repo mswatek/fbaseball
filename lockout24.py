@@ -23,6 +23,7 @@ from datetime import datetime
 #change variable names (e.g.,  cum_total etc)
 #add text
 #reformat charts
+#format numbers so they look nicer in the tables
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
 
@@ -155,15 +156,18 @@ data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzz
 # Create the pandas DataFrame
 teams_df = pd.DataFrame(data, columns=['Team', 'roster_id'])
 
-all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Team',how='left').reset_index(drop=True)
-all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Team',how='left').reset_index(drop=True)
-all_weeks['Matchup1'] = (all_weeks['roster_id_x']+all_weeks['roster_id_y'])
-all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].astype(str)
+all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Team',how='left').reset_index()
 
 st.write(all_weeks)
 st.write(all_weeks.dtypes)
 
 '''
+
+all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Team',how='left').reset_index(drop=True)
+all_weeks['Matchup1'] = (all_weeks['roster_id_x']+all_weeks['roster_id_y'])
+all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].astype(str)
+
+
 
 all_weeks.drop(['roster_id_x', 'roster_id_y', 
                 'Matchup1','Team_x','Team_y'], axis=1, inplace=True)
