@@ -374,8 +374,7 @@ with tab2:
 
 with tab3:
    st.header("Individual Teams")
-   line3 = st.selectbox("Choose Team:", ['Acuña Moncada','Aluminum Power','Bryzzo','El Squeezo Bunto Dos','Frozen Ropes'\
-                                     ,'Humdingers', 'I Shota The Sheriff','Lumberjacks','The Chandler Mandrills','Baseball GPT','Santos L. Halper','Sheangels'])
+   line3 = st.selectbox("Choose Team:", team_list)
    maxweek = all_weeks['Week'].max()
    cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
    cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
