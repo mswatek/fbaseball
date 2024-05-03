@@ -310,7 +310,7 @@ all_weeks['Cumulative_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 ##### Create Strength of Schedule #####
 ##### Create Strength of Schedule #####
 
-cols = ['Week','Team','Week_Expected']
+cols = ['Week','Team', 'Opponent','Week_Expected']
 strength_df = all_weeks[cols]
 strength_df['Avg_Expected'] = strength_df.groupby('Team')['Week_Expected'].transform('mean')
 
