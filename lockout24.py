@@ -157,6 +157,12 @@ for transaction in league.transactions():
     Type = transaction.type
     st.write(f"#{transaction.type}\t{transaction.status}\t"
           f"({transaction.players.player})")
+    
+for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
+    week = league.weeks()[i]
+    for matchup in week.matchups:
+        st.write(matchup)
+
 '''    
 
 ##### Create Matchup Variable #####
