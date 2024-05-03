@@ -156,7 +156,7 @@ data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzz
 # Create the pandas DataFrame
 teams_df = pd.DataFrame(data, columns=['Team', 'roster_id'])
 
-all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Team',how='left').reset_index()
+all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Team',how='left').reset_index(drop=True)
 
 st.write(all_weeks)
 st.write(all_weeks.dtypes)
