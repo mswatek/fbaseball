@@ -316,14 +316,13 @@ strength_df['Avg_Wins'] = strength_df.groupby('Team')['Week_Expected'].transform
 strength_df['Difference'] = strength_df['Week_Expected'] - strength_df['Avg_Wins']
 strength_df['% Difference'] = (strength_df['Week_Expected'] - strength_df['Avg_Wins'])/strength_df['Avg_Wins']
 
-strength_test = strength_df.groupby('Opponent').agg(DiffSum=('% Difference', 'sum'),DiffCount=('Difference', 'count'),DiffAvg=('% Difference', 'mean')).reset_index()
-
-
-#adds_player.rename(columns={'Manager_x': 'Winning Manager','Manager_y':'Runner-Up Manager'},inplace=True)
+strength_overall = strength_df.groupby('Opponent').agg(DiffSum=('% Difference', 'sum'),DiffCount=('Difference', 'count'),DiffAvg=('% Difference', 'mean')).reset_index()
+strength_overall = strength_overall['Opponent', 'Team','Week','Week_Expected','Avg_Wins','Difference','% Difference']
+#strength_overall.rename(columns={'Opponent': 'Team','Team':'Opponent'},inplace=True)
 
 
 st.write(strength_df)
-st.write(strength_test)
+st.write(strength_overall)
 
 '''
 
