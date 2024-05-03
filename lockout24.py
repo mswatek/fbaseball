@@ -145,6 +145,15 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
 
 all_weeks=all_weeks.reset_index()
 
+###im doing something!
+
+for team in league.standings():
+    outcomes = team.team_standings.outcome_totals
+    st.write(f"#{team.team_standings.rank}\t{team.name}\t"
+          f"({outcomes.wins}-{outcomes.losses}-{outcomes.ties})")
+    
+    '''
+
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
@@ -355,12 +364,12 @@ cumrank_df = all_weeks[cols]
 ############################################################################################################
 
 with tab1:
-   st.header("Roto Score by Week")
+   st.header("Overall League Trends")
    st.write("These charts show the standings for if we were in a roto league, where each team is ranked by how well they did in each stat category (10 points for 1st place, 1 for last)."\
               ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
                  ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
    line = st.selectbox("Choose Metric:", ['Cumulative_Total','Cumulative_Total3'])
-   cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team',title="Roto Score by Week").update_xaxes(type='category')
+   cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team',title="Cumulative Roto Standings").update_xaxes(type='category')
    st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
    st.write("Click on each stat category to see how your team has progressed in each category over the season. Below the chart is a list of the 10 best weeks for each category."
             ," Note: I took out Weeks 1 and 15 for all counting stats since it was longer than the typical week.")
@@ -374,7 +383,7 @@ with tab2:
    st.header("As Luck Would Have It")
    st.dataframe(lucky_weeks,hide_index=True,use_container_width=True)
    st.dataframe(unlucky_weeks,hide_index=True,use_container_width=True)
-   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='Team',title="Diff in Expected Wins").update_xaxes(type='category')
+   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='Team',title="Differnce In Wins (Actual-Expected").update_xaxes(type='category')
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
 with tab3:
@@ -394,7 +403,7 @@ with tab3:
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
-   strength_chart = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="testing").update_coloraxes(showscale=False) 
+   strength_chart = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
    st.plotly_chart(strength_chart, theme=None,use_container_width=True)
 
-   
+   '''
