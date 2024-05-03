@@ -23,7 +23,7 @@ from datetime import datetime
 #redo the teams_df table so that it's not hard-coded...will be easier to update next season
 #change variable names (e.g.,  cum_total etc)
 #add text
-#reformat charts
+#make charts nicer
 #format numbers so they look nicer in the tables
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
@@ -149,6 +149,15 @@ all_weeks=all_weeks.reset_index()
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
+
+d = {'Name': all_weeks['Team'], 'roster_id': [1,2,4,8,16,32,64,128,256,512,1024,2048]}
+df = pd.DataFrame(data=d)
+
+st.write(df)
+
+
+'''
+
 
 # initialize list of lists
 data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzzo', 8],['El Squeezo Bunto Dos', 16],['Frozen Ropes',32],['Humdingers', 64], ['I Shota The Sheriff', 128], \
@@ -382,3 +391,5 @@ with tab3:
    st.write(fig)
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
+
+   '''
