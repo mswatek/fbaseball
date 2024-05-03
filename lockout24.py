@@ -159,13 +159,16 @@ all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Team',how='l
 all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Team',how='left')
 all_weeks['Matchup1'] = (all_weeks['roster_id_x']+all_weeks['roster_id_y'])
 all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].astype(str)
-all_weeks.drop(['roster_id_x', 'roster_id_y', 
-                'Matchup1','Team_x','Team_y'], axis=1, inplace=True)
 
 st.write(all_weeks)
 st.write(all_weeks.dtypes)
 
 '''
+
+all_weeks.drop(['roster_id_x', 'roster_id_y', 
+                'Matchup1','Team_x','Team_y'], axis=1, inplace=True)
+
+
 
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
