@@ -394,7 +394,7 @@ with tab3:
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
-   strength_chart = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r",showlegend=False).update_layout(title="testing")
+   strength_chart = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="testing").update_coloraxes(showscale=False) 
    st.plotly_chart(strength_chart, theme=None,use_container_width=True)
 
    
