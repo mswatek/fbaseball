@@ -163,10 +163,6 @@ all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].a
 all_weeks.drop(['roster_id_x', 'roster_id_y', 
                 'Matchup1','Name_x','Name_y'], axis=1, inplace=True)
 
-st.write(all_weeks)
-st.write(all_weeks.dtypes)
-
-'''
 
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
@@ -386,4 +382,4 @@ with tab3:
    st.write(indi_best)
    st.write(indi_worst)
 
-   '''
+   
