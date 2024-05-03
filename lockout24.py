@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import requests,base64
 import plotly.express as px
+import seaborn as sns
 from datetime import datetime
 
 ###### to-do list! #####
@@ -319,7 +320,9 @@ strength_df = strength_df[['Opponent', 'Team','Week','Week_Expected','Avg_Wins',
 strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent','Week_Expected':'Opponent_Expected','Avg_Wins':'Opponent_Avg'},inplace=True)
 
 strength_overall = strength_df.groupby('Team').agg(DiffSum=('Difference', 'sum'),PercentDiff=('% Difference', 'mean')).reset_index()
-
+strength_overall = strength_overall.sort_values(by='PercentDiff',ascending=False)
+strength_overall['Color'] = np.where(strength_overall['PercentDiff']>.05, "Red",\
+                                  np.where(strength_overall['PercentDiff']<.05,"Green","Yellow"))
 
 ##### CREATE SUBSETS FOR TABLES #####
 ##### CREATE SUBSETS FOR TABLES #####
@@ -395,7 +398,7 @@ with tab3:
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
    st.dataframe(strength_overall,hide_index=True,use_container_width=True)
-   test_chart = px.bar(strength_overall, x="Team", y="PercentDiff").update_layout(title="testing")
+   test_chart = px.bar(strength_overall, x="Team", y="PercentDiff",color=strength_overall["Color"]).update_layout(title="testing")
    st.plotly_chart(test_chart, theme=None,use_container_width=True)
 
    
