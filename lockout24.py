@@ -15,6 +15,7 @@ from datetime import datetime
 #scatterplot of moves, games played and innings pitched (refer to previous league reports)
 #transactions counter - by position, player names, repeats per team
 #should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
+#other cool stuff to add would be the all-time trade history and a map of where everyone lives
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 #other individual manager stuff? lucky and unlucky based on how their opponents did compared to average weeks (e.g., I should be expected to do better but a team could get lucky if I have a down week)
 #do I take out week 1 for calculating rolling average?
@@ -140,12 +141,9 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
     df_wide['Week'] = i+1
     frames= [all_weeks,df_wide]
     all_weeks = pd.concat(frames)
-    
+
 all_weeks=all_weeks.reset_index()
 
-st.write(all_weeks)
-
-'''
 
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
@@ -158,8 +156,8 @@ data = [['Lumberjacks', 1], ['Acuña Moncada', 2], ['Aluminum Power', 4],['Bryzz
 # Create the pandas DataFrame
 teams_df = pd.DataFrame(data, columns=['Team', 'roster_id'])
 
-all_weeks = pd.merge(all_weeks, teams_df, left_on='team', right_on='Team',how='left')
-all_weeks = pd.merge(all_weeks, teams_df, left_on='opponent', right_on='Team',how='left')
+all_weeks = pd.merge(all_weeks, teams_df, left_on='Team', right_on='Team',how='left')
+all_weeks = pd.merge(all_weeks, teams_df, left_on='Opponent', right_on='Team',how='left')
 all_weeks['Matchup1'] = (all_weeks['roster_id_x']+all_weeks['roster_id_y'])
 all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].astype(str)
 all_weeks.drop(['roster_id_x', 'roster_id_y', 
@@ -179,8 +177,8 @@ all_weeks['Walk_Hits'] = all_weeks['WHIP']*all_weeks['IP_New']
 ##### CHANGE VARIABLE FORMATS #####
 ##### CHANGE VARIABLE FORMATS #####
 
-cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'team','opponent','ERA','WHIP']]
-cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'team','opponent']]
+cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Opponent','ERA','WHIP']]
+cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'Team','Opponent']]
 
 for col in cat_cols:
     all_weeks[col] = all_weeks[col].astype('float')
@@ -204,7 +202,7 @@ def scores(df):
 
     df = df.merge(total_1, left_index=True, right_on='index')
 
-    cols = ['Week','team','opponent','Matchup','R','HR','RBI','SB','OBP','K','QS','SV+H','ERA','WHIP','IP','IP_New','Earned_Runs','Walk_Hits','Wins']
+    cols = ['Week','Team','Opponent','Matchup','R','HR','RBI','SB','OBP','K','QS','SV+H','ERA','WHIP','IP','IP_New','Earned_Runs','Walk_Hits','Wins']
     df = df[cols]
 
     return df
@@ -225,20 +223,20 @@ for i in matchup_list:
 all_matchups.reset_index(inplace=True)
 all_weeks = all_matchups #converting the score dataset back to all_weeks
 all_weeks = all_weeks.drop_duplicates()
-all_weeks = all_weeks.sort_values(['Week', 'team'], ascending=[True, True])
+all_weeks = all_weeks.sort_values(['Week', 'Team'], ascending=[True, True])
 
 
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 
-cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'team','opponent','ERA','WHIP']]
-cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'team','opponent']]
+cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Opponent','ERA','WHIP']]
+cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'Team','Opponent']]
     
 for col in cat_cols:
-   all_weeks[f'{col}_cum'] = all_weeks.groupby('team')[col].cumsum()
-   all_weeks[f'{col}_avg'] = all_weeks.groupby('team')[col].transform(lambda x: x.rolling(20, 1).mean())
-   all_weeks[f'{col}_avg3'] = all_weeks.groupby('team')[col].transform(lambda x: x.rolling(3, 1).mean())
+   all_weeks[f'{col}_cum'] = all_weeks.groupby('Team')[col].cumsum()
+   all_weeks[f'{col}_avg'] = all_weeks.groupby('Team')[col].transform(lambda x: x.rolling(20, 1).mean())
+   all_weeks[f'{col}_avg3'] = all_weeks.groupby('Team')[col].transform(lambda x: x.rolling(3, 1).mean())
 
 all_weeks['ERA_cum'] = all_weeks['Earned_Runs_cum']/all_weeks['IP_New_cum']*9
 all_weeks['ERA_avg'] = all_weeks['Earned_Runs_avg']/all_weeks['IP_New_avg']*9
@@ -278,7 +276,7 @@ maxweek = all_weeks['Week'].max()
 all_weeks['Overall_Wins'] = (all_weeks['Overall_Total']-10)/((maxweek-1)*120-10)*10
 
 all_weeks['Wins_Diff'] = all_weeks['Wins'] - all_weeks['Week_Expected']
-all_weeks['Wins_Diff_cum'] = all_weeks.groupby('team')['Wins_Diff'].cumsum()
+all_weeks['Wins_Diff_cum'] = all_weeks.groupby('Team')['Wins_Diff'].cumsum()
 
 
 ##### CUMULATIVE RANKS #####
@@ -314,28 +312,28 @@ all_weeks['Cumulative_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 ##### CREATE SUBSETS FOR TABLES #####
 ##### CREATE SUBSETS FOR TABLES #####
 
-cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Overall_Wins']
+cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Overall_Wins']
 best_weeks = all_weeks[cols]
 best_weeks = best_weeks.sort_values('Overall_Wins',ascending = False).head(10)
 
-cols = ['Week','team','opponent','Week_Expected','Wins','Wins_Diff']
+cols = ['Week','Team','Opponent','Week_Expected','Wins','Wins_Diff']
 difference = all_weeks[cols]
 lucky_weeks = difference.sort_values('Wins_Diff',ascending = False).head(10)
 unlucky_weeks = difference.sort_values('Wins_Diff',ascending = True).head(10)
 
-cols = ['Week','team','opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Wins','Overall_Wins']
+cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Wins','Overall_Wins']
 reduced_weeks = all_weeks[cols]
 
 
-cols = ['Week','team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
+cols = ['Week','Team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
         ,'R_avg3','HR_avg3','RBI_avg3','SB_avg3','OBP_avg3','ERA_avg3','WHIP_avg3','K_avg3','QS_avg3','SV+H_avg3']
 avg_df = all_weeks[cols]
 
-cols = ['Week','team','R_weekrank','HR_weekrank','RBI_weekrank','SB_weekrank','OBP_weekrank','ERA_weekrank','WHIP_weekrank','K_weekrank','QS_weekrank','SV+H_weekrank', 'Week_Total', 'Week_Expected' \
+cols = ['Week','Team','R_weekrank','HR_weekrank','RBI_weekrank','SB_weekrank','OBP_weekrank','ERA_weekrank','WHIP_weekrank','K_weekrank','QS_weekrank','SV+H_weekrank', 'Week_Total', 'Week_Expected' \
         ,'R_totalrank','HR_totalrank','RBI_totalrank','SB_totalrank','OBP_totalrank','ERA_totalrank','WHIP_totalrank','K_totalrank','QS_totalrank','SV+H_totalrank', 'Overall_Total','Overall_Wins']
 rank_df = all_weeks[cols]
 
-cols = ['Week','team','R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank']
+cols = ['Week','Team','R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank']
 cumrank_df = all_weeks[cols]
 
 
@@ -349,12 +347,12 @@ with tab1:
               ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
                  ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
    line = st.selectbox("Choose Metric:", ['Cumulative_Total','Cumulative_Total3'])
-   cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='team',title="Roto Score by Week").update_xaxes(type='category')
+   cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team',title="Roto Score by Week").update_xaxes(type='category')
    st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
    st.write("Click on each stat category to see how your team has progressed in each category over the season. Below the chart is a list of the 10 best weeks for each category."
             ," Note: I took out Weeks 1 and 15 for all counting stats since it was longer than the typical week.")
    line2 = st.selectbox("Choose Metric:", ['R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg'])
-   cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='team',title="Avg Cats by Week").update_xaxes(type='category')
+   cumulative_cats = px.line(all_weeks, x="Week", y=line2, markers=True, color='Team',title="Avg Cats by Week").update_xaxes(type='category')
    st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
    st.write("Here are the best individual weeks of the season.")
    st.write(best_weeks)
@@ -363,7 +361,7 @@ with tab2:
    st.header("As Luck Would Have It")
    st.write(lucky_weeks)
    st.write(unlucky_weeks)
-   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='team',title="Diff in Expected Wins").update_xaxes(type='category')
+   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='Team',title="Diff in Expected Wins").update_xaxes(type='category')
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
 with tab3:
@@ -372,15 +370,15 @@ with tab3:
                                      ,'Humdingers', 'I Shota The Sheriff','Lumberjacks','The Chandler Mandrills','Baseball GPT','Santos L. Halper','Sheangels'])
    maxweek = all_weeks['Week'].max()
    cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
-   cumrank_radar = pd.melt(cumrank_current, id_vars='team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
+   cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
 
-   cumrank_radar = cumrank_radar[cumrank_radar['team']==line3]
+   cumrank_radar = cumrank_radar[cumrank_radar['Team']==line3]
    fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
-   team_individual = reduced_weeks[(reduced_weeks['team']== line3) & (reduced_weeks['Week']>1)]
+   team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (reduced_weeks['Week']>1)]
    indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
    indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
    st.write(fig)
    st.write(indi_best)
    st.write(indi_worst)
 
-   '''
+   
