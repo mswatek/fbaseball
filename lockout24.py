@@ -171,10 +171,6 @@ all_weeks.drop(['roster_id_x', 'roster_id_y',
                 'Matchup1','Name_x','Name_y'], axis=1, inplace=True)
 
 
-st.write(all_weeks)
-
-'''
-
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
@@ -393,4 +389,4 @@ with tab3:
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
 
-   '''
+   
