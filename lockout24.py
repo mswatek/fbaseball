@@ -310,12 +310,13 @@ all_weeks['Cumulative_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 ##### Create Strength of Schedule #####
 ##### Create Strength of Schedule #####
 
-cols = ['Week','Team', 'Opponent','Overall_Wins']
+cols = ['Week','Team', 'Opponent','Week_Expected']
 strength_df = all_weeks[cols]
-strength_df['Avg_Wins'] = strength_df.groupby('Team')['Overall_Wins'].transform('mean')
-strength_df['Difference'] = strength_df['Overall_Wins'] - strength_df['Avg_Wins']
+strength_df['Avg_Wins'] = strength_df.groupby('Team')['Week_Expected'].transform('mean')
+strength_df['Difference'] = strength_df['Week_Expected'] - strength_df['Avg_Wins']
+strength_df['% Difference'] = (strength_df['Week_Expected'] - strength_df['Avg_Wins'])/strength_df['Avg_Wins']
 
-strength_test = strength_df.groupby('Opponent').agg(DiffSum=('Difference', 'sum'),DiffCount=('Difference', 'count')).reset_index()
+strength_test = strength_df.groupby('Opponent').agg(DiffSum=('% Difference', 'sum'),DiffCount=('Difference', 'count'),DiffAvg=('% Difference', 'mean')).reset_index()
 
 
 #adds_player.rename(columns={'Manager_x': 'Winning Manager','Manager_y':'Runner-Up Manager'},inplace=True)
