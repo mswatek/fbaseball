@@ -17,8 +17,9 @@ from datetime import datetime
 #should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 #other individual manager stuff? lucky and unlucky based on how their opponents did compared to average weeks (e.g., I should be expected to do better but a team could get lucky if I have a down week)
+#do I take out week 1 for calculating rolling average?
+#change variable names (e.g.,  cum_total etc)
 #add text
-#reorganize tabs
 #reformat charts
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
@@ -139,8 +140,12 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
     frames= [all_weeks,df_wide]
     all_weeks = pd.concat(frames)
 
+all_weeks.rename(columns={'team':'Team', 'opponent':'Opponent'}, inplace=True)
 all_weeks=all_weeks.reset_index()
 
+st.write(all_weeks)
+
+'''
 
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
@@ -290,7 +295,7 @@ for col in cat_cols2:
    all_weeks[f'{col}_cumrank'] = all_weeks.groupby('Week')[col].rank(method="average", ascending=False)
 
 cumtotal_list = ['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank']
-all_weeks['Cum_Total']=all_weeks.loc[:,cumtotal_list].sum(axis=1)
+all_weeks['Cumulative_Total']=all_weeks.loc[:,cumtotal_list].sum(axis=1)
 
 cat_cols = [col for col in all_weeks.columns if col in ['R_avg3', 'HR_avg3','RBI_avg3','SB_avg3','OBP_avg3','K_avg3','QS_avg3','SV+H_avg3']]
 cat_cols2 = [col for col in all_weeks.columns if col in ['ERA_avg3', 'WHIP_avg3']]
@@ -302,7 +307,7 @@ for col in cat_cols2:
    all_weeks[f'{col}_cumrank'] = all_weeks.groupby('Week')[col].rank(method="average", ascending=False)
 
 cumtotal3_list = ['R_avg3_cumrank','HR_avg3_cumrank','RBI_avg3_cumrank','SB_avg3_cumrank','OBP_avg3_cumrank','ERA_avg3_cumrank','WHIP_avg3_cumrank','K_avg3_cumrank','QS_avg3_cumrank','SV+H_avg3_cumrank']
-all_weeks['Cum_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
+all_weeks['Cumulative_Total3']=all_weeks.loc[:,cumtotal3_list].sum(axis=1)
 
 
 ##### CREATE SUBSETS FOR TABLES #####
@@ -343,7 +348,7 @@ with tab1:
    st.write("These charts show the standings for if we were in a roto league, where each team is ranked by how well they did in each stat category (10 points for 1st place, 1 for last)."\
               ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
                  ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
-   line = st.selectbox("Choose Metric:", ['Cum_Total','Cum_Total3'])
+   line = st.selectbox("Choose Metric:", ['Cumulative_Total','Cumulative_Total3'])
    cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='team',title="Roto Score by Week").update_xaxes(type='category')
    st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
    st.write("Click on each stat category to see how your team has progressed in each category over the season. Below the chart is a list of the 10 best weeks for each category."
@@ -377,3 +382,5 @@ with tab3:
    st.write(fig)
    st.write(indi_best)
    st.write(indi_worst)
+
+   '''
