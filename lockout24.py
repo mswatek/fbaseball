@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import requests,base64
 import plotly.express as px
-import seaborn as sns
 from datetime import datetime
 
 ###### to-do list! #####
