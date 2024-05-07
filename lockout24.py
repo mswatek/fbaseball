@@ -278,7 +278,7 @@ maxweek = all_weeks['Week'].max()
 all_weeks['Overall_Wins'] = (all_weeks['Overall_Total']-10)/((maxweek-1)*120-10)*10
 
 all_weeks['Wins_Diff'] = all_weeks['Wins'] - all_weeks['Week_Expected']
-all_weeks['Wins_Diff_cum'] = all_weeks.groupby('Team')['Wins_Diff'].cumsum()
+all_weeks['Wins_Diff_Cumulative'] = all_weeks.groupby('Team')['Wins_Diff'].cumsum()
 
 
 ##### CUMULATIVE RANKS #####
@@ -358,6 +358,7 @@ rank_df = all_weeks[cols]
 
 cols = ['Week','Team','R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank']
 cumrank_df = all_weeks[cols]
+cumulative_cats_df.rename(columns={'R_avg_cumramk': 'R','HR_avg_cumrank':'HR','RBI_avg_cumrank':'RBI','SB_avg_cumrank':'SB','OBP_avg_cumrank':'OBP','ERA_avg_cumrank':'ERA','WHIP_avg_cumrank':'WHIP','K_avg_cumrank':'K','QS_avg_cumrank':'QS','SV+H_avg_cumrank':'SV+H'},inplace=True)
 
 
 ############################################################################################################
@@ -387,7 +388,7 @@ with tab2:
    st.header("As Luck Would Have It")
    st.dataframe(lucky_weeks,hide_index=True,use_container_width=True)
    st.dataframe(unlucky_weeks,hide_index=True,use_container_width=True)
-   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_cum", markers=True, color='Team',title="Differnce In Wins (Actual-Expected").update_xaxes(type='category')
+   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_Cumulative", markers=True, color='Team',title="Difference In Wins (Actual-Expected)").update_xaxes(type='category')
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
 with tab3:
@@ -395,8 +396,7 @@ with tab3:
    line3 = st.selectbox("Choose Team:", team_list)
    maxweek = all_weeks['Week'].max()
    cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
-   cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank'])
-
+   cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H'])
    cumrank_radar = cumrank_radar[cumrank_radar['Team']==line3]
    fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
    team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (reduced_weeks['Week']>1)]
