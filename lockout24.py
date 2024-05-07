@@ -358,7 +358,7 @@ rank_df = all_weeks[cols]
 
 cols = ['Week','Team','R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg_cumrank','OBP_avg_cumrank','ERA_avg_cumrank','WHIP_avg_cumrank','K_avg_cumrank','QS_avg_cumrank','SV+H_avg_cumrank']
 cumrank_df = all_weeks[cols]
-cumulative_cats_df.rename(columns={'R_avg_cumramk': 'R','HR_avg_cumrank':'HR','RBI_avg_cumrank':'RBI','SB_avg_cumrank':'SB','OBP_avg_cumrank':'OBP','ERA_avg_cumrank':'ERA','WHIP_avg_cumrank':'WHIP','K_avg_cumrank':'K','QS_avg_cumrank':'QS','SV+H_avg_cumrank':'SV+H'},inplace=True)
+cumrank_df.rename(columns={'R_avg_cumramk': 'R','HR_avg_cumrank':'HR','RBI_avg_cumrank':'RBI','SB_avg_cumrank':'SB','OBP_avg_cumrank':'OBP','ERA_avg_cumrank':'ERA','WHIP_avg_cumrank':'WHIP','K_avg_cumrank':'K','QS_avg_cumrank':'QS','SV+H_avg_cumrank':'SV+H'},inplace=True)
 
 
 ############################################################################################################
