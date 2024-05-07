@@ -12,12 +12,14 @@ from datetime import datetime
 #have best weeks for each category come up on the same trigger as the average cumulative category trend charts
 #scatterplot of moves, games played and innings pitched (refer to previous league reports)
 #transactions counter - by position, player names, repeats per team
+#can I incorporate elo rating somehow?
+#strength of schedule bar charts can be boxplots instead
 
 #should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
 #other cool stuff to add would be the all-time trade history and a map of where everyone lives
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 
-#other individual manager stuff? lucky and unlucky based on how their opponents did compared to average weeks (e.g., I should be expected to do better but a team could get lucky if I have a down week)
+#other individual manager stuff?
 #do I take out week 1 for calculating rolling average?
 #change variable names (e.g.,  cumrank etc)
 #add text
@@ -395,7 +397,9 @@ with tab3:
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
-   strength_chart = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
-   st.plotly_chart(strength_chart, theme=None,use_container_width=True)
+   strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
+   st.plotly_chart(strength_bar, theme=None,use_container_width=True)
+   strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team")
+   st.plotly_chart(strength_box, theme=None,use_container_width=True)
 
    
