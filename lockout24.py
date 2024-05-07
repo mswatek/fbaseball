@@ -346,6 +346,7 @@ cumulative_cats_df.rename(columns={'R_avg': 'R','HR_avg':'HR','RBI_avg':'RBI','S
 
 cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H']
 top_cats_df = all_weeks[cols]
+top_cats_df = top_cats_df[top_cats_df["Week"] > 1] ##get rid of week 1
 
 cols = ['Week','Team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
         ,'R_avg3','HR_avg3','RBI_avg3','SB_avg3','OBP_avg3','ERA_avg3','WHIP_avg3','K_avg3','QS_avg3','SV+H_avg3']
@@ -376,7 +377,8 @@ with tab1:
    line2 = st.selectbox("Choose Metric:", ['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
    cumulative_cats = px.line(cumulative_cats_df, x="Week", y=line2, markers=True, color='Team',title="Avg Cats by Week").update_xaxes(type='category')
    st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
-   top_cats_df2 = top_cats_df.sort_values(line2,ascending = False).head(10)
+   if line2 in ['ERA','WHIP']: top_cats_df2 = top_cats_df.sort_values(line2,ascending = True).head(10)
+   else: top_cats_df2 = top_cats_df.sort_values(line2,ascending = False).head(10)
    st.dataframe(top_cats_df2,hide_index=True,use_container_width=True)
    st.write("Here are the best individual weeks of the season.")
    st.dataframe(best_weeks,hide_index=True,use_container_width=True)
@@ -407,6 +409,7 @@ with tab3:
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
    strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
    st.plotly_chart(strength_bar, theme=None,use_container_width=True)
-   strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
+   strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    st.plotly_chart(strength_box, theme=None,use_container_width=True)
+
    
