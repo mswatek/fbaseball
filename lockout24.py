@@ -345,6 +345,7 @@ reduced_weeks = all_weeks[cols]
 cols = ['Week','Team','R_avg_reg','HR_avg_reg','RBI_avg_reg','SB_avg_reg','OBP_avg_reg','IP_New_avg_reg','ERA_avg_reg','WHIP_avg_reg','K_avg_reg','QS_avg_reg','SV+H_avg_reg']
 cumulative_cats_df = all_weeks[cols]
 cumulative_cats_df.rename(columns={'R_avg_reg': 'R','HR_avg_reg':'HR','RBI_avg_reg':'RBI','SB_avg_reg':'SB','OBP_avg_reg':'OBP','ERA_avg_reg':'ERA','WHIP_avg_reg':'WHIP','K_avg_reg':'K','QS_avg_reg':'QS','SV+H_avg_reg':'SV+H'},inplace=True)
+cumulative_cats_df = cumulative_cats_df[cumulative_cats_df["Week"] > 1]
 
 cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H']
 top_cats_df = all_weeks[cols]
