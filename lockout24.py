@@ -394,9 +394,9 @@ with tab2:
 with tab3:
    st.header("Individual Teams")
    line3 = st.selectbox("Choose Team:", team_list)
-   maxweek = all_weeks['Week'].max()
+   maxweek = cumrank_df['Week'].max()
    cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
-   cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H'])
+   cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
    cumrank_radar = cumrank_radar[cumrank_radar['Team']==line3]
    fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
    team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (reduced_weeks['Week']>1)]
