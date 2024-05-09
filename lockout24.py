@@ -383,7 +383,7 @@ with tab1:
    else: top_cats_df2 = top_cats_df.sort_values(line2,ascending = False).head(10)
    st.dataframe(top_cats_df2,hide_index=True,use_container_width=True)
    st.write("Here are the best individual weeks of the season.")
-   st.dataframe(best_weeks.style.format({'Week_Expected': "{:.2f}",'Overall_Wins': "{:.2f}"}),hide_index=True,use_container_width=True)
+   st.dataframe(best_weeks,hide_index=True,use_container_width=True)
 
 with tab2:
    st.header("As Luck Would Have It")
