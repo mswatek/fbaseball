@@ -13,7 +13,6 @@ from datetime import datetime
 #scatterplot of moves, games played and innings pitched (refer to previous league reports)
 #transactions counter - by position, player names, repeats per team
 #can I incorporate elo rating somehow?
-#strength of schedule bar charts can be boxplots instead
 
 #should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
 #other cool stuff to add would be the all-time trade history and a map of where everyone lives
@@ -21,11 +20,11 @@ from datetime import datetime
 
 #other individual manager stuff?
 #do I take out week 1 for calculating rolling average?
-#change variable names (e.g.,  cumrank etc)
 #add text
 #make charts nicer
 #format numbers so they look nicer in the tables
 #add more comments throughout
+#just in general, is there a way to make the interactive charts update faster?
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
 
@@ -232,6 +231,8 @@ all_weeks = all_weeks.sort_values(['Week', 'Team'], ascending=[True, True])
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 
+nonweek1 = all_weeks[all_weeks["Week"] > 1]
+
 cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Opponent','ERA','WHIP']]
 cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'Team','Opponent']]
     
@@ -239,14 +240,17 @@ for col in cat_cols:
    all_weeks[f'{col}_cum'] = all_weeks.groupby('Team')[col].cumsum()
    all_weeks[f'{col}_avg'] = all_weeks.groupby('Team')[col].transform(lambda x: x.rolling(20, 1).mean())
    all_weeks[f'{col}_avg3'] = all_weeks.groupby('Team')[col].transform(lambda x: x.rolling(3, 1).mean())
+   all_weeks[f'{col}_avg_reg'] = nonweek1.groupby('Team')[col].transform(lambda x: x.rolling(20, 1).mean())
 
 all_weeks['ERA_cum'] = all_weeks['Earned_Runs_cum']/all_weeks['IP_New_cum']*9
 all_weeks['ERA_avg'] = all_weeks['Earned_Runs_avg']/all_weeks['IP_New_avg']*9
 all_weeks['ERA_avg3'] = all_weeks['Earned_Runs_avg3']/all_weeks['IP_New_avg3']*9
+all_weeks['ERA_avg_reg'] = all_weeks['Earned_Runs_avg_reg']/all_weeks['IP_New_avg_reg']*9
 
 all_weeks['WHIP_cum'] = all_weeks['Walk_Hits_cum']/all_weeks['IP_New_cum']
 all_weeks['WHIP_avg'] = all_weeks['Walk_Hits_avg']/all_weeks['IP_New_avg']
 all_weeks['WHIP_avg3'] = all_weeks['Walk_Hits_avg3']/all_weeks['IP_New_avg3']
+all_weeks['WHIP_avg_reg'] = all_weeks['Walk_Hits_avg_reg']/all_weeks['IP_New_avg_reg']
 
 ##### WEEKLY RANKS #####
 ##### WEEKLY RANKS #####
@@ -254,8 +258,6 @@ all_weeks['WHIP_avg3'] = all_weeks['Walk_Hits_avg3']/all_weeks['IP_New_avg3']
 
 ###ignore week for total wins
 ###trans_summary = transactions_df.query("type == 'waiver' & week != '1'").groupby(['week','Manager']).agg(WinningBids=('waiver_bid', 'count'),MoneySpent=('waiver_bid', 'sum'),MaxPlayer=('waiver_bid', 'max'),MedianPlayer=('waiver_bid', 'median')).reset_index()
-
-nonweek1 = all_weeks[all_weeks["Week"] > 1]
    
 cat_cols = [col for col in all_weeks.columns if col in ['R', 'HR','RBI','SB','OBP','K','QS','SV+H']]
 cat_cols2 = [col for col in all_weeks.columns if col in ['ERA', 'WHIP']]
@@ -340,9 +342,9 @@ unlucky_weeks = difference.sort_values('Wins_Diff',ascending = True).head(10)
 cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Wins','Overall_Wins']
 reduced_weeks = all_weeks[cols]
 
-cols = ['Week','Team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cum','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg']
+cols = ['Week','Team','R_avg_reg','HR_avg_reg','RBI_avg_reg','SB_avg_reg','OBP_avg_reg','IP_New_avg_reg','ERA_avg_reg','WHIP_avg_reg','K_avg_reg','QS_avg_reg','SV+H_avg_reg']
 cumulative_cats_df = all_weeks[cols]
-cumulative_cats_df.rename(columns={'R_avg': 'R','HR_avg':'HR','RBI_avg':'RBI','SB_avg':'SB','OBP_avg':'OBP','ERA_avg':'ERA','WHIP_avg':'WHIP','K_avg':'K','QS_avg':'QS','SV+H_avg':'SV+H'},inplace=True)
+cumulative_cats_df.rename(columns={'R_avg_reg': 'R','HR_avg_reg':'HR','RBI_avg_reg':'RBI','SB_avg_reg':'SB','OBP_avg_reg':'OBP','ERA_avg_reg':'ERA','WHIP_avg_reg':'WHIP','K_avg_reg':'K','QS_avg_reg':'QS','SV+H_avg_reg':'SV+H'},inplace=True)
 
 cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H']
 top_cats_df = all_weeks[cols]
