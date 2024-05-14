@@ -122,6 +122,10 @@ except Exception:
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
 
+for transaction in league.transactions("add,drop", ""):
+    st.write(transaction.players.player)
+
+'''
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
@@ -413,4 +417,4 @@ with tab3:
    strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    st.plotly_chart(strength_box, theme=None,use_container_width=True)
 
-   
+'''
