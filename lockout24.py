@@ -18,6 +18,7 @@ from datetime import datetime
 #other cool stuff to add would be the all-time trade history and a map of where everyone lives
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 
+#figure out how to do info button or hover over so that the text doesn't overwhelm on mobile view...st.info ?
 #other individual manager stuff?
 #add text
 #make charts nicer
@@ -449,10 +450,10 @@ with tab3:
 with tab4:
    st.header("Transactions")
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
-   st.dataframe(player_df,hide_index=True,use_container_width=True)
-   st.dataframe(team_df,hide_index=True,use_container_width=True)
-   st.dataframe(position_df,hide_index=True,use_container_width=True)
-   st.dataframe(manager_df,hide_index=True,use_container_width=True)
+   st.dataframe(player_df,hide_index=True)
+   st.dataframe(team_df,hide_index=True)
+   st.dataframe(position_df,hide_index=True)
+   st.dataframe(manager_df,hide_index=True)
 
 
 
