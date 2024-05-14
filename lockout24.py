@@ -143,10 +143,10 @@ for transaction in league.transactions():
 
 st.write(all_transactions)
 
-player_df = all_transactions.groupby(['Player','Position','Team'])['Player'].sum()
-team_df = all_transactions.groupby(['Team'])['Team'].sum()
-position_df = all_transactions.groupby(['Position'])['Position'].sum()
-manager_df = all_transactions.groupby(['Manager'])['Manager'].sum()
+player_df = all_transactions.groupby(['Player','Position','Team']).sum()
+team_df = all_transactions.groupby(['Team']).sum()
+position_df = all_transactions.groupby(['Position']).sum()
+manager_df = all_transactions.groupby(['Manager']).sum()
 
 st.write(player_df)
 st.write(team_df)
