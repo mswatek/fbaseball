@@ -128,7 +128,7 @@ except Exception:
 for transaction in league.transactions():
     if transaction.type == "add/drop":
         test = transaction.players.player[0]
-        st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.destination_team_name}\t")
+        st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.destination_team_name}\t")
     elif transaction.type == "add":
         test = transaction.players.player
         st.write(f"{test.name.first}\t{test.name.last}\t")
