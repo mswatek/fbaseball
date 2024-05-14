@@ -123,11 +123,15 @@ except Exception:
 
 
 for transaction in league.transactions():
+    t.write(transaction.players)
+
+'''
+
+for transaction in league.transactions():
     if transaction.type == "add":
         st.write(transaction.players.player.name.last)
     else: st.write("nope")
 
-'''
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
