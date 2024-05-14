@@ -122,7 +122,7 @@ except Exception:
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
 
-for transaction in league.transactions("add,drop", ""):
+for transaction in league.transactions():
     st.write(transaction.players.player)
 
 '''
