@@ -122,19 +122,34 @@ except Exception:
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
 
-st.info("this is just a test!!!!",icon="chart_with_upwards_trend")
-
-
 for transaction in league.transactions():
+    #df = pd.DataFrame({'First':[],'Last':[], 'Team':[], 'Position':[], 'Type':[], 'Source':[], 'Manager':[]})
     if transaction.type == "add/drop":
         test = transaction.players.player[0]
-        st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.destination_team_name}\t")
-    elif transaction.type == "add":
-        test = transaction.players.player
-        st.write(f"{test.name.first}\t{test.name.last}\t")
-    else: st.write("nope")
+    else: test = transaction.players.player
+    st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.destination_team_name}\t")
 
 '''
+
+all_weeks=pd.DataFrame()
+for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
+    week = league.weeks()[i]
+    df = pd.DataFrame({'Team':[],'Opponent':[], 'cat':[], 'stat':[]})
+    df2 = pd.DataFrame({'Team':[], 'Opponent':[],'cat':[], 'stat':[]})
+    for matchup in week.matchups:
+        for team1_stat, team2_stat in zip(matchup.team1_stats, matchup.team2_stats):
+            df.loc[len(df)] = [matchup.team1.name,matchup.team2.name, team1_stat.display, team1_stat.value]
+            df2.loc[len(df2)] = [matchup.team2.name,matchup.team1.name, team2_stat.display, team2_stat.value]
+
+    df_combined = pd.concat([df,df2])
+    df_wide = pd.pivot(df_combined, index=['Team','Opponent'], columns='cat', values='stat')
+    df_wide['Week'] = i+1
+    frames= [all_weeks,df_wide]
+    all_weeks = pd.concat(frames)
+
+all_weeks=all_weeks.reset_index()
+
+all_transactions=pd.DataFrame()
 
 for transaction in league.transactions():
     st.write(transaction.players.player)
