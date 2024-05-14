@@ -30,7 +30,7 @@ from datetime import datetime
 st.set_page_config(layout="wide",page_title="No Lockout!")
 st.title(":blue[No More Lockouts in MLB!]")
 
-tab1, tab2, tab3= st.tabs(["League Trends", "Expected Stats", "Individual Team Stats"])
+tab1, tab2, tab3, tab4= st.tabs(["League Trends", "Expected Stats", "Individual Team Stats","Transactions"])
 
 now = datetime.now()
 now = now.strftime('%Y-%m-%d')
@@ -141,30 +141,19 @@ for transaction in league.transactions():
     frames= [all_transactions,df]
     all_transactions = pd.concat(frames)
 
-all_transactions = all_transactions[all_transactions["Player"] != 1]
-st.write(all_transactions)
+##### TRANSACTIONS DATA #####
+##### TRANSACTIONS DATA #####
+##### TRANSACTIONS DATA #####
 
-#all_transactions['Player'] = all_transactions['Player'].astype('str') 
+all_transactions = all_transactions[all_transactions["Player"] != 1]
+all_transactions=all_transactions.reset_index()
+
 
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index()
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index()
 position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index()
 manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index()
 
-st.write(player_df)
-st.write(team_df)
-st.write(position_df)
-st.write(manager_df)
-
-
-'''
-
-for transaction in league.transactions():
-    st.write(transaction.timestamp)
-
-
-for transaction in league.transactions():
-    st.write(transaction.players.player)
 
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
@@ -457,4 +446,15 @@ with tab3:
    strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    st.plotly_chart(strength_box, theme=None,use_container_width=True)
 
-'''
+with tab4:
+   st.header("Transactions")
+   st.dataframe(all_transactions,hide_index=True,use_container_width=True)
+   st.dataframe(player_df,hide_index=True,use_container_width=True)
+   st.dataframe(team_df,hide_index=True,use_container_width=True)
+   st.dataframe(position_df,hide_index=True,use_container_width=True)
+   st.dataframe(manager_df,hide_index=True,use_container_width=True)
+
+
+
+
+
