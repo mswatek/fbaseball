@@ -141,6 +141,7 @@ for transaction in league.transactions():
     frames= [all_transactions,df]
     all_transactions = pd.concat(frames)
 
+all_transactions = all_transactions[all_transactions["Player"] != 1]
 st.write(all_transactions)
 
 all_transactions['Player'] = all_transactions['Player'].astype('str') 
