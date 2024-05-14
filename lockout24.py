@@ -127,12 +127,12 @@ for transaction in league.transactions():
     df = pd.DataFrame()
     if transaction.type == "add/drop": 
         test = transaction.players.player[0]
-        df = pd.DataFrame({"First":test.name.first,"Last":test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position,"Type":test.transaction_data.type,"Source":test.transaction_data.source_type,"Manager":test.transaction_data.destination_team_name}, index=[0])
+        df = pd.DataFrame({"Player":test.name.first+" "+test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position,"Type":test.transaction_data.type,"Source":test.transaction_data.source_type,"Manager":test.transaction_data.destination_team_name}, index=[0])
     elif transaction.type == "add":
         test = transaction.players.player
-        df = pd.DataFrame({"First":test.name.first,"Last":test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position,"Type":test.transaction_data.type,"Source":test.transaction_data.source_type,"Manager":test.transaction_data.destination_team_name}, index=[0])
+        df = pd.DataFrame({"Player":test.name.first+" "+test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position,"Type":test.transaction_data.type,"Source":test.transaction_data.source_type,"Manager":test.transaction_data.destination_team_name}, index=[0])
     else: 
-        df = pd.DataFrame({"First":1,"Last":1,"Team":1,"Position":1,"Type":1,"Source":1,"Manager":1}, index=[0])
+        df = pd.DataFrame({"Player":1,"Team":1,"Position":1,"Type":1,"Source":1,"Manager":1}, index=[0])
     #st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.source_team_key}\t")
     #st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.destination_team_name}\t")
     #df = pd.DataFrame({"First":test.name.first,"Last":test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position}, index=[0])
