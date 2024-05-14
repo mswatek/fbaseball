@@ -123,7 +123,7 @@ except Exception:
 
 
 for transaction in league.transactions():
-    st.write(transaction.players.player.name)
+    st.write(transaction.players.player.name.first)
 
 '''
 ##### BRING IN ALL WEEKS #####
