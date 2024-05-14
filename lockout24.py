@@ -124,7 +124,7 @@ except Exception:
 
 all_transactions=pd.DataFrame()
 for transaction in league.transactions():
-    df = []
+    df = pd.DataFrame()
     if transaction.type == "add/drop": test = transaction.players.player[0]
     else: test = transaction.players.player
     #st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.source_team_key}\t")
