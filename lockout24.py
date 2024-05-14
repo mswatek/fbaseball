@@ -124,16 +124,15 @@ except Exception:
 
 for transaction in league.transactions():
     if transaction.type == "add/drop":
+        test = transaction.players.player[0]
+        st.write(f"#{test.name.first}\t{test.name.last}\t")
+    elif transaction.type == "add":
         test = transaction.players.player
-        st.write(test[0].name.first)
+        st.write(f"#{test.name.first}\t{test.name.last}\t")
     else: st.write("nope")
 
 '''
 
-for transaction in league.transactions():
-    if transaction.type == "add":
-        st.write(transaction.players.player.name.last)
-    else: st.write("nope")
 
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
