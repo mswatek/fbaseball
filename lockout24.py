@@ -130,7 +130,7 @@ for transaction in league.transactions():
         df = pd.DataFrame({"First":test.name.first,"Last":test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position}, index=[0])
     else: 
         test = transaction.players.player
-        df = pd.DataFrame({"First":[],"Last":[],"Team":[],"Position":[]}, index=[0])
+        df = pd.DataFrame({"First":1,"Last":1,"Team":1,"Position":1}, index=[0])
     #st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.source_team_key}\t")
     #st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.destination_team_name}\t")
     #df = pd.DataFrame({"First":test.name.first,"Last":test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position}, index=[0])
