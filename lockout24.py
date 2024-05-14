@@ -144,7 +144,7 @@ for transaction in league.transactions():
 all_transactions = all_transactions[all_transactions["Player"] != 1]
 st.write(all_transactions)
 
-all_transactions['Player'] = all_transactions['Player'].astype('str') 
+#all_transactions['Player'] = all_transactions['Player'].astype('str') 
 
 player_df = all_transactions.groupby(['Player','Position','Team']).count()
 team_df = all_transactions.groupby(['Team']).count()
