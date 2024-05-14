@@ -123,7 +123,7 @@ except Exception:
 
 
 for transaction in league.transactions():
-    t.write(transaction.players)
+    st.write(transaction.players)
 
 '''
 
