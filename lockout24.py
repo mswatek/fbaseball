@@ -122,6 +122,14 @@ except Exception:
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
 
+
+for transaction in league.transactions():
+    st.write(transaction.players.player)
+
+'''
+
+
+
 all_transactions=pd.DataFrame()
 for transaction in league.transactions():
     df = pd.DataFrame()
@@ -140,33 +148,6 @@ for transaction in league.transactions():
     all_transactions = pd.concat(frames)
 
 st.write(all_transactions)
-
-'''
-
-for transaction in league.transactions():
-    st.write(transaction.players.player)
-
-
-
-
-
-all_weeks=pd.DataFrame()
-for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
-    week = league.weeks()[i]
-    df = pd.DataFrame({'Team':[],'Opponent':[], 'cat':[], 'stat':[]})
-    df2 = pd.DataFrame({'Team':[], 'Opponent':[],'cat':[], 'stat':[]})
-    for matchup in week.matchups:
-        for team1_stat, team2_stat in zip(matchup.team1_stats, matchup.team2_stats):
-            df.loc[len(df)] = [matchup.team1.name,matchup.team2.name, team1_stat.display, team1_stat.value]
-            df2.loc[len(df2)] = [matchup.team2.name,matchup.team1.name, team2_stat.display, team2_stat.value]
-
-    df_combined = pd.concat([df,df2])
-    df_wide = pd.pivot(df_combined, index=['Team','Opponent'], columns='cat', values='stat')
-    df_wide['Week'] = i+1
-    frames= [all_weeks,df_wide]
-    all_weeks = pd.concat(frames)
-
-all_weeks=all_weeks.reset_index()
 
 
 
