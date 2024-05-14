@@ -121,20 +121,22 @@ except Exception:
     ctx = Context(persist_key="oauth2",client_id=CLIENT_ID,client_secret=CLIENT_SECRET,refresh_token=auth["refresh_token"])
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
-for transaction in league.transactions():
-    #df = pd.DataFrame({'First':[],'Last':[], 'Team':[], 'Position':[], 'Type':[], 'Source':[], 'Manager':[]})
-    if transaction.type == "add/drop":
-        test = transaction.players.player[0]
-        st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.destination_team_name}\t")
-    elif transaction.type == "drop":
-        test = transaction.players.player
-        st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.source_team_key}\t")
-    else:
-        test = transaction.players.player
-        st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.destination_team_name}\t")
 
+all_transactions=pd.DataFrame()
+for transaction in league.transactions():
+    df = []
+    if transaction.type == "add/drop": test = transaction.players.player[0]
+    else: test = transaction.players.player
+    #st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.source_team_key}\t")
+    #st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t{test.transaction_data.type}\t{test.transaction_data.source_type}\t{test.transaction_data.destination_team_name}\t")
+    df.append({"First":test.name.first,"Last":test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position})
+    frames= [all_transactions,df]
+    all_transactions = pd.concat(frames)
+
+st.write(all_transactions)
 
 '''
+
 for transaction in league.transactions():
     st.write(transaction.players.player)
 
@@ -160,7 +162,8 @@ for i in range(0,theweek): #need to automate which week it is. don't pull new we
 
 all_weeks=all_weeks.reset_index()
 
-all_transactions=pd.DataFrame()
+
+
 
 for transaction in league.transactions():
     st.write(transaction.players.player)
