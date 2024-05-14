@@ -122,18 +122,22 @@ except Exception:
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
 
-for transaction in league.transactions():
-    st.write(transaction.players.player)
 
-'''
+
+
 for transaction in league.transactions():
     if transaction.type == "add/drop":
         test = transaction.players.player[0]
-        st.write(f"{test.name.first}\t{test.name.last}\t")
+        st.write(f"{test.name.first}\t{test.name.last}\t{test.editorial_team_abbr}\t{test.display_position}\t")
     elif transaction.type == "add":
         test = transaction.players.player
         st.write(f"{test.name.first}\t{test.name.last}\t")
     else: st.write("nope")
+
+'''
+
+for transaction in league.transactions():
+    st.write(transaction.players.player)
 
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
