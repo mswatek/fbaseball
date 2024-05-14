@@ -5,6 +5,7 @@ import numpy as np
 import requests,base64
 import plotly.express as px
 from datetime import datetime
+#from time import strftime, localtime
 
 ###### to-do list! #####
 ###### to-do list! #####
@@ -139,6 +140,14 @@ for transaction in league.transactions():
     #df = pd.DataFrame({"First":test.name.first,"Last":test.name.last,"Team":test.editorial_team_abbr,"Position":test.display_position}, index=[0])
     frames= [all_transactions,df]
     all_transactions = pd.concat(frames)
+
+all_transactions['Time'] = all_transactions['Time'].astype('string')
+all_transactions['Time'] = all_transactions['Time'].str.replace(',', '')
+all_transactions['Time'] = all_transactions['Time'].astype(float)
+all_transactions['Time'] = all_transactions['Time'].div(1000)
+
+#all_transactions['date2'] = pd.to_datetime(all_transactions['Time']),unit='s',utc=True).map(lambda x: x.tz_convert('US/Pacific'))
+#all_transactions['date3'] = all_transactions['date2'].dt.date
 
 st.write(all_transactions)
 
