@@ -141,15 +141,17 @@ for transaction in league.transactions():
     frames= [all_transactions,df]
     all_transactions = pd.concat(frames)
 
-all_transactions['Time'] = all_transactions['Time'].astype('string')
-all_transactions['Time'] = all_transactions['Time'].str.replace(',', '')
-all_transactions['Time'] = all_transactions['Time'].astype(float)
-all_transactions['Time'] = all_transactions['Time'].div(1000)
-
-#all_transactions['date2'] = pd.to_datetime(all_transactions['Time']),unit='s',utc=True).map(lambda x: x.tz_convert('US/Pacific'))
-#all_transactions['date3'] = all_transactions['date2'].dt.date
-
 st.write(all_transactions)
+
+player_df = all_transactions.groupby(['Player','Position','Team'])['Player'].sum()
+team_df = all_transactions.groupby(['Team'])['Team'].sum()
+position_df = all_transactions.groupby(['Position'])['Position'].sum()
+manager_df = all_transactions.groupby(['Manager'])['Manager'].sum()
+
+st.write(player_df)
+st.write(team_df)
+st.write(position_df)
+st.write(manager_df)
 
 
 '''
