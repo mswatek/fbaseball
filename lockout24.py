@@ -143,6 +143,8 @@ for transaction in league.transactions():
 
 st.write(all_transactions)
 
+all_transactions['Player'] = all_transactions['Player'].astype('str') 
+
 player_df = all_transactions.groupby(['Player','Position','Team']).sum()
 team_df = all_transactions.groupby(['Team']).sum()
 position_df = all_transactions.groupby(['Position']).sum()
