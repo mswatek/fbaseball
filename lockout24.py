@@ -146,10 +146,10 @@ st.write(all_transactions)
 
 #all_transactions['Player'] = all_transactions['Player'].astype('str') 
 
-player_df = all_transactions.groupby(['Player','Position','Team']).count()
-team_df = all_transactions.groupby(['Team']).count()
-position_df = all_transactions.groupby(['Position']).count()
-manager_df = all_transactions.groupby(['Manager']).count()
+player_df = all_transactions.groupby(['Player','Position','Team']).count().reset_index()
+team_df = all_transactions.groupby(['Team']).count().reset_index()
+position_df = all_transactions.groupby(['Position']).count().reset_index()
+manager_df = all_transactions.groupby(['Manager']).count().reset_index()
 
 st.write(player_df)
 st.write(team_df)
