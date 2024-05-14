@@ -122,7 +122,7 @@ except Exception:
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
 
-st.info("this is just a test!!!!")
+st.info("this is just a test!!!!",icon="chart_with_upwards_trend")
 
 
 for transaction in league.transactions():
