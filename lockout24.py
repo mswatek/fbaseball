@@ -413,14 +413,15 @@ cumrank_df.rename(columns={'R_avg_cumrank':'R','HR_avg_cumrank':'HR','RBI_avg_cu
 
 ### standings combined
 
-maxweek = all_weeks['Week'].max()
-standings_current = all_weeks[all_weeks['Week'] == maxweek]
+#maxweek = all_weeks['Week'].max()
+#standings_current = all_weeks.loc[(all_weeks['Week'] == maxweek)].reset_index()
 
-
+standings_current = all_weeks
 
 cols = ['Team','Wins_cum','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
+# dont think I need rank columns
 #standings_current['Wins_Rank'] = standings_current['Wins_cum'].rank(method="average", ascending=False)
 #standings_current['Roto_Rank'] = standings_current['Cumulative_Total'].rank(method="average", ascending=False)
 #standings_current['Roto3_Rank'] = standings_current['Cumulative_Total3'].rank(method="average", ascending=False)
@@ -428,10 +429,7 @@ standings_current = standings_current[cols]
 #st.write(standings_current)
 
 cm_power = sns.light_palette("green", as_cmap=True)
-st.dataframe(rank_df.style.background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
-
-st.write(rank_df.dtypes())
-st.write(standings_current.dtypes())
+st.dataframe(standings_current.style.background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
 
 '''
 
