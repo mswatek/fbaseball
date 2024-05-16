@@ -413,13 +413,13 @@ cumrank_df.rename(columns={'R_avg_cumrank':'R','HR_avg_cumrank':'HR','RBI_avg_cu
 
 ### standings combined
 
-#maxweek = all_weeks['Week'].max()
-#standings_current = all_weeks.loc[(all_weeks['Week'] == maxweek)].reset_index()
-
-standings_current = all_weeks
+maxweek = all_weeks['Week'].max()
+standings_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 
 cols = ['Team','Wins_cum','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
+
+st.dataframe(standings_current)
 
 # dont think I need rank columns
 #standings_current['Wins_Rank'] = standings_current['Wins_cum'].rank(method="average", ascending=False)
@@ -429,7 +429,7 @@ standings_current = standings_current[cols]
 #st.write(standings_current)
 
 cm_power = sns.light_palette("green", as_cmap=True)
-st.dataframe(standings_current.style.background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
+st.dataframe(all_weeks.style.background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
 
 '''
 
