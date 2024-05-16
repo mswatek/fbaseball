@@ -423,7 +423,7 @@ cols2 = ['Wins_cum','Cumulative_Total','Cumulative_Total3']
 for col in cols2:
     standings_current[col] = standings_current[col].astype('float')
 
-standings_current = standings_current.sort_values("Win_cum",ascending = False)
+standings_current = standings_current.sort_values("Wins_cum",ascending = False)
 
 # dont think I need rank columns
 #standings_current['Wins_Rank'] = standings_current['Wins_cum'].rank(method="average", ascending=False)
