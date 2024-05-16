@@ -126,7 +126,8 @@ except Exception:
 
 ##### STANDINGS DATA #####
 
-st.write(league.standings())
+for team in league.standings():
+    st.write(team.team)
 
 '''
 
