@@ -420,7 +420,7 @@ standings_current = all_weeks[all_weeks['Week'] == maxweek]
 cols = ['Team','Wins_cum','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
-standings_current['Wins_Rank'] = standings_current.groupby('Team')['Wins_cum'].rank(method="average", ascending=False)
+standings_current['Wins_Rank'] = standings_current['Wins_cum'].rank(method="average", ascending=False)
 standings_current['Roto_Rank'] = standings_current.groupby('Team')['Cumulative_Total'].rank(method="average", ascending=False)
 standings_current['Roto3_Rank'] = standings_current.groupby('Team')['Cumulative_Total3'].rank(method="average", ascending=False)
 
