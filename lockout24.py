@@ -124,6 +124,16 @@ except Exception:
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
 
+##### STANDINGS DATA #####
+
+st.write(league.standings())
+
+'''
+
+
+##### TRANSACTIONS DATA #####
+##### TRANSACTIONS DATA #####
+##### TRANSACTIONS DATA #####
 
 all_transactions=pd.DataFrame()
 for transaction in league.transactions():
@@ -140,19 +150,15 @@ for transaction in league.transactions():
     frames= [all_transactions,df]
     all_transactions = pd.concat(frames)
 
-##### TRANSACTIONS DATA #####
-##### TRANSACTIONS DATA #####
-##### TRANSACTIONS DATA #####
-
 all_transactions = all_transactions[all_transactions["Player"] != 1]
 
-#sort these groupby tables
+# creating transaction tables
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index(name='Count')
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index(name='Count')
 manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index(name='Count')
 position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
 
-# Split by each comma
+# Split out multi-position players
 position_df.Position = position_df.Position.str.split(',')
 position_df = position_df.explode('Position')
 
@@ -464,8 +470,10 @@ with tab3:
 
 with tab4:
    st.header("Transactions")
+   st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.plotly_chart(position_tree)
    st.plotly_chart(team_player_tree,use_container_width=True)
-   st.dataframe(all_transactions,hide_index=True,use_container_width=True)
+   
 
 
+'''
