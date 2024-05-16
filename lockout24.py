@@ -151,11 +151,19 @@ player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].ag
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index(name='Count')
 position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
 
+st.write(position_df)
+
 # Split by each comma
 position_df.Position = position_df.Position.str.split(',')
 position_df = position_df.explode('Position')
 
-position_df = position_df.groupby(['Position'])['Count'].agg('sum').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
+test_df = position_df.groupby(['Position'])['Count'].agg('sum').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
+
+
+
+st.write(test_df)
+
+'''
 
 manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index(name='Count')
 
@@ -472,3 +480,4 @@ with tab4:
 
 
 
+'''
