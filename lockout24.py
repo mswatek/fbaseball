@@ -11,7 +11,7 @@ from datetime import datetime
 ###### to-do list! #####
 ###### to-do list! #####
 #scatterplot of moves, games played and innings pitched (refer to previous league reports)
-#transactions counter - by position, player names, repeats per team
+#transactions counter - by position, player names, teams, managers; create tree plots; format date and do a time series chart by day of season
 #can I incorporate elo rating somehow?
 
 #should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
@@ -149,11 +149,14 @@ for transaction in league.transactions():
 all_transactions = all_transactions[all_transactions["Player"] != 1]
 all_transactions=all_transactions.reset_index()
 
-
+#sort these groupby tables
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index()
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index()
-position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index()
+position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index() ##strip out players that have multiple positions to make extra rows
 manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index()
+
+position_tree = px.treemap(player_df, path=['Position'], values='Manager',
+                  color='Position', hover_data=['Position'],title="Tree Map of Waivers by Position")
 
 
 ##### BRING IN ALL WEEKS #####
@@ -449,6 +452,7 @@ with tab3:
 
 with tab4:
    st.header("Transactions")
+   st.plotly_chart(position_tree,use_container_width=True)
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.dataframe(player_df,hide_index=True)
    st.dataframe(team_df,hide_index=True)
