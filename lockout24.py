@@ -421,14 +421,17 @@ standings_current = all_weeks[all_weeks['Week'] == maxweek]
 cols = ['Team','Wins_cum','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
-standings_current['Wins_Rank'] = standings_current['Wins_cum'].rank(method="average", ascending=False)
-standings_current['Roto_Rank'] = standings_current['Cumulative_Total'].rank(method="average", ascending=False)
-standings_current['Roto3_Rank'] = standings_current['Cumulative_Total3'].rank(method="average", ascending=False)
+#standings_current['Wins_Rank'] = standings_current['Wins_cum'].rank(method="average", ascending=False)
+#standings_current['Roto_Rank'] = standings_current['Cumulative_Total'].rank(method="average", ascending=False)
+#standings_current['Roto3_Rank'] = standings_current['Cumulative_Total3'].rank(method="average", ascending=False)
 
 #st.write(standings_current)
 
 cm_power = sns.light_palette("green", as_cmap=True)
-st.dataframe(standings_current.background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
+st.dataframe(rank_df.style.background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
+
+st.write(rank_df.dtypes())
+st.write(standings_current.dtypes())
 
 '''
 
