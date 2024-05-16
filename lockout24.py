@@ -124,14 +124,6 @@ except Exception:
     league: list = ctx.get_leagues("mlb", 2024)[0]
 
 
-##### STANDINGS DATA #####
-
-for team in league.standings():
-    st.write(team.team.outcome_totals)
-
-'''
-
-
 ##### TRANSACTIONS DATA #####
 ##### TRANSACTIONS DATA #####
 ##### TRANSACTIONS DATA #####
@@ -417,6 +409,14 @@ cols = ['Week','Team','R_avg_cumrank','HR_avg_cumrank','RBI_avg_cumrank','SB_avg
 cumrank_df = all_weeks[cols]
 cumrank_df.rename(columns={'R_avg_cumrank':'R','HR_avg_cumrank':'HR','RBI_avg_cumrank':'RBI','SB_avg_cumrank':'SB','OBP_avg_cumrank':'OBP','ERA_avg_cumrank':'ERA','WHIP_avg_cumrank':'WHIP','K_avg_cumrank':'K','QS_avg_cumrank':'QS','SV+H_avg_cumrank':'SV+H'},inplace=True)
 
+### standings combined
+
+maxweek = all_weeks['Week'].max()
+standings_current = all_weeks[all_weeks['Week'] == maxweek]
+
+st.write(standings_current)
+
+'''
 
 ############################################################################################################
 ############################################################################################################
