@@ -158,8 +158,9 @@ position_tree = px.treemap(player_df, path=['Position'], values='Count',
 team_tree = px.treemap(team_df, path=['Team'], values='Count',
                   color='Team', hover_data=['Team'],title="Tree Map of Pickups by Team")
 
-team_player_tree = px.treemap(team_df, path=['Team','Player'], values='Count',
+team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
                   color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
+
 
 
 
