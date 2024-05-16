@@ -147,12 +147,12 @@ for transaction in league.transactions():
 all_transactions = all_transactions[all_transactions["Player"] != 1]
 
 #sort these groupby tables
-player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index()
+player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index(name='Count')
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index(name='Count')
-position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index() ##strip out players that have multiple positions to make extra rows
-manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index()
+position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
+manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index(name='Count')
 
-position_tree = px.treemap(player_df, path=['Position'], values='Manager',
+position_tree = px.treemap(player_df, path=['Position'], values='Count',
                   color='Position', hover_data=['Position'],title="Tree Map of Pickups by Position")
 
 team_tree = px.treemap(team_df, path=['Team'], values='Count',
@@ -458,6 +458,7 @@ with tab4:
    st.header("Transactions")
    st.plotly_chart(position_tree)
    st.plotly_chart(team_tree)
+   st.plotly_chart(team_player_tree)
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.dataframe(player_df,hide_index=True)
    st.dataframe(team_df,hide_index=True)
