@@ -430,7 +430,7 @@ standings_current['Place'] = standings_current['Wins_cumulative'].rank(method="a
 #standings_current['Roto_Rank'] = standings_current['Cumulative_Total'].rank(method="average", ascending=False)
 #standings_current['Roto3_Rank'] = standings_current['Cumulative_Total3'].rank(method="average", ascending=False)
 
-cols = ['Team','Place','Wins_cum','Cumulative_Total','Cumulative_Total3']
+cols = ['Team','Place','Wins_cumulative','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
 cm_power = sns.light_palette("green", as_cmap=True)
