@@ -162,6 +162,15 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
                   color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
 
 
+df = pd.DataFrame({'A': [1, 2, 3, 4],
+                   'B': ['ab,s', 'a,s,d,f', 'rk,lw', 'get,me']})
+
+# Split by each comma
+position_df.Position = position_df.Position.str.split(',')
+position_df = position_df.explode('Position')
+
+st.write(position_df)
+
 
 
 ##### BRING IN ALL WEEKS #####
@@ -458,13 +467,8 @@ with tab3:
 with tab4:
    st.header("Transactions")
    st.plotly_chart(position_tree)
-   st.plotly_chart(team_tree)
-   st.plotly_chart(team_player_tree)
+   st.plotly_chart(team_player_tree,use_container_width=True)
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
-   st.dataframe(player_df,hide_index=True)
-   st.dataframe(team_df,hide_index=True)
-   st.dataframe(position_df,hide_index=True)
-   st.dataframe(manager_df,hide_index=True)
 
 
 
