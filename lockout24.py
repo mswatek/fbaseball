@@ -419,7 +419,8 @@ standings_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 cols = ['Team','Wins_cum','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
-for col in cols:
+cols2 = ['Wins_cum','Cumulative_Total','Cumulative_Total3']
+for col in cols2:
     standings_current[col] = standings_current[col].astype('float')
 
 # dont think I need rank columns
