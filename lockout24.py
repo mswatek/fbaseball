@@ -415,14 +415,14 @@ cumrank_df.rename(columns={'R_avg_cumrank':'R','HR_avg_cumrank':'HR','RBI_avg_cu
 maxweek = all_weeks['Week'].max()
 standings_current = all_weeks[all_weeks['Week'] == maxweek]
 
+
+
+cols = ['Team','Wins_cum','Cumulative_Total','Cumulative_Total3']
+standings_current = standings_current[cols]
+
 st.write(standings_current)
 
 '''
-
-cols = ['Team','Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
-standings_current = standings_current[cols]
-
-
 
 ############################################################################################################
 ############################################################################################################
