@@ -156,7 +156,10 @@ position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').res
 manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index()
 
 position_tree = px.treemap(player_df, path=['Position'], values='Manager',
-                  color='Position', hover_data=['Position'],title="Tree Map of Waivers by Position")
+                  color='Position', hover_data=['Position'],title="Tree Map of Pickups by Position")
+
+team_tree = px.treemap(team_df, path=['Team'], values='Manager',
+                  color='Team', hover_data=['Team'],title="Tree Map of Pickups by Team")
 
 
 ##### BRING IN ALL WEEKS #####
@@ -452,7 +455,8 @@ with tab3:
 
 with tab4:
    st.header("Transactions")
-   st.plotly_chart(position_tree,use_container_width=True)
+   st.plotly_chart(position_tree)
+   st.plotly_chart(team_tree)
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.dataframe(player_df,hide_index=True)
    st.dataframe(team_df,hide_index=True)
