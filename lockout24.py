@@ -5,6 +5,7 @@ import numpy as np
 import requests,base64
 import plotly.express as px
 from datetime import datetime
+import seaborn as sns
 #from time import strftime, localtime
 
 ###### to-do list! #####
@@ -424,7 +425,10 @@ standings_current['Wins_Rank'] = standings_current['Wins_cum'].rank(method="aver
 standings_current['Roto_Rank'] = standings_current['Cumulative_Total'].rank(method="average", ascending=False)
 standings_current['Roto3_Rank'] = standings_current['Cumulative_Total3'].rank(method="average", ascending=False)
 
-st.write(standings_current)
+#st.write(standings_current)
+
+cm_power = sns.light_palette("green", as_cmap=True)
+st.dataframe(standings_current.background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
 
 '''
 
