@@ -149,25 +149,17 @@ all_transactions = all_transactions[all_transactions["Player"] != 1]
 #sort these groupby tables
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index(name='Count')
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index(name='Count')
+manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index(name='Count')
 position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
-
-st.write(position_df)
 
 # Split by each comma
 position_df.Position = position_df.Position.str.split(',')
 position_df = position_df.explode('Position')
 
-test_df = position_df.groupby(['Position'])['Count'].agg('sum').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
+position_df = position_df.groupby(['Position'])['Count'].agg('sum').reset_index(name='Count')
 
 
-
-st.write(test_df)
-
-'''
-
-manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index(name='Count')
-
-position_tree = px.treemap(player_df, path=['Position'], values='Count',
+position_tree = px.treemap(position_df, path=['Position'], values='Count',
                   color='Position', hover_data=['Position'],title="Tree Map of Pickups by Position")
 
 team_tree = px.treemap(team_df, path=['Team'], values='Count',
@@ -477,7 +469,3 @@ with tab4:
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
 
 
-
-
-
-'''
