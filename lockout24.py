@@ -150,6 +150,13 @@ all_transactions = all_transactions[all_transactions["Player"] != 1]
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index(name='Count')
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index(name='Count')
 position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
+
+# Split by each comma
+position_df.Position = position_df.Position.str.split(',')
+position_df = position_df.explode('Position')
+
+position_df = position_df.groupby(['Position'])['Count'].agg('sum').reset_index(name='Count') ##strip out players that have multiple positions to make extra rows
+
 manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index(name='Count')
 
 position_tree = px.treemap(player_df, path=['Position'], values='Count',
@@ -161,15 +168,6 @@ team_tree = px.treemap(team_df, path=['Team'], values='Count',
 team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
                   color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
 
-
-df = pd.DataFrame({'A': [1, 2, 3, 4],
-                   'B': ['ab,s', 'a,s,d,f', 'rk,lw', 'get,me']})
-
-# Split by each comma
-position_df.Position = position_df.Position.str.split(',')
-position_df = position_df.explode('Position')
-
-st.write(position_df)
 
 
 
