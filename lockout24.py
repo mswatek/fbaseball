@@ -19,6 +19,7 @@ from datetime import datetime
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 
 #figure out how to do info button or hover over so that the text doesn't overwhelm on mobile view...st.info ?
+#how do I get games played? Once I do, can do scatterplot of games played, innings pitched, transactions, and wins
 #other individual manager stuff?
 #add text
 #make charts nicer
@@ -413,6 +414,9 @@ cumrank_df.rename(columns={'R_avg_cumrank':'R','HR_avg_cumrank':'HR','RBI_avg_cu
 
 maxweek = all_weeks['Week'].max()
 standings_current = all_weeks[all_weeks['Week'] == maxweek]
+
+cols = ['Team','Wins_Cum','Cumative_Total','Cumulative_Total3']
+standings_current = standings_current[cols]
 
 st.write(standings_current)
 
