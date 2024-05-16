@@ -145,8 +145,6 @@ for transaction in league.transactions():
 ##### TRANSACTIONS DATA #####
 
 all_transactions = all_transactions[all_transactions["Player"] != 1]
-all_transactions=all_transactions.reset_index()
-all_transactions=all_transactions.reset_index()
 
 #sort these groupby tables
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index()
@@ -159,6 +157,9 @@ position_tree = px.treemap(player_df, path=['Position'], values='Manager',
 
 team_tree = px.treemap(team_df, path=['Team'], values='Count',
                   color='Team', hover_data=['Team'],title="Tree Map of Pickups by Team")
+
+team_player_tree = px.treemap(team_df, path=['Team','Player'], values='Count',
+                  color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
 
 
 
