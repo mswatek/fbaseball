@@ -285,17 +285,17 @@ cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Oppo
 cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'Team','Opponent']]
     
 for col in cat_cols:
-   all_weeks[f'{col}_cumulative'] = all_weeks.groupby('Team')[col].cumsum()
+   all_weeks[f'{col}_Cumulative'] = all_weeks.groupby('Team')[col].cumsum()
    all_weeks[f'{col}_avg'] = all_weeks.groupby('Team')[col].transform(lambda x: x.rolling(20, 1).mean())
    all_weeks[f'{col}_avg3'] = all_weeks.groupby('Team')[col].transform(lambda x: x.rolling(3, 1).mean())
    all_weeks[f'{col}_avg_reg'] = nonweek1.groupby('Team')[col].transform(lambda x: x.rolling(20, 1).mean())
 
-all_weeks['ERA_cumulative'] = all_weeks['Earned_Runs_cumulative']/all_weeks['IP_New_cumulative']*9
+all_weeks['ERA_Cumulative'] = all_weeks['Earned_Runs_Cumulative']/all_weeks['IP_New_Cumulative']*9
 all_weeks['ERA_avg'] = all_weeks['Earned_Runs_avg']/all_weeks['IP_New_avg']*9
 all_weeks['ERA_avg3'] = all_weeks['Earned_Runs_avg3']/all_weeks['IP_New_avg3']*9
 all_weeks['ERA_avg_reg'] = all_weeks['Earned_Runs_avg_reg']/all_weeks['IP_New_avg_reg']*9
 
-all_weeks['WHIP_cumulative'] = all_weeks['Walk_Hits_cumulative']/all_weeks['IP_New_cumulative']
+all_weeks['WHIP_Cumulative'] = all_weeks['Walk_Hits_Cumulative']/all_weeks['IP_New_Cumulative']
 all_weeks['WHIP_avg'] = all_weeks['Walk_Hits_avg']/all_weeks['IP_New_avg']
 all_weeks['WHIP_avg3'] = all_weeks['Walk_Hits_avg3']/all_weeks['IP_New_avg3']
 all_weeks['WHIP_avg_reg'] = all_weeks['Walk_Hits_avg_reg']/all_weeks['IP_New_avg_reg']
@@ -399,7 +399,7 @@ cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K'
 top_cats_df = all_weeks[cols]
 top_cats_df = top_cats_df[top_cats_df["Week"] > 1] ##get rid of week 1
 
-cols = ['Week','Team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_cumulative','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
+cols = ['Week','Team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_Cumulative','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
         ,'R_avg3','HR_avg3','RBI_avg3','SB_avg3','OBP_avg3','ERA_avg3','WHIP_avg3','K_avg3','QS_avg3','SV+H_avg3']
 avg_df = all_weeks[cols]
 
@@ -416,21 +416,21 @@ cumrank_df.rename(columns={'R_avg_cumrank':'R','HR_avg_cumrank':'HR','RBI_avg_cu
 maxweek = all_weeks['Week'].max()
 standings_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 
-cols = ['Team','Wins_cumulative','Cumulative_Total','Cumulative_Total3']
+cols = ['Team','Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
-cols2 = ['Wins_cumulative','Cumulative_Total','Cumulative_Total3']
+cols2 = ['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
 for col in cols2:
     standings_current[col] = standings_current[col].astype('float')
 
-standings_current = standings_current.sort_values("Wins_cumulative",ascending = False)
+standings_current = standings_current.sort_values("Wins_Cumulative",ascending = False)
 
 # dont think I need rank columns
-standings_current['Place'] = standings_current['Wins_cumulative'].rank(method="average", ascending=False)
+standings_current['Place'] = standings_current['Wins_Cumulative'].rank(method="average", ascending=False)
 #standings_current['Roto_Rank'] = standings_current['Cumulative_Total'].rank(method="average", ascending=False)
 #standings_current['Roto3_Rank'] = standings_current['Cumulative_Total3'].rank(method="average", ascending=False)
 
-cols = ['Team','Place','Wins_cumulative','Cumulative_Total','Cumulative_Total3']
+cols = ['Team','Place','Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
 cm_power = sns.light_palette("green", as_cmap=True)
@@ -442,8 +442,8 @@ cm_power = sns.light_palette("green", as_cmap=True)
 
 with tab1:
    st.header("Overall League Trends")
-   st.dataframe(standings_current.style.format({'Wins_cumulative': "{:.1f}",'Cumulative_Total': "{:.1f}",'Cumulative_Total3': "{:.1f}"}).\
-                background_gradient(cmap=cm_power, subset=['Wins_cumulative','Cumulative_Total','Cumulative_Total3']),hide_index=True)
+   st.dataframe(standings_current.style.format({'Wins_Cumulative': "{:.1f}",'Cumulative_Total': "{:.1f}",'Cumulative_Total3': "{:.1f}"}).\
+                background_gradient(cmap=cm_power, subset=['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']),hide_index=True)
    st.write("These charts show the standings for if we were in a roto league, where each team is ranked by how well they did in each stat category (10 points for 1st place, 1 for last)."\
               ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
                  ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
