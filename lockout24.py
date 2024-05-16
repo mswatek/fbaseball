@@ -428,12 +428,8 @@ for col in cols2:
 #standings_current['Roto_Rank'] = standings_current['Cumulative_Total'].rank(method="average", ascending=False)
 #standings_current['Roto3_Rank'] = standings_current['Cumulative_Total3'].rank(method="average", ascending=False)
 
-#st.write(standings_current)
-
 cm_power = sns.light_palette("green", as_cmap=True)
-st.dataframe(standings_current.style.background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
 
-'''
 
 ############################################################################################################
 ############################################################################################################
@@ -441,6 +437,8 @@ st.dataframe(standings_current.style.background_gradient(cmap=cm_power),hide_ind
 
 with tab1:
    st.header("Overall League Trends")
+   st.dataframe(standings_current.style.format({'Wins_cum': "{:.1f}",'Cumulative_Total': "{:.1f}",'Cumulative_Total3': "{:.1f}"}).\
+                background_gradient(cmap=cm_power),hide_index=True,use_container_width=True)
    st.write("These charts show the standings for if we were in a roto league, where each team is ranked by how well they did in each stat category (10 points for 1st place, 1 for last)."\
               ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
                  ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
@@ -494,4 +492,3 @@ with tab4:
    
 
 
-'''
