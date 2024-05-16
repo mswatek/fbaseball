@@ -151,15 +151,16 @@ all_transactions=all_transactions.reset_index()
 
 #sort these groupby tables
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index()
-team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index()
+team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index(name='Count')
 position_df = all_transactions.groupby(['Position'])['Manager'].agg('count').reset_index() ##strip out players that have multiple positions to make extra rows
 manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index()
 
 position_tree = px.treemap(player_df, path=['Position'], values='Manager',
                   color='Position', hover_data=['Position'],title="Tree Map of Pickups by Position")
 
-team_tree = px.treemap(team_df, path=['Team'], values='Manager',
+team_tree = px.treemap(team_df, path=['Team'], values='Count',
                   color='Team', hover_data=['Team'],title="Tree Map of Pickups by Team")
+
 
 
 ##### BRING IN ALL WEEKS #####
