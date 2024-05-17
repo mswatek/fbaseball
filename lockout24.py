@@ -453,7 +453,7 @@ scatter_current = pd.merge(scatter_current, manager_df, left_on='Team', right_on
 st.write(scatter_current)
 
 scatter_plot = px.scatter(scatter_current, x="AB_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
-                 size='Count').update_layout(title="League Landscape")
+                 size='Count',text='Team').update_layout(title="League Landscape")
 
 
 ############################################################################################################
