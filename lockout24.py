@@ -170,8 +170,6 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
                   color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
 
 
-
-
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
@@ -278,6 +276,10 @@ all_matchups.reset_index(inplace=True)
 all_weeks = all_matchups #converting the score dataset back to all_weeks
 all_weeks = all_weeks.drop_duplicates()
 all_weeks = all_weeks.sort_values(['Week', 'Team'], ascending=[True, True])
+
+st.write(all_weeks)
+
+'''
 
 
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
@@ -446,7 +448,7 @@ scatter_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 
 st.write(scatter_current)
 
-'''
+
 
 cols = ['Team','Wins_Cumulative','AB_Cumulative','IP_New_Cumulative']
 scatter_current = scatter_current[cols]
