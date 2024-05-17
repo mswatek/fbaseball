@@ -442,15 +442,15 @@ cm_power = sns.light_palette("green", as_cmap=True)
 
 scatter_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 
-st.write(scatter_current)
 
-'''
 
 cols = ['Team','Wins_Cumulative','AB_Cumulative','IP_New_Cumulative']
 scatter_current = scatter_current[cols]
 
 
+st.write(scatter_current)
 
+'''
 
 
 ############################################################################################################
