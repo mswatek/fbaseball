@@ -219,7 +219,7 @@ all_weeks[['H', 'AB']] = all_weeks['H/AB'].str.split('/', expand=True)
 
 st.write(all_weeks)
 
-'''
+
 
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
@@ -428,9 +428,9 @@ standings_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 cols = ['Team','Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
-cols2 = ['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
-for col in cols2:
-    standings_current[col] = standings_current[col].astype('float')
+#cols2 = ['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
+#for col in cols2:
+#    standings_current[col] = standings_current[col].astype('float')
 
 standings_current = standings_current.sort_values("Wins_Cumulative",ascending = False)
 
@@ -443,6 +443,18 @@ cols = ['Team','Place','Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
 cm_power = sns.light_palette("green", as_cmap=True)
+
+### scatterplot
+
+scatter_current = all_weeks.loc[all_weeks['Week'] == maxweek]
+
+cols = ['Team','Wins_Cumulative','AB_Cumulative','IP_New_Cumulative']
+scatter_current = scatter_current[cols]
+
+st.write(scatter_current)
+
+'''
+
 
 
 ############################################################################################################
