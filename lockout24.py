@@ -447,7 +447,7 @@ scatter_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 cols = ['Team','Wins_Cumulative','AB_Cumulative','IP_New_Cumulative']
 scatter_current = scatter_current[cols]
 
-scatter_current = pd.merge(scatter_current, player_df, on='Team', how='left')
+scatter_current = pd.merge(scatter_current, manager_df, left_on='Team', right_on='Manager', how='left')
 
 
 st.write(scatter_current)
