@@ -452,7 +452,8 @@ scatter_current = pd.merge(scatter_current, manager_df, left_on='Team', right_on
 
 st.write(scatter_current)
 
-'''
+scatter_plot = px.scatter(scatter_current, x="AB_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
+                 size='Count').update_layout(title="League Landscape")
 
 
 ############################################################################################################
@@ -463,6 +464,8 @@ with tab1:
    st.header("Overall League Trends")
    st.dataframe(standings_current.style.format({'Wins_Cumulative': "{:.1f}",'Cumulative_Total': "{:.1f}",'Cumulative_Total3': "{:.1f}"}).\
                 background_gradient(cmap=cm_power, subset=['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']),hide_index=True)
+   st.plotly_chart(scatter_plot, theme=None,use_container_width=True)
+
    st.write("These charts show the standings for if we were in a roto league, where each team is ranked by how well they did in each stat category (10 points for 1st place, 1 for last)."\
               ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
                  ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
@@ -513,7 +516,5 @@ with tab4:
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.plotly_chart(position_tree)
    st.plotly_chart(team_player_tree,use_container_width=True)
-   
 
 
-'''
