@@ -211,6 +211,15 @@ all_weeks['Matchup'] = all_weeks['Matchup1'].astype(str)+'_'+all_weeks['Week'].a
 all_weeks.drop(['roster_id_x', 'roster_id_y', 
                 'Matchup1','Name_x','Name_y'], axis=1, inplace=True)
 
+##### GET AT-BATS #####
+##### GET AT-BATS #####
+##### GET AT-BATS #####
+
+all_weeks[['H', 'AB']] = all_weeks['H/AB'].str.split('/', expand=True)
+
+st.write(all_weeks)
+
+'''
 
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
@@ -497,3 +506,4 @@ with tab4:
    
 
 
+'''
