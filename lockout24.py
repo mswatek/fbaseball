@@ -217,10 +217,6 @@ all_weeks.drop(['roster_id_x', 'roster_id_y',
 
 all_weeks[['H', 'AB']] = all_weeks['H/AB'].str.split('/', expand=True)
 
-st.write(all_weeks)
-
-
-
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
@@ -448,12 +444,14 @@ cm_power = sns.light_palette("green", as_cmap=True)
 
 scatter_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 
-cols = ['Team','Wins_Cumulative','AB_Cumulative','IP_New_Cumulative']
-scatter_current = scatter_current[cols]
-
 st.write(scatter_current)
 
 '''
+
+cols = ['Team','Wins_Cumulative','AB_Cumulative','IP_New_Cumulative']
+scatter_current = scatter_current[cols]
+
+
 
 
 
