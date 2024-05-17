@@ -254,7 +254,7 @@ def scores(df):
 
     df = df.merge(total_1, left_index=True, right_on='index')
 
-    cols = ['Week','Team','Opponent','Matchup','R','HR','RBI','SB','OBP','K','QS','SV+H','ERA','WHIP','IP','IP_New','Earned_Runs','Walk_Hits','Wins']
+    cols = ['Week','Team','Opponent','Matchup','H','AB','R','HR','RBI','SB','OBP','K','QS','SV+H','ERA','WHIP','IP','IP_New','Earned_Runs','Walk_Hits','Wins']
     df = df[cols]
 
     return df
