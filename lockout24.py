@@ -33,7 +33,7 @@ import seaborn as sns
 st.set_page_config(layout="wide",page_title="No Lockout!")
 st.title(":blue[No More Lockouts in MLB!]")
 
-tab1, tab2, tab3, tab4= st.tabs(["League Trends", "Expected Stats", "Individual Team Stats","Transactions"])
+tab1, tab2, tab3, tab4, tab5= st.tabs(["League Trends","Best Weeks", "Expected Stats", "Individual Team Stats","Transactions"])
 
 now = datetime.now()
 now = now.strftime('%Y-%m-%d')
@@ -450,8 +450,6 @@ scatter_current = scatter_current[cols]
 scatter_current = pd.merge(scatter_current, manager_df, left_on='Team', right_on='Manager', how='left')
 
 
-st.write(scatter_current)
-
 scatter_plot = px.scatter(scatter_current, x="AB_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
                  size='Count',text='Team').update_layout(title="League Landscape")
 
@@ -472,6 +470,10 @@ with tab1:
    line = st.selectbox("Choose Metric:", ['Cumulative_Total','Cumulative_Total3'])
    cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team',title="Cumulative Roto Standings").update_xaxes(type='category')
    st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
+   
+
+with tab2:
+   st.header("Best Weeks")
    st.write("Click on each stat category to see how your team has progressed in each category over the season. Below the chart is a list of the 10 best weeks for each category."
             ," Note: I took out Weeks 1 and 15 for all counting stats since it was longer than the typical week.")
    line2 = st.selectbox("Choose Metric:", ['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
@@ -483,14 +485,14 @@ with tab1:
    st.write("Here are the best individual weeks of the season.")
    st.dataframe(best_weeks,hide_index=True,use_container_width=True)
 
-with tab2:
+with tab3:
    st.header("As Luck Would Have It")
    st.dataframe(lucky_weeks,hide_index=True,use_container_width=True)
    st.dataframe(unlucky_weeks,hide_index=True,use_container_width=True)
    cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_Cumulative", markers=True, color='Team',title="Difference In Wins (Actual-Expected)").update_xaxes(type='category')
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
-with tab3:
+with tab4:
    st.header("Individual Teams")
    line3 = st.selectbox("Choose Team:", team_list)
    maxweek = cumrank_df['Week'].max()
@@ -511,7 +513,7 @@ with tab3:
    strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    st.plotly_chart(strength_box, theme=None,use_container_width=True)
 
-with tab4:
+with tab5:
    st.header("Transactions")
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.plotly_chart(position_tree)
