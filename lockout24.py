@@ -249,13 +249,17 @@ all_weeks['PA'] = all_weeks['PA'].astype(int)
 all_weeks['diff']  = all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP']
 
 
-if all_weeks['diff'] < -.005:
-    all_weeks['test'] = "yes"
-else: all_weeks['test'] = "no"
+all_weeks['test'] = all_weeks.apply(lambda x: "yes" if x['diff'] < -.0005 else "no", axis=1) 
 
 st.write(all_weeks)
 
 '''
+
+if all_weeks['diff'] < -.005:
+    all_weeks['test'] = "yes"
+else: all_weeks['test'] = "no"
+
+
 
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
