@@ -215,6 +215,13 @@ all_weeks.drop(['roster_id_x', 'roster_id_y',
 
 all_weeks[['H', 'AB']] = all_weeks['H/AB'].str.split('/', expand=True)
 
+all_weeks['OnBase'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['H']
+all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['AB']
+
+st.write(all_weeks)
+
+'''
+
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
@@ -520,3 +527,4 @@ with tab5:
    st.plotly_chart(team_player_tree,use_container_width=True)
 
 
+'''
