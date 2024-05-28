@@ -260,7 +260,7 @@ for row in all_weeks.index:
         while diff < 0:
             all_weeks.at[row, 'OnBase'] = ob + 1
             all_weeks.at[row, 'PA'] = pa + 2
-            all_weeks.at[row, 'diff'] = all_weeks.at[row, 'OnBase']/all_weeks.at[row, 'PA']
+            all_weeks.at[row, 'diff'] = (all_weeks.at[row, 'OnBase']/all_weeks.at[row, 'PA'])-all_weeks.at[row, 'OBP']
 
 st.write(all_weeks)
 
