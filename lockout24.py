@@ -246,18 +246,16 @@ all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks
 all_weeks['OnBase'] = all_weeks['OnBase'].astype(int)
 all_weeks['PA'] = all_weeks['PA'].astype(int)
 
-all_weeks['test']  = all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP']
+all_weeks['diff']  = all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP']
+
+
+if all_weeks['diff'] < -.005:
+    all_weeks['test'] = "yes"
+else: all_weeks['test'] = "no"
 
 st.write(all_weeks)
 
 '''
-
-
-if all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP'] < -.001:
-    all_weeks['test'] = "yes"
-else: all_weeks['test'] = "no"
-
-
 
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
