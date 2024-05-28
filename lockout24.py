@@ -246,7 +246,7 @@ all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks
 all_weeks['OnBase'] = all_weeks['OnBase'].astype(int)
 all_weeks['PA'] = all_weeks['PA'].astype(int)
 
-all_weeks['test']  = all_weeks['OnBase']/all_weeks['PA']
+all_weeks['test']  = all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP']
 
 st.write(all_weeks)
 
