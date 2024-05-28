@@ -243,6 +243,10 @@ for col in cat_cols2:
 all_weeks['OnBase'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['H']
 all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['AB']
 
+if int(all_weeks['OnBase'])/int(all_weeks['PA']) - all_weeks['OBP'] < -.001:
+    all_weeks['test'] = "yes"
+else: all_weeks['test'] = "no"
+
 st.write(all_weeks)
 
 '''
