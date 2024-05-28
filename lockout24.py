@@ -251,6 +251,17 @@ all_weeks['diff']  = all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP']
 
 all_weeks['test'] = all_weeks.apply(lambda x: "yes" if x['diff'] < -.0005 else "no", axis=1) 
 
+
+for row in all_weeks.index:
+    diff = all_weeks.at[row, 'diff']
+    ob = all_weeks.at[row, 'OnBase']
+    pa = all_weeks.at[row, 'PA']
+    if diff:
+        while diff < 0:
+            all_weeks.at[row, 'OnBase'] = ob + 1
+            all_weeks.at[row, 'PA'] = pa + 2
+            all_weeks.at[row, 'diff'] = all_weeks.at[row, 'OnBase']/all_weeks.at[row, 'PA']
+
 st.write(all_weeks)
 
 '''
