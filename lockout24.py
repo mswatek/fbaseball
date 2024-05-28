@@ -215,12 +215,6 @@ all_weeks.drop(['roster_id_x', 'roster_id_y',
 
 all_weeks[['H', 'AB']] = all_weeks['H/AB'].str.split('/', expand=True)
 
-all_weeks['OnBase'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['H']
-all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['AB']
-
-st.write(all_weeks)
-
-'''
 
 ##### FIX PITCHING CATEGORIES #####
 ##### FIX PITCHING CATEGORIES #####
@@ -244,6 +238,14 @@ for col in cat_cols:
 
 for col in cat_cols2:
     all_weeks[col] = all_weeks[col].astype('string')
+
+
+all_weeks['OnBase'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['H']
+all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['AB']
+
+st.write(all_weeks)
+
+'''
 
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
