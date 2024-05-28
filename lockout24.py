@@ -247,7 +247,7 @@ all_weeks['OnBase'] = all_weeks['OnBase'].astype(int)
 all_weeks['PA'] = all_weeks['PA'].astype(int)
 
 
-if int(all_weeks['OnBase'])/int(all_weeks['PA']) - all_weeks['OBP'] < -.001:
+if all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP'] < -.001:
     all_weeks['test'] = "yes"
 else: all_weeks['test'] = "no"
 
