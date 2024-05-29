@@ -514,7 +514,7 @@ with tab4:
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
    strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
    st.plotly_chart(strength_bar, theme=None,use_container_width=True)
-   strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team",points="all",box=False).update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
+   strength_box = px.strip(strength_df, x="Team", y="% Difference",color="Team").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    st.plotly_chart(strength_box, theme=None,use_container_width=True)
 
 with tab5:
