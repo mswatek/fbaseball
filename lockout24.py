@@ -227,8 +227,6 @@ all_weeks['IP_New'] = all_weeks['IP_DECIMAL'] + all_weeks['IP_FULL']
 all_weeks['Earned_Runs'] = all_weeks['ERA']*all_weeks['IP_New']/9
 all_weeks['Walk_Hits'] = all_weeks['WHIP']*all_weeks['IP_New']
 
-st.write(all_weeks)
-'''
 
 ##### CHANGE VARIABLE FORMATS #####
 ##### CHANGE VARIABLE FORMATS #####
@@ -263,7 +261,8 @@ def transform_func(row):
 
 all_weeks.apply(transform_func, axis=1)
 
-
+st.write(all_weeks)
+'''
 
 
 def process_row(r):
