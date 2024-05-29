@@ -176,7 +176,7 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
     
 all_weeks=pd.DataFrame()
 #for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
-for i in range(0,3): #need to automate which week it is. don't pull new week until friday maybe?
+for i in range(0,8): #need to automate which week it is. don't pull new week until friday maybe?
     week = league.weeks()[i]
     df = pd.DataFrame({'Team':[],'Opponent':[], 'cat':[], 'stat':[]})
     df2 = pd.DataFrame({'Team':[], 'Opponent':[],'cat':[], 'stat':[]})
