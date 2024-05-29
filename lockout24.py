@@ -472,7 +472,7 @@ with tab1:
               ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
                  ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
    line = st.selectbox("Choose Metric:", ['Cumulative_Total','Cumulative_Total3'])
-   cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team',title="Cumulative Roto Standings").update_xaxes(type='category')
+   cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team', symbol='Team',title="Cumulative Roto Standings").update_xaxes(type='category')
    st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
    
 
@@ -481,7 +481,7 @@ with tab2:
    st.write("Click on each stat category to see how your team has progressed in each category over the season. Below the chart is a list of the 10 best weeks for each category."
             ," Note: I took out Weeks 1 and 15 for all counting stats since it was longer than the typical week.")
    line2 = st.selectbox("Choose Metric:", ['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
-   cumulative_cats = px.line(cumulative_cats_df, x="Week", y=line2, markers=True, color='Team',title="Avg Cats by Week").update_xaxes(type='category')
+   cumulative_cats = px.line(cumulative_cats_df, x="Week", y=line2, markers=True, color='Team', symbol='Team',title="Avg Cats by Week").update_xaxes(type='category')
    st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
    if line2 in ['ERA','WHIP']: top_cats_df2 = top_cats_df.sort_values(line2,ascending = True).head(10)
    else: top_cats_df2 = top_cats_df.sort_values(line2,ascending = False).head(10)
@@ -493,7 +493,7 @@ with tab3:
    st.header("As Luck Would Have It")
    st.dataframe(lucky_weeks,hide_index=True,use_container_width=True)
    st.dataframe(unlucky_weeks,hide_index=True,use_container_width=True)
-   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_Cumulative", markers=True, color='Team',title="Difference In Wins (Actual-Expected)").update_xaxes(type='category')
+   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_Cumulative", markers=True, color='Team', symbol='Team',title="Difference In Wins (Actual-Expected)").update_xaxes(type='category')
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
 with tab4:
