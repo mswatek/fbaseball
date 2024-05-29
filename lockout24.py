@@ -254,6 +254,17 @@ all_weeks['diff']  = all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP']
 all_weeks['test'] = all_weeks.apply(lambda x: "yes" if x['diff'] < -.0005 else "no", axis=1) 
 
 
+def transform_func(row):
+    a = row.OnBase; b = row.PA; c = row.diff;
+    return pd.Series([ a + b, c + 10], index=['new_A', 'new_B'])
+
+
+all_weeks.apply(transform_func, axis=1)
+
+st.write(all_weeks)
+'''
+
+
 for row in all_weeks.index:
     diff = all_weeks.at[row, 'diff']
     ob = all_weeks.at[row, 'OnBase']
@@ -262,10 +273,6 @@ for row in all_weeks.index:
         #all_weeks.at[row, 'OnBase'] = ob + 500
         #all_weeks.at[row, 'PA'] = pa + 2
         all_weeks.at[row, 'diff'] = (all_weeks.at[row, 'OnBase']/all_weeks.at[row, 'PA'])-all_weeks.at[row, 'OBP']
-
-
-st.write(all_weeks)
-'''
 
 if all_weeks['diff'] < -.005:
     all_weeks['test'] = "yes"
@@ -283,12 +290,7 @@ def process_row(r):
 
 all_weeks["New_diff"] = all_weeks.apply(processrow, axis=1)
 
-def transform_func(row):
-    a = row.OnBase; b = row.PA; c = row.diff;
-    return pd.Series([ a + b, c + 10], index=['new_A', 'new_B'])
 
-
-all_weeks.apply(transform_func, axis=1)
 
 
 
