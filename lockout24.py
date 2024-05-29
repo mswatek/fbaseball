@@ -242,60 +242,6 @@ for col in cat_cols2:
     all_weeks[col] = all_weeks[col].astype('string')
 
 
-all_weeks['OnBase'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['H']
-all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['AB']
-
-all_weeks['OnBase'] = all_weeks['OnBase'].astype(int)
-all_weeks['PA'] = all_weeks['PA'].astype(int)
-
-all_weeks['diff']  = all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP']
-
-
-all_weeks['test'] = all_weeks.apply(lambda x: "yes" if x['diff'] < -.0005 else "no", axis=1) 
-
-
-def transform_func(row):
-    a = row.OnBase; b = row.PA; c = row.diff;
-    return pd.Series([ a + b, c + 10], index=['new_A', 'new_B'])
-
-
-all_weeks.apply(transform_func, axis=1)
-
-st.write(all_weeks)
-'''
-
-
-for row in all_weeks.index:
-    diff = all_weeks.at[row, 'diff']
-    ob = all_weeks.at[row, 'OnBase']
-    pa = all_weeks.at[row, 'PA']
-    while diff < 0:
-        #all_weeks.at[row, 'OnBase'] = ob + 500
-        #all_weeks.at[row, 'PA'] = pa + 2
-        all_weeks.at[row, 'diff'] = (all_weeks.at[row, 'OnBase']/all_weeks.at[row, 'PA'])-all_weeks.at[row, 'OBP']
-
-if all_weeks['diff'] < -.005:
-    all_weeks['test'] = "yes"
-else: all_weeks['test'] = "no"
-
-
-def process_row(r):
-    diff = all_weeks.at[row, 'diff']
-    ob = all_weeks.at[row, 'OnBase']
-    pa = all_weeks.at[row, 'PA']
-    while diff < 0:
-        diff  = diff +300
-    return diff
-
-
-all_weeks["New_diff"] = all_weeks.apply(processrow, axis=1)
-
-
-
-
-
-
-
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
@@ -568,7 +514,7 @@ with tab4:
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
    strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
    st.plotly_chart(strength_bar, theme=None,use_container_width=True)
-   strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
+   strength_box = px.box(strength_df, x="Team", y="% Difference",color="Team",points="all",box=False).update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    st.plotly_chart(strength_box, theme=None,use_container_width=True)
 
 with tab5:
@@ -578,4 +524,3 @@ with tab5:
    st.plotly_chart(team_player_tree,use_container_width=True)
 
 
-'''
