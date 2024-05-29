@@ -251,19 +251,32 @@ all_weeks['diff']  = all_weeks['OnBase']/all_weeks['PA'] - all_weeks['OBP']
 
 all_weeks['test'] = all_weeks.apply(lambda x: "yes" if x['diff'] < -.0005 else "no", axis=1) 
 
+def process_row(r):
+    diff = all_weeks.at[row, 'diff']
+    ob = all_weeks.at[row, 'OnBase']
+    pa = all_weeks.at[row, 'PA']
+    while diff < 0:
+        diff  = diff +300
+    return diff
+
+
+all_weeks["New_diff"] = all_weeks.apply(processrow, axis=1)
+
+
+st.write(all_weeks)
+'''
+
 
 for row in all_weeks.index:
     diff = all_weeks.at[row, 'diff']
     ob = all_weeks.at[row, 'OnBase']
     pa = all_weeks.at[row, 'PA']
-    while diff < 1:
-        all_weeks.at[row, 'OnBase'] = ob + 500
+    while diff < 0:
+        #all_weeks.at[row, 'OnBase'] = ob + 500
         #all_weeks.at[row, 'PA'] = pa + 2
         all_weeks.at[row, 'diff'] = (all_weeks.at[row, 'OnBase']/all_weeks.at[row, 'PA'])-all_weeks.at[row, 'OBP']
 
-st.write(all_weeks)
 
-'''
 
 if all_weeks['diff'] < -.005:
     all_weeks['test'] = "yes"
