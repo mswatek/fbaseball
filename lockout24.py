@@ -257,6 +257,15 @@ for index, row in all_weeks.iterrows():
         all_weeks.at[index,'OBP_New'] = all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA']
 
 
+ols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H','Week_Expected','Overall_Wins']
+best_weeks = all_weeks[cols]
+
+test = all_weeks[['Week','Team','H','AB','OBP','OnBase','PA','OBP_New']]
+st.write(test)
+
+'''
+
+
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
@@ -543,3 +552,4 @@ with tab5:
    st.plotly_chart(position_tree)
    st.plotly_chart(team_player_tree,use_container_width=True)
 
+'''
