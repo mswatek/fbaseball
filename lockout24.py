@@ -240,6 +240,9 @@ for col in cat_cols:
 for col in cat_cols2:
     all_weeks[col] = all_weeks[col].astype('string')
 
+##### CREATE OBP VARIABLES #####
+##### CREATE OBP VARIABLES #####
+##### CREATE OBP VARIABLES #####
 
 all_weeks['OnBase'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['H']
 all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['AB']
@@ -471,7 +474,7 @@ scatter_current = scatter_current[cols]
 scatter_current = pd.merge(scatter_current, manager_df, left_on='Team', right_on='Manager', how='left')
 
 
-scatter_plot = px.scatter(scatter_current, x="AB_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
+scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
                  size='Count',text='Team').update_layout(title="League Landscape")
 
 
