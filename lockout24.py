@@ -242,6 +242,23 @@ for col in cat_cols2:
     all_weeks[col] = all_weeks[col].astype('string')
 
 
+all_weeks['OnBase'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['H']
+all_weeks['PA'] = (all_weeks['OBP']*all_weeks['AB']-all_weeks['H'])/(1-all_weeks['OBP'])+all_weeks['AB']
+
+all_weeks['OnBase'] = all_weeks['OnBase'].astype(int)
+all_weeks['PA'] = all_weeks['PA'].astype(int)
+
+for index, row in all_weeks.iterrows():
+    while all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA'] < all_weeks.at[index,'OBP']:
+        all_weeks.at[index,'OnBase'] = all_weeks.at[index,'OnBase']+1
+        all_weeks.at[index,'PA'] = all_weeks.at[index,'PA']+2
+        all_weeks.at[index,'OBP_New'] = all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA']
+
+st.write(all_weeks)
+
+'''
+
+
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
@@ -524,3 +541,4 @@ with tab5:
    st.plotly_chart(team_player_tree,use_container_width=True)
 
 
+'''
