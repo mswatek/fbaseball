@@ -258,12 +258,6 @@ for index, row in all_weeks.iterrows():
 
 
 
-test = all_weeks[['Week','Team','H','AB','OBP','OnBase','PA','OBP_New']]
-st.write(test)
-
-'''
-
-
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
@@ -550,4 +544,3 @@ with tab5:
    st.plotly_chart(position_tree)
    st.plotly_chart(team_player_tree,use_container_width=True)
 
-'''
