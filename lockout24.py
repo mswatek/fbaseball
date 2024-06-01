@@ -60,7 +60,7 @@ elif now > '2024-04-14': currentweek=3
 elif now > '2024-04-07': currentweek=2
 else: currentweek=1
 
-if dow>1: theweek = currentweek
+if dow>2: theweek = currentweek
 else: theweek=currentweek-1
 
 
@@ -175,8 +175,7 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
 ##### BRING IN ALL WEEKS #####
     
 all_weeks=pd.DataFrame()
-#for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
-for i in range(0,8): #need to automate which week it is. don't pull new week until friday maybe?
+for i in range(0,theweek): #need to automate which week it is. don't pull new week until friday maybe?
     week = league.weeks()[i]
     df = pd.DataFrame({'Team':[],'Opponent':[], 'cat':[], 'stat':[]})
     df2 = pd.DataFrame({'Team':[], 'Opponent':[],'cat':[], 'stat':[]})
@@ -254,10 +253,6 @@ for index, row in all_weeks.iterrows():
         all_weeks.at[index,'PA'] = all_weeks.at[index,'PA']+2
         all_weeks.at[index,'OBP_New'] = all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA']
 
-st.write(all_weeks)
-
-'''
-
 
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
@@ -275,7 +270,7 @@ def scores(df):
 
     df = df.merge(total_1, left_index=True, right_on='index')
 
-    cols = ['Week','Team','Opponent','Matchup','H','AB','R','HR','RBI','SB','OBP','K','QS','SV+H','ERA','WHIP','IP','IP_New','Earned_Runs','Walk_Hits','Wins']
+    cols = ['Week','Team','Opponent','Matchup','H','OnBase','PA','AB','R','HR','RBI','SB','OBP','K','QS','SV+H','ERA','WHIP','IP','IP_New','Earned_Runs','Walk_Hits','Wins']
     df = df[cols]
 
     return df
@@ -305,7 +300,7 @@ all_weeks = all_weeks.sort_values(['Week', 'Team'], ascending=[True, True])
 
 nonweek1 = all_weeks[all_weeks["Week"] > 1]
 
-cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Opponent','ERA','WHIP']]
+cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Opponent','ERA','WHIP','OBP']]
 cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'Team','Opponent']]
     
 for col in cat_cols:
@@ -323,6 +318,11 @@ all_weeks['WHIP_Cumulative'] = all_weeks['Walk_Hits_Cumulative']/all_weeks['IP_N
 all_weeks['WHIP_avg'] = all_weeks['Walk_Hits_avg']/all_weeks['IP_New_avg']
 all_weeks['WHIP_avg3'] = all_weeks['Walk_Hits_avg3']/all_weeks['IP_New_avg3']
 all_weeks['WHIP_avg_reg'] = all_weeks['Walk_Hits_avg_reg']/all_weeks['IP_New_avg_reg']
+
+all_weeks['OBP_Cumulative'] = all_weeks['OnBase_Cumulative']/all_weeks['PA_Cumulative']
+all_weeks['OBP_avg'] = all_weeks['OnBase_avg']/all_weeks['PA_avg']
+all_weeks['OBP_avg3'] = all_weeks['OnBase_avg3']/all_weeks['PA_avg3']
+all_weeks['OBP_avg_reg'] = all_weeks['OnBase_avg_reg']/all_weeks['PA_avg_reg']
 
 ##### WEEKLY RANKS #####
 ##### WEEKLY RANKS #####
@@ -465,7 +465,7 @@ scatter_current = all_weeks.loc[all_weeks['Week'] == maxweek]
 
 
 
-cols = ['Team','Wins_Cumulative','AB_Cumulative','IP_New_Cumulative']
+cols = ['Team','Wins_Cumulative','PA_Cumulative','IP_New_Cumulative']
 scatter_current = scatter_current[cols]
 
 scatter_current = pd.merge(scatter_current, manager_df, left_on='Team', right_on='Manager', how='left')
@@ -540,5 +540,3 @@ with tab5:
    st.plotly_chart(position_tree)
    st.plotly_chart(team_player_tree,use_container_width=True)
 
-
-'''
