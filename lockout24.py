@@ -251,7 +251,7 @@ all_weeks['OnBase'] = all_weeks['OnBase'].astype(int)
 all_weeks['PA'] = all_weeks['PA'].astype(int)
 
 for index, row in all_weeks.iterrows():
-    while abs(all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA'] - all_weeks.at[index,'OBP']) >0.0005:
+    while not (abs(all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA'] - all_weeks.at[index,'OBP']) <0.0005 or all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA'] - all_weeks.at[index,'OBP'] >0):
         all_weeks.at[index,'OnBase'] = all_weeks.at[index,'OnBase']+1
         all_weeks.at[index,'PA'] = all_weeks.at[index,'PA']+2
         all_weeks.at[index,'OBP_New'] = all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA']
