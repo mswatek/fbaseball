@@ -479,7 +479,7 @@ med_pa = scatter_current["PA_Cumulative"].median()
 med_ip = scatter_current["IP_New_Cumulative"].median()
 
 scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
-                 size='Count',text='Team').add_hline(y=med_ip).add_vline(y=med_pa).update_layout(title="League Landscape")
+                 size='Count',text='Team').add_hline(y=med_ip).add_vline(x=med_pa).update_layout(title="League Landscape")
 
 
 ############################################################################################################
