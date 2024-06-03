@@ -479,7 +479,7 @@ med_pa = scatter_current["PA_Cumulative"].median()
 med_ip = scatter_current["IP_New_Cumulative"].median()
 
 scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
-                 size='Count',text='Team').update_layout(title="League Landscape").add_hline(y=med_ip).add_vline(y=med_pa)
+                 size='Count',text='Team').add_hline(y=med_ip).add_vline(y=med_pa).update_layout(title="League Landscape")
 
 
 ############################################################################################################
@@ -529,8 +529,8 @@ with tab4:
    cumrank_radar = cumrank_radar[cumrank_radar['Team']==line3]
    fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
    team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (reduced_weeks['Week']>1)]
-   indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(1)
-   indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(1)
+   indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(2)
+   indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(2)
    strength_indi = strength_df[strength_df['Team']==line3]
    st.write(fig)
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
