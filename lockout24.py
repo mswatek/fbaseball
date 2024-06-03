@@ -11,21 +11,22 @@ import seaborn as sns
 ###### to-do list! #####
 ###### to-do list! #####
 ###### to-do list! #####
-#scatterplot of moves, games played and innings pitched (refer to previous league reports)
-#transactions counter - by position, player names, teams, managers; create tree plots; format date and do a time series chart by day of season
+#transactions counter - clean up the table; format date and do a time series chart by day of season
+#initial table - games back, difference in wins expected, counts of lucky and unlucky weeks (threshold of 1.5 runs?),IP,PA,Pickups
+#luck charts/tables - downgrade them a bit - maybe take off 33%?
+
+#explore individual player data - are players tied to manager team somehow?
 #can I incorporate elo rating somehow?
 
 #should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
 #other cool stuff to add would be the all-time trade history and a map of where everyone lives
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 
-#figure out how to do info button or hover over so that the text doesn't overwhelm on mobile view...st.info ?
-#how do I get games played? Once I do, can do scatterplot of games played, innings pitched, transactions, and wins
 #other individual manager stuff?
-#add text
-#make charts nicer
+#add text/comments
+#figure out how to do info button or hover over so that the text doesn't overwhelm on mobile view...st.info ?
+#make charts nicer (clean up axis labels)
 #format numbers so they look nicer in the tables
-#add more comments throughout
 #just in general, is there a way to make the interactive charts update faster?
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
@@ -256,6 +257,7 @@ for index, row in all_weeks.iterrows():
         all_weeks.at[index,'PA'] = all_weeks.at[index,'PA']+2
         all_weeks.at[index,'OBP_New'] = all_weeks.at[index,'OnBase']/all_weeks.at[index,'PA']
 
+st.write(all_weeks[['Week','Team','OnBase','PA']])
 
 ##### Create Actual Wins Variable #####
 ##### Create Actual Wins Variable #####
@@ -473,9 +475,11 @@ scatter_current = scatter_current[cols]
 
 scatter_current = pd.merge(scatter_current, manager_df, left_on='Team', right_on='Manager', how='left')
 
+med_pa = scatter_current["PA_Cumulative"].median()
+med_ip = scatter_current["IP_New_Cumulative"].median()
 
 scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
-                 size='Count',text='Team').update_layout(title="League Landscape")
+                 size='Count',text='Team').update_layout(title="League Landscape").add_hline(y=med_ip).add_vline(y=med_pa)
 
 
 ############################################################################################################
@@ -542,4 +546,3 @@ with tab5:
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.plotly_chart(position_tree)
    st.plotly_chart(team_player_tree,use_container_width=True)
-
