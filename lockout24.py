@@ -161,6 +161,7 @@ daily_df = (daily_df.set_index('Day')
       .rename_axis(['Day'])
       .fillna(0)
       .reset_index())
+daily_df['Rolling'] = daily_df.groupby('Day')['Count'].transform(lambda x: x.rolling(3, 1).mean())
 
 day_order = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday']
 
@@ -190,10 +191,9 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
                   color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
 
 
-trans_line = px.line(daily_df, x="Day", y="Count", markers=True,title="Transactions by Day")
+trans_line = px.bar(daily_df, x="Day", y="Count", markers=True,title="Transactions by Day").add_traces(px.line(daily_df, x="Day", y="Rolling"))
 
 dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transactions by Day of Week") 
-
 
 
 ##### BRING IN ALL WEEKS #####
