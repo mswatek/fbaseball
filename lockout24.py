@@ -191,7 +191,7 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
                   color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
 
 
-trans_line = px.bar(daily_df, x="Day", y="Count", markers=True,title="Transactions by Day").add_traces(px.line(daily_df, x="Day", y="Rolling"))
+trans_line = px.bar(daily_df, x="Day", y="Count",title="Transactions by Day").add_traces(px.line(daily_df, x="Day", y="Rolling",markers=True))
 
 dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transactions by Day of Week") 
 
