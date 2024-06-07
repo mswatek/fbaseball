@@ -432,8 +432,8 @@ strength_df = strength_df[['Opponent', 'Team','Week','Week_Expected','Avg_Wins',
 strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent','Week_Expected':'Opponent_Expected','Avg_Wins':'Opponent_Avg'},inplace=True)
 
 strength_cats = strength_df
-conditions = [strength_cats['% Difference'] >.5,strength_cats['% Difference'] >0,strength_cats['% Difference'] <-.5,strength_cats['% Difference']<0]
-choices = ['Really Lucky', 'Slightly Lucky', 'Really Unlucky', 'Slightly']
+conditions = [strength_cats['% Difference'] >.5,strength_cats['% Difference'] >.2,strength_cats['% Difference'] <-.5,strength_cats['% Difference']<-.2,strength_cats['% Difference']>0,strength_cats['% Difference']<0]
+choices = ['Opponent Way Outperformed', 'Opponent Slightly Outperformed', 'Opponent Really Sucked', 'Opponent Was A Bit Worse','Average Opponent Performance','Average Opponent Performance']
 strength_cats['Category'] = np.select(conditions, choices, default='black')
 strength_cats= strength_cats.groupby(['Team','Category'])['Category'].agg('count').reset_index(name='Count')
 
