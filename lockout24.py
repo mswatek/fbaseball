@@ -150,11 +150,12 @@ for transaction in league.transactions():
 all_transactions = all_transactions[all_transactions["Player"] != 1]
 
 all_transactions['Time'] = pd.to_datetime(all_transactions['Time'], unit='s', utc=True).map(lambda x: x.tz_convert('US/Pacific'))
+all_transactions['Day'] = all_transactions['Time'].dt.date
 all_transactions['DOW'] = all_transactions['Time'].dt.day_name()
 
 
 # creating transaction tables
-daily_df = all_transactions.groupby(['Time'])['Manager'].agg('count').reset_index(name='Count')
+daily_df = all_transactions.groupby(['Day'])['Manager'].agg('count').reset_index(name='Count')
 dow_df = all_transactions.groupby(['DOW'])['Manager'].agg('count').reset_index(name='Count')
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index(name='Count')
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index(name='Count')
