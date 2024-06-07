@@ -152,7 +152,7 @@ all_transactions = all_transactions[all_transactions["Player"] != 1]
 all_transactions['Time'] = pd.to_datetime(all_transactions['Time'], unit='s', utc=True).map(lambda x: x.tz_convert('US/Pacific'))
 all_transactions['Day'] = all_transactions['Time'].dt.date
 all_transactions['DOW'] = all_transactions['Time'].dt.day_name()
-all_transactions['Position2'] = np.where(all_transactions['DOW'].isin(['SP','RP']), "Pitcher", "Hitter")
+all_transactions['Position2'] = np.where(all_transactions['Position'].isin(['SP','RP']), "Pitcher", "Hitter")
 
 # creating transaction tables
 daily_df = all_transactions.groupby(['Day'])['Manager'].agg('count').reset_index(name='Count')
