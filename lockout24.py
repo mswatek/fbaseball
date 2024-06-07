@@ -434,10 +434,10 @@ strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent','Week_Expected'
 
 strength_cats = strength_df
 conditions = [strength_cats['% Difference'] >.3,strength_cats['% Difference'] >.15,strength_cats['% Difference'] <-.3,strength_cats['% Difference']<-.15,strength_cats['% Difference']>0,strength_cats['% Difference']<0]
-choices = ['Way Overperformed (30% better)', 'Slightly Overperformed', 'Really Sucked (30% worse)', 'Was A Bit Worse','Was Average (within 15%)','Was Average (within 15%)']
+choices = ['Way Overperformed (30% better)', 'Slightly Overperformed', 'Way Underperformed (30% worse)', 'Was A Bit Worse','Was Average (within 15%)','Was Average (within 15%)']
 strength_cats['Opponent...'] = np.select(conditions, choices, default='black')
 strength_cats= strength_cats.groupby(['Team','Opponent...'])['Opponent...'].agg('count').reset_index(name='Count')
-cat_order = ['Really Sucked (30% worse)', 'Was A Bit Worse', 'Was Average (within 15%)', 'Slightly Overperformed','Way Overperformed (30% better)']
+cat_order = ['Way Underperformed (30% worse)', 'Was A Bit Worse', 'Was Average (within 15%)', 'Slightly Overperformed','Way Overperformed (30% better)']
 strength_cats = strength_cats.set_index('Opponent...').loc[cat_order].reset_index()
 
 strength_overall = strength_df.groupby('Team').agg(DiffSum=('Difference', 'sum'),PercentDiff=('% Difference', 'mean')).reset_index()
@@ -527,41 +527,44 @@ scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulati
 ############################################################################################################
 
 with tab1:
-   st.header("Overall League Trends")
+   st.write("Welcome to the new and improved(?) league report! This is a live document that will update as the real games take place. Let me know what you think, and feel free to make suggestions of things you'd like to see!")
+   st.divider()
+   st.write("This table shows the current standings, the roto standings, and the roto standings over the past 3 weeks.")
    st.dataframe(standings_current.style.format({'Wins_Cumulative': "{:.1f}",'Cumulative_Total': "{:.1f}",'Cumulative_Total3': "{:.1f}"}).\
                 background_gradient(cmap=cm_power, subset=['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']),hide_index=True,use_container_width=True)
+   st.write("There are many ways to win in this league. The scatterplot below shows how each team stacks up in innings pitched, plate appearances, and transactions.")
    st.plotly_chart(scatter_plot, theme=None,use_container_width=True)
-
-   st.write("These charts show the standings for if we were in a roto league, where each team is ranked by how well they did in each stat category (10 points for 1st place, 1 for last)."\
-              ," The 3-Week Moving Average chart makes it easier to see which teams have been playing well lately. Brett B might be peaking at the right time, according to this chart."\
-                 ," The below charts are interactive, so you can hover over the points on each team’s line to see how they progressed in the standings.")
+   st.write("Use the dropdown menu below to see the league standings if this were a roto league as well as the 3-week roto standings. What stands out?")
    line = st.selectbox("Choose Metric:", ['Cumulative_Total','Cumulative_Total3'])
    cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24,title="Cumulative Roto Standings").update_xaxes(type='category')
    st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
    
 
 with tab2:
-   st.header("Best Weeks")
-   st.write("Click on each stat category to see how your team has progressed in each category over the season. Below the chart is a list of the 10 best weeks for each category."
-            ," Note: I took out Weeks 1 and 15 for all counting stats since it was longer than the typical week.")
+   st.write("Here are the best individual weeks of the season based on Overall_Wins. To derive Overall_Wins, I looked at how each stat compared to all other weeks of the season and then figured out how often that would have generated a win.")
+   st.dataframe(best_weeks,hide_index=True,use_container_width=True)
+   st.write("Use the dropdown below to see how everyone has trended across each stat over the season. The table underneath will udpate to show the ten best weeks for the stat selected.")
    line2 = st.selectbox("Choose Metric:", ['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
-   cumulative_cats = px.line(cumulative_cats_df, x="Week", y=line2, markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24,title="Avg Cats by Week").update_xaxes(type='category')
+   cumulative_cats = px.line(cumulative_cats_df, x="Week", y=line2, markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24).update_xaxes(type='category')
+    .update_layout(title="Average "+line2+" by Week")
    st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
    if line2 in ['ERA','WHIP']: top_cats_df2 = top_cats_df.sort_values(line2,ascending = True).head(10)
    else: top_cats_df2 = top_cats_df.sort_values(line2,ascending = False).head(10)
    st.dataframe(top_cats_df2,hide_index=True,use_container_width=True)
-   st.write("Here are the best individual weeks of the season.")
-   st.dataframe(best_weeks,hide_index=True,use_container_width=True)
+   
 
 with tab3:
-   st.header("As Luck Would Have It")
+   st.write("This tab shows my ongoing attempt at quantifying luck in fantasy baseball. I compare each team to everyone else every week and use roto rankings to estimate expected wins (Week_Expected).")
+   st.divider()
+   st.write("This table shows the luckiest weeks this season based on the difference in a team's actual wins that week (Wins) and Week_Expected.")
    st.dataframe(lucky_weeks,hide_index=True,use_container_width=True)
+   st.write("This table shows the unluckiest weeks, where good weeks went up against great ones.")
    st.dataframe(unlucky_weeks,hide_index=True,use_container_width=True)
    cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_Cumulative", markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24,title="Difference In Wins (Actual-Expected)").update_xaxes(type='category')
+   st.write("I've added up Week_Expected over the course of the season to get the cumulative effect. Obviously, managers do different things based on their current opponent, but I think this makes sense at least directionally.")
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
 with tab4:
-   st.header("Individual Teams")
    st.write("Use the dropdown menu to view stats for each team.")
    line3 = st.selectbox("Choose Team:", team_list)
    maxweek = cumrank_df['Week'].max()
@@ -573,7 +576,7 @@ with tab4:
    indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(2)
    indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(2)
    strength_indi = strength_df[strength_df['Team']==line3]
-   st.write("Radar charts are back by popular demand! Figure out where your team struggles and try to make some moves!")
+   st.write("Radar charts are back by popular demand(?) Figure out where your team struggles and try to make some moves!")
    st.write(fig)
    st.write("These are the best weeks for {team} as defined by Overall_Wins.".format(team=line3))
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
@@ -590,7 +593,6 @@ with tab4:
    st.plotly_chart(strength_bar, theme=None,use_container_width=True)
 
 with tab5:
-   st.header("Transactions")
    st.write("This chart shows the number of league-wide transactions per day along with a 7-day rolling average.")
    st.plotly_chart(trans_line)
    st.write("Unsurprisingly, the first and last days of the week have the most adds.")
