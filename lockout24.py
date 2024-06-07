@@ -387,7 +387,7 @@ all_weeks['Overall_Total']=all_weeks.loc[:,totalrank_list].sum(axis=1)
 maxweek = all_weeks['Week'].max()
 all_weeks['Overall_Wins'] = (all_weeks['Overall_Total']-10)/((maxweek-1)*120-10)*10
 
-all_weeks['Wins_Diff'] = all_weeks['Wins'] - all_weeks['Week_Expected']
+all_weeks['Wins_Diff'] = (all_weeks['Wins'] - all_weeks['Week_Expected']) *0.67 #multiply by 2/3 to reflect managers doing things differently in different matchups
 all_weeks['Wins_Diff_Cumulative'] = all_weeks.groupby('Team')['Wins_Diff'].cumsum()
 
 
