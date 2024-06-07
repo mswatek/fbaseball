@@ -202,8 +202,10 @@ dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transaction
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
 
-all_weeks=pd.DataFrame()
-for i in range(0,theweek):
+@st.cache_data
+def load_data():
+    all_weeks=pd.DataFrame()
+    for i in range(0,theweek):
         week = league.weeks()[i]
         df = pd.DataFrame({'Team':[],'Opponent':[], 'cat':[], 'stat':[]})
         df2 = pd.DataFrame({'Team':[], 'Opponent':[],'cat':[], 'stat':[]})
@@ -217,6 +219,10 @@ for i in range(0,theweek):
         df_wide['Week'] = i+1
         frames= [all_weeks,df_wide]
         all_weeks = pd.concat(frames)
+
+    return all_weeks
+
+all_weeks = load_data()
 
 all_weeks=all_weeks.reset_index()
 
