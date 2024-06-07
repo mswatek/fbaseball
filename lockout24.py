@@ -162,7 +162,7 @@ daily_df = (daily_df.set_index('Day')
       .fillna(0)
       .reset_index())
 
-day_order = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']
+day_order = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday']
 
 dow_df = all_transactions.groupby(['DOW'])['Manager'].agg('count').reset_index(name='Count')
 dow_df = dow_df.set_index('DOW').loc[day_order].reset_index()
