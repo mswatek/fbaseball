@@ -232,6 +232,7 @@ all_weeks=all_weeks.reset_index()
 ##### Create Matchup Variable #####
 
 team_list = all_weeks['Team'].tolist()
+team_list = list(set(team_list))
 id_list = [1,2,4,8,16,32,64,128,256,512,1024,2048] ##creating unique IDs that are unique no matter the combination of adding two together
 
 teams_df = pd.DataFrame(list(zip(team_list, id_list)), columns = ['Name', 'roster_id'])
