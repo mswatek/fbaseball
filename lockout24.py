@@ -178,8 +178,6 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
 
 @st.cache_data
 def load_data():
-
-    df = load_excel_sheet()
     all_weeks=pd.DataFrame()
     for i in range(0,theweek):
         week = league.weeks()[i]
