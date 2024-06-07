@@ -161,7 +161,7 @@ daily_df = (daily_df.set_index('Day')
       .rename_axis(['Day'])
       .fillna(0)
       .reset_index())
-daily_df['Rolling'] = daily_df.groupby('Day')['Count'].transform(lambda x: x.rolling(3, 1).mean())
+daily_df['Rolling'] = daily_df['Count'].rolling(3).mean()
 
 day_order = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday']
 
