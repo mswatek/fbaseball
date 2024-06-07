@@ -154,10 +154,13 @@ all_transactions['Day'] = all_transactions['Time'].dt.date
 all_transactions['DOW'] = all_transactions['Time'].dt.day_name()
 all_transactions['Position2'] = np.where(all_transactions['Position'].isin(['SP','RP']), "Pitcher", "Hitter")
 
+all_transactions = all_transactions[(all_transactions['Day'] > "2024-03-28")] ##take out first waiver day of the year; skews numbers too much
+
+
 # creating transaction tables
 daily_df = all_transactions.groupby(['Day'])['Manager'].agg('count').reset_index(name='Count')
 daily_df = (daily_df.set_index('Day')
-      .reindex(pd.date_range('2024-03-28', now))
+      .reindex(pd.date_range('2024-03-29', now)) #take out the first day of the season - it skews the numbers!
       .rename_axis(['Day'])
       .fillna(0)
       .reset_index())
