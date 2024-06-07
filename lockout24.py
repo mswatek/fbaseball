@@ -433,10 +433,10 @@ strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent','Week_Expected'
 
 strength_cats = strength_df
 conditions = [strength_cats['% Difference'] >.5,strength_cats['% Difference'] >.15,strength_cats['% Difference'] <-.5,strength_cats['% Difference']<-.15,strength_cats['% Difference']>0,strength_cats['% Difference']<0]
-choices = ['Way Overperformed', 'Slightly Overperformed', 'Really Sucked', 'Was A Bit Worse','Was Average','Was Average']
+choices = ['Way Overperformed (50% better)', 'Slightly Overperformed', 'Really Sucked (50% worse)', 'Was A Bit Worse','Was Average (within 15%)','Was Average (within 15%)']
 strength_cats['Opponent...'] = np.select(conditions, choices, default='black')
 strength_cats= strength_cats.groupby(['Team','Opponent...'])['Opponent...'].agg('count').reset_index(name='Count')
-cat_order = ['Really Sucked', 'Was A Bit Worse', 'Was Average', 'Slightly Overperformed','Way Overperformed']
+cat_order = ['Really Sucked (50% worse)', 'Was A Bit Worse', 'Was Average (within 15%)', 'Slightly Overperformed','Way Overperformed (50% better)']
 strength_cats = strength_cats.set_index('Opponent...').loc[cat_order].reset_index()
 
 strength_overall = strength_df.groupby('Team').agg(DiffSum=('Difference', 'sum'),PercentDiff=('% Difference', 'mean')).reset_index()
@@ -577,8 +577,8 @@ with tab4:
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
    #strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
    #st.plotly_chart(strength_bar, theme=None,use_container_width=True)
-   strength_box = px.violin(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
-   st.plotly_chart(strength_box, theme=None,use_container_width=True)
+   #strength_box = px.violin(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
+   #st.plotly_chart(strength_box, theme=None,use_container_width=True)
    strength_bar = px.bar(strength_cats, x="Team", y="Count",color="Opponent...",title="Opponent Performance By Week")
    st.plotly_chart(strength_bar, theme=None,use_container_width=True)
 
