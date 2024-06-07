@@ -176,21 +176,30 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
 ##### BRING IN ALL WEEKS #####
 ##### BRING IN ALL WEEKS #####
 
-all_weeks=pd.DataFrame()
-for i in range(0,theweek):
-    week = league.weeks()[i]
-    df = pd.DataFrame({'Team':[],'Opponent':[], 'cat':[], 'stat':[]})
-    df2 = pd.DataFrame({'Team':[], 'Opponent':[],'cat':[], 'stat':[]})
-    for matchup in week.matchups:
-        for team1_stat, team2_stat in zip(matchup.team1_stats, matchup.team2_stats):
-            df.loc[len(df)] = [matchup.team1.name,matchup.team2.name, team1_stat.display, team1_stat.value]
-            df2.loc[len(df2)] = [matchup.team2.name,matchup.team1.name, team2_stat.display, team2_stat.value]
+@st.cache_data
+def load_data():
+    return pd.read_excel(io='package.xlsx', engine='openpyxl', sheet_name='package')
 
-    df_combined = pd.concat([df,df2])
-    df_wide = pd.pivot(df_combined, index=['Team','Opponent'], columns='cat', values='stat')
-    df_wide['Week'] = i+1
-    frames= [all_weeks,df_wide]
-    all_weeks = pd.concat(frames)
+    df = load_excel_sheet()
+    all_weeks=pd.DataFrame()
+    for i in range(0,theweek):
+        week = league.weeks()[i]
+        df = pd.DataFrame({'Team':[],'Opponent':[], 'cat':[], 'stat':[]})
+        df2 = pd.DataFrame({'Team':[], 'Opponent':[],'cat':[], 'stat':[]})
+        for matchup in week.matchups:
+            for team1_stat, team2_stat in zip(matchup.team1_stats, matchup.team2_stats):
+                df.loc[len(df)] = [matchup.team1.name,matchup.team2.name, team1_stat.display, team1_stat.value]
+                df2.loc[len(df2)] = [matchup.team2.name,matchup.team1.name, team2_stat.display, team2_stat.value]
+
+        df_combined = pd.concat([df,df2])
+        df_wide = pd.pivot(df_combined, index=['Team','Opponent'], columns='cat', values='stat')
+        df_wide['Week'] = i+1
+        frames= [all_weeks,df_wide]
+        all_weeks = pd.concat(frames)
+
+    return all_weeks
+
+all_weeks = load_data()
 
 all_weeks=all_weeks.reset_index()
 
