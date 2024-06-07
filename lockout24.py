@@ -436,7 +436,7 @@ conditions = [strength_cats['% Difference'] >.5,strength_cats['% Difference'] >.
 choices = ['Opponent Way Outperformed', 'Opponent Slightly Outperformed', 'Opponent Really Sucked', 'Opponent Was A Bit Worse','Average Opponent Performance','Average Opponent Performance']
 strength_cats['Category'] = np.select(conditions, choices, default='black')
 strength_cats= strength_cats.groupby(['Team','Category'])['Category'].agg('count').reset_index(name='Count')
-cat_order = ['Opponent Way Outperformed', 'Opponent Slightly Outperformed', 'Average Opponent Performance', 'Opponent Was A Bit Worse', 'Opponent Really Sucked',]
+cat_order = ['Opponent Really Sucked', 'Opponent Was A Bit Worse', 'Average Opponent Performance', 'Opponent Slightly Overperformed','Opponent Way Overperformed']
 strength_cats = strength_cats.set_index('Category').loc[cat_order].reset_index()
 
 strength_overall = strength_df.groupby('Team').agg(DiffSum=('Difference', 'sum'),PercentDiff=('% Difference', 'mean')).reset_index()
