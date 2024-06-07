@@ -387,7 +387,7 @@ all_weeks['Overall_Total']=all_weeks.loc[:,totalrank_list].sum(axis=1)
 maxweek = all_weeks['Week'].max()
 all_weeks['Overall_Wins'] = (all_weeks['Overall_Total']-10)/((maxweek-1)*120-10)*10
 
-all_weeks['Wins_Diff'] = (all_weeks['Wins'] - all_weeks['Week_Expected']) *0.67 #multiply by 2/3 to reflect managers doing things differently in different matchups
+all_weeks['Wins_Diff'] = all_weeks['Wins'] - all_weeks['Week_Expected'] # do I multiply by 2/3 to reflect managers doing things differently in different matchups?
 all_weeks['Wins_Diff_Cumulative'] = all_weeks.groupby('Team')['Wins_Diff'].cumsum()
 
 
@@ -430,6 +430,12 @@ strength_df['Difference'] = strength_df['Week_Expected'] - strength_df['Avg_Wins
 strength_df['% Difference'] = (strength_df['Week_Expected'] - strength_df['Avg_Wins'])/strength_df['Avg_Wins']
 strength_df = strength_df[['Opponent', 'Team','Week','Week_Expected','Avg_Wins','Difference','% Difference']] #re-arrange the order
 strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent','Week_Expected':'Opponent_Expected','Avg_Wins':'Opponent_Avg'},inplace=True)
+
+strength_cats = strength_df
+conditions = [strength_cats['% Difference'] >.5,strength_cats['% Difference'] >0,strength_cats['% Difference'] <-.5,strength_cats['% Difference']<0]
+choices = ['Really Lucky', 'Slightly Lucky', 'Really Unlucky', 'Slightly']
+strength_cats['Category'] = np.select(conditions, choices, default='black')
+strength_cats= strength_cats.groupby(['Team','Category'])['Category'].agg('count').reset_index(name='Count')
 
 strength_overall = strength_df.groupby('Team').agg(DiffSum=('Difference', 'sum'),PercentDiff=('% Difference', 'mean')).reset_index()
 strength_overall = strength_overall.sort_values(by='PercentDiff',ascending=False)
@@ -571,6 +577,8 @@ with tab4:
    #st.plotly_chart(strength_bar, theme=None,use_container_width=True)
    strength_box = px.violin(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    st.plotly_chart(strength_box, theme=None,use_container_width=True)
+   strength_bar = px.bar(strength_cats, x="Team", y="Count",color="Category",title="Opponent Luck by Week")
+   st.plotly_chart(strength_bar, theme=None,use_container_width=True)
 
 with tab5:
    st.header("Transactions")
