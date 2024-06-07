@@ -149,7 +149,13 @@ for transaction in league.transactions():
 
 all_transactions = all_transactions[all_transactions["Player"] != 1]
 
+all_transactions['Time'] = pd.to_datetime(all_transactions['Time'], unit='s', utc=True).map(lambda x: x.tz_convert('US/Pacific'))
+all_transactions['DOW'] = all_transactions['Time'].dt.day_name()
+
+
 # creating transaction tables
+daily_df = all_transactions.groupby(['Time'])['Manager'].agg('count').reset_index(name='Count')
+dow_df = all_transactions.groupby(['DOW'])['Manager'].agg('count').reset_index(name='Count')
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index(name='Count')
 team_df = all_transactions.groupby(['Team'])['Manager'].agg('count').reset_index(name='Count')
 manager_df = all_transactions.groupby(['Manager'])['Player'].agg('count').reset_index(name='Count')
@@ -161,7 +167,7 @@ position_df = position_df.explode('Position')
 
 position_df = position_df.groupby(['Position'])['Count'].agg('sum').reset_index(name='Count')
 
-
+# create transaction charts
 position_tree = px.treemap(position_df, path=['Position'], values='Count',
                   color='Position', hover_data=['Position'],title="Tree Map of Pickups by Position")
 
@@ -170,6 +176,12 @@ team_tree = px.treemap(team_df, path=['Team'], values='Count',
 
 team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
                   color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
+
+
+trans_line = px.line(daily_df, x="Time", y="Count", markers=True,title="Transactions by Day")
+
+dow_bar = px.bar(dow_df, x="DOW", y="Count",title="Transactions by Day of Week") 
+
 
 
 ##### BRING IN ALL WEEKS #####
@@ -543,11 +555,13 @@ with tab4:
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
    #strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
    #st.plotly_chart(strength_bar, theme=None,use_container_width=True)
-   strength_box = px.strip(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
+   strength_box = px.violin(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    st.plotly_chart(strength_box, theme=None,use_container_width=True)
 
 with tab5:
    st.header("Transactions")
    st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.plotly_chart(position_tree)
-   st.plotly_chart(team_player_tree,use_container_width=True)
+   st.plotly_chart(team_player_tree,use_scontainer_width=True)
+   st.plotly_chart(trans_line)
+   st.plotly_chart(dow_bar)
