@@ -527,7 +527,7 @@ scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulati
 ############################################################################################################
 
 with tab1:
-   st.write("Welcome to the new and improved(?) league report! This is a live document that will update as the real games take place. Let me know what you think, and feel free to make suggestions of things you'd like to see!")
+   st.write("Welcome to the new and improved(?) league report! This is a live site that will update as the real games take place. Let me know what you think, and feel free to make suggestions of things you'd like to see!")
    st.divider()
    st.write("This table shows the current standings, the roto standings, and the roto standings over the past 3 weeks.")
    st.dataframe(standings_current.style.format({'Wins_Cumulative': "{:.1f}",'Cumulative_Total': "{:.1f}",'Cumulative_Total3': "{:.1f}"}).\
