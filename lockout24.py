@@ -152,7 +152,7 @@ all_transactions = all_transactions[all_transactions["Player"] != 1]
 all_transactions['Time'] = pd.to_datetime(all_transactions['Time'], unit='s', utc=True).map(lambda x: x.tz_convert('US/Pacific'))
 all_transactions['Day'] = all_transactions['Time'].dt.date
 all_transactions['DOW'] = all_transactions['Time'].dt.day_name()
-
+all_transactions['Position2'] = np.where(all_transactions['DOW'].isin(['SP','RP']), "Pitcher", "Hitter")
 
 # creating transaction tables
 daily_df = all_transactions.groupby(['Day'])['Manager'].agg('count').reset_index(name='Count')
@@ -164,7 +164,7 @@ daily_df = (daily_df.set_index('Day')
 
 day_order = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday']
 
-dow_df = all_transactions.groupby(['DOW'])['Manager'].agg('count').reset_index(name='Count')
+dow_df = all_transactions.groupby(['DOW',"Position2"])['Manager'].agg('count').reset_index(name='Count')
 dow_df = dow_df.set_index('DOW').loc[day_order].reset_index()
 
 
@@ -192,7 +192,7 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
 
 trans_line = px.line(daily_df, x="Day", y="Count", markers=True,title="Transactions by Day")
 
-dow_bar = px.bar(dow_df, x="DOW", y="Count",title="Transactions by Day of Week") 
+dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transactions by Day of Week") 
 
 
 
