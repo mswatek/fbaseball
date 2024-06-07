@@ -521,24 +521,27 @@ with tab3:
 
 with tab4:
    st.header("Individual Teams")
-   line3 = st.selectbox("Choose Team:", team_list)
-   maxweek = cumrank_df['Week'].max()
-   cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
-   cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
-   cumrank_radar = cumrank_radar[cumrank_radar['Team']==line3]
-   fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
-   team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (reduced_weeks['Week']>1)]
-   indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(2)
-   indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(2)
-   strength_indi = strength_df[strength_df['Team']==line3]
-   st.write(fig)
-   st.dataframe(indi_best,hide_index=True,use_container_width=True)
-   st.dataframe(indi_worst,hide_index=True,use_container_width=True)
-   st.dataframe(strength_indi,hide_index=True,use_container_width=True)
-   #strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
-   #st.plotly_chart(strength_bar, theme=None,use_container_width=True)
-   strength_box = px.strip(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
-   st.plotly_chart(strength_box, theme=None,use_container_width=True)
+   @st.experimental_fragment
+   def simple_chart():
+    line3 = st.selectbox("Choose Team:", team_list)
+    maxweek = cumrank_df['Week'].max()
+    cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
+    cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
+    cumrank_radar = cumrank_radar[cumrank_radar['Team']==line3]
+    fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
+    team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (reduced_weeks['Week']>1)]
+    indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(2)
+    indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(2)
+    strength_indi = strength_df[strength_df['Team']==line3]
+    st.write(fig)
+    st.dataframe(indi_best,hide_index=True,use_container_width=True)
+    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
+    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
+    #strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
+    #st.plotly_chart(strength_bar, theme=None,use_container_width=True)
+    strength_box = px.strip(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
+    st.plotly_chart(strength_box, theme=None,use_container_width=True)
+    simple_chart()
 
 with tab5:
    st.header("Transactions")
