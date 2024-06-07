@@ -156,14 +156,16 @@ all_transactions['DOW'] = all_transactions['Time'].dt.day_name()
 
 # creating transaction tables
 daily_df = all_transactions.groupby(['Day'])['Manager'].agg('count').reset_index(name='Count')
-dow_df = all_transactions.groupby(['DOW'])['Manager'].agg('count').reset_index(name='Count')
-
-
 daily_df = (daily_df.set_index('Day')
       .reindex(pd.date_range('2024-03-28', now))
       .rename_axis(['Day'])
       .fillna(0)
       .reset_index())
+
+day_order = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']
+
+dow_df = all_transactions.groupby(['DOW'])['Manager'].agg('count').reset_index(name='Count')
+dow_df = dow_df.set_index('DOW').loc[day_order].reset_index()
 
 
 player_df = all_transactions.groupby(['Player','Position','Team'])['Manager'].agg('count').reset_index(name='Count')
@@ -570,7 +572,6 @@ with tab4:
 
 with tab5:
    st.header("Transactions")
-   st.dataframe(all_transactions,hide_index=True,use_container_width=True)
    st.plotly_chart(position_tree)
    st.plotly_chart(team_player_tree,use_scontainer_width=True)
    st.plotly_chart(trans_line)
