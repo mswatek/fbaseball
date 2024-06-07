@@ -562,6 +562,7 @@ with tab3:
 
 with tab4:
    st.header("Individual Teams")
+   st.write("Use the dropdown menu to view stats for each team.")
    line3 = st.selectbox("Choose Team:", team_list)
    maxweek = cumrank_df['Week'].max()
    cumrank_current = cumrank_df[cumrank_df['Week']== maxweek]
@@ -572,22 +573,32 @@ with tab4:
    indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(2)
    indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(2)
    strength_indi = strength_df[strength_df['Team']==line3]
+   st.write("Radar charts are back by popular demand! Figure out where your team struggles and try to make some moves!")
    st.write(fig)
+   st.write("These are the best weeks for {team} as defined by Overall_Wins.").format(team=line3)
    st.dataframe(indi_best,hide_index=True,use_container_width=True)
+   st.write("These are the worst weeks for {team} as defined by Overall_Wins.").format(team=line3)
    st.dataframe(indi_worst,hide_index=True,use_container_width=True)
+   st.write("This table shows how the opponents of {team} did each week (Opponent_Expected) compared to their weekly average (Opponent_Avg). You can compare across weeks with % Difference.").format(team=line3)
    st.dataframe(strength_indi,hide_index=True,use_container_width=True)
    #strength_bar = px.bar(strength_overall, x="Team", y="PercentDiff",color="PercentDiff",color_continuous_scale="RdYlGn_r").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)").update_coloraxes(showscale=False) 
    #st.plotly_chart(strength_bar, theme=None,use_container_width=True)
    #strength_box = px.violin(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    #st.plotly_chart(strength_box, theme=None,use_container_width=True)
    strength_bar = px.bar(strength_cats, x="Team", y="Count",color="Opponent...",color_discrete_sequence=["red", "orange", "yellow", "blue", "green"],title="Opponent Performance By Week")
+   st.write("See how opponent variation plays out for each team in the bar chart below. Teams with a lot of green and blue have had some tough schedule luck.")
    st.plotly_chart(strength_bar, theme=None,use_container_width=True)
 
 with tab5:
    st.header("Transactions")
-   st.plotly_chart(position_tree)
-   st.plotly_chart(team_player_tree,use_scontainer_width=True)
+   st.write("This chart shows the number of league-wide transactions per day along with a 7-day rolling average.")
    st.plotly_chart(trans_line)
+   st.write("Unsurprisingly, the first and last days of the week have the most adds.")
    st.plotly_chart(dow_bar)
+   st.write("A lot of managers stream pitchers, and that shows up in this tree map of adds by position.")
+   st.plotly_chart(position_tree)
+   st.write("The team/player tree map is kinda fun, identifying players that have been picked up multiple times and teams that have more streamable/volatile players.")
+   st.plotly_chart(team_player_tree,use_scontainer_width=True)
+   
 
    
