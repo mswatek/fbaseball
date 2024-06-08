@@ -433,7 +433,7 @@ strength_df = strength_df[['Opponent', 'Team','Week','Week_Expected','Avg_Wins',
 strength_df.rename(columns={'Opponent': 'Team','Team':'Opponent','Week_Expected':'Opponent_Expected','Avg_Wins':'Opponent_Avg'},inplace=True)
 
 strength_cats = strength_df
-conditions = [strength_cats['% Difference'] >.3,strength_cats['% Difference'] >.15,strength_cats['% Difference'] <-.3,strength_cats['% Difference']<-.15,strength_cats['% Difference']>0,strength_cats['% Difference']<0]
+conditions = [strength_cats['% Difference'] >.3,strength_cats['% Difference'] >.15,strength_cats['% Difference'] <-.3,strength_cats['% Difference']<-.15,strength_cats['% Difference']>-.001,strength_cats['% Difference']<.001]
 choices = ['Way Overperformed (30% better)', 'Slightly Overperformed', 'Way Underperformed (30% worse)', 'Was A Bit Worse','Was Average (within 15%)','Was Average (within 15%)']
 strength_cats['Opponent...'] = np.select(conditions, choices, default='black')
 strength_cats= strength_cats.groupby(['Team','Opponent...'])['Opponent...'].agg('count').reset_index(name='Count')
@@ -525,6 +525,10 @@ scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulati
 ############################################################################################################
 ############################################################################################################
 ############################################################################################################
+
+if st.button("Update Data"):
+    # Clears all st.cache_resource caches:
+    st.cache_resource.clear()
 
 with tab1:
    st.write("Welcome to the new (and improved?) league report! This is a live site that will update as the real games take place. Let me know what you think, and feel free to make suggestions of things you'd like to see!")
