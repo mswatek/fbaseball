@@ -204,7 +204,7 @@ dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transaction
 
 
 @st.cache_data
-def load_data(_league):
+def load_data(_ctx):
     all_weeks=pd.DataFrame()
     for i in range(0,theweek):
         week = league.weeks()[i]
@@ -223,7 +223,7 @@ def load_data(_league):
 
     return all_weeks
 
-all_weeks = load_data(league)
+all_weeks = load_data(ctx)
 
 all_weeks=all_weeks.reset_index()
 
@@ -530,10 +530,6 @@ scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulati
 ############################################################################################################
 ############################################################################################################
 ############################################################################################################
-
-if st.button("Update Data"):
-    # Clears all st.cache_data caches:
-    st.cache_data.clear()
 
 with tab1:
    st.write("Welcome to the new (and improved?) league report! This is a live site that will update as the real games take place. Let me know what you think, and feel free to make suggestions of things you'd like to see!")
