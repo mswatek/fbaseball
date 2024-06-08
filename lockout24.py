@@ -204,7 +204,7 @@ dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transaction
 
 
 @st.cache_data
-def load_data(_auth):
+def load_data(ttl=3600):
     all_weeks=pd.DataFrame()
     for i in range(0,theweek):
         week = league.weeks()[i]
@@ -223,7 +223,7 @@ def load_data(_auth):
 
     return all_weeks
 
-all_weeks = load_data(auth)
+all_weeks = load_data()
 
 all_weeks=all_weeks.reset_index()
 
