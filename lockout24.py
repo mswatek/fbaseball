@@ -204,7 +204,7 @@ dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transaction
 
 
 @st.cache_data
-def load_data(_ctx):
+def load_data(_auth):
     all_weeks=pd.DataFrame()
     for i in range(0,theweek):
         week = league.weeks()[i]
@@ -223,7 +223,7 @@ def load_data(_ctx):
 
     return all_weeks
 
-all_weeks = load_data(ctx)
+all_weeks = load_data(auth)
 
 all_weeks=all_weeks.reset_index()
 
@@ -605,6 +605,4 @@ with tab5:
    st.plotly_chart(position_tree)
    st.write("The team/player tree map is kinda fun, identifying players that have been picked up multiple times and teams that have more streamable/volatile players.")
    st.plotly_chart(team_player_tree,use_scontainer_width=True)
-   
-
    
