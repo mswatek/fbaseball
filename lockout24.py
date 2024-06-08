@@ -527,8 +527,8 @@ scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulati
 ############################################################################################################
 
 if st.button("Update Data"):
-    # Clears all st.cache_resource caches:
-    st.cache_resource.clear()
+    # Clears all st.cache_data caches:
+    st.cache_data.clear()
 
 with tab1:
    st.write("Welcome to the new (and improved?) league report! This is a live site that will update as the real games take place. Let me know what you think, and feel free to make suggestions of things you'd like to see!")
