@@ -228,10 +228,6 @@ all_weeks = load_data()
 all_weeks=all_weeks.reset_index()
 
 
-
-all_weeks=all_weeks.reset_index()
-
-
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
 ##### Create Matchup Variable #####
@@ -500,7 +496,7 @@ standings_current = standings_current[cols]
 standings_current = standings_current.sort_values("Wins_Cumulative",ascending = False)
 
 # dont think I need rank columns
-standings_current['Place'] = standings_current['Wins_Cumulative'].rank(method="average", ascending=False)
+#standings_current['Place'] = standings_current['Wins_Cumulative'].rank(method="average", ascending=False)
 #standings_current['Roto_Rank'] = standings_current['Cumulative_Total'].rank(method="average", ascending=False)
 #standings_current['Roto3_Rank'] = standings_current['Cumulative_Total3'].rank(method="average", ascending=False)
 
@@ -532,7 +528,9 @@ scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulati
 ############################################################################################################
 
 with tab1:
-   st.write("Welcome to the new (and improved?) league report! This is a live site that will update as the real games take place. Let me know what you think, and feel free to make suggestions of things you'd like to see!")
+   st.write("Welcome to the new league report! I've included a lot of the same tables and charts from previous reports, but now you can view the data as it updates automatically every hour or so."\
+        "All of the plots are interactive, allowing you to zoom and filter. You can view the site on desktop or mobile (highly recommend landscape mode) and the current week's data will be available starting Wednesday"\
+        " of that week (to allow the week's stats to accumulate). Let me know what you think, and feel free to make suggestions of things you'd like to see!")
    st.divider()
    st.write("This table shows the current standings, the roto standings, and the roto standings over the past 3 weeks.")
    st.dataframe(standings_current.style.format({'Wins_Cumulative': "{:.1f}",'Cumulative_Total': "{:.1f}",'Cumulative_Total3': "{:.1f}"}).\
@@ -548,7 +546,7 @@ with tab1:
 with tab2:
    st.write("Here are the best individual weeks of the season based on Overall_Wins. To derive Overall_Wins, I looked at how each stat compared to all other weeks of the season and then figured out how often that would have generated a win.")
    st.dataframe(best_weeks,hide_index=True,use_container_width=True)
-   st.write("Use the dropdown below to see how everyone has trended across each stat over the season. The table underneath will udpate to show the ten best weeks for the stat selected.")
+   st.write("Use the dropdown below to see how everyone has trended across each stat over the season. The table underneath will udpate to show the ten best weeks for the stat selected. Note that Week 1 was excluded since it was an extra-long matchup.")
    line2 = st.selectbox("Choose Metric:", ['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
    cumulative_cats = px.line(cumulative_cats_df, x="Week", y=line2, markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24).update_xaxes(type='category').update_layout(title="Average "+line2+" by Week")
    st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
