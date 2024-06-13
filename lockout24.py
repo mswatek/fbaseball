@@ -501,6 +501,9 @@ standings_current = standings_current.sort_values("Wins_Cumulative",ascending = 
 cols = ['Team','Wins_Cumulative','Cumulative_Total','Cumulative_Total3']
 standings_current = standings_current[cols]
 
+standings_current.rename(columns={'Wins_Cumulative': 'Wins','Cumulative_Total':'Roto Points','Cumulative_Total3':'3-Week Roto Points'},inplace=True)
+
+
 cm_power = sns.light_palette("green", as_cmap=True)
 
 ### scatterplot
@@ -535,7 +538,7 @@ with tab1:
                 background_gradient(cmap=cm_power, subset=['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']),hide_index=True,use_container_width=True)
    st.write("There are many ways to win in this league. The scatterplot below shows how each team stacks up in innings pitched, plate appearances, and transactions.")
    st.plotly_chart(scatter_plot, theme=None,use_container_width=True)
-   st.write("Use the dropdown menu below to see the league standings if this were a roto league (Cumlative_Total as well as the 3-week roto standings (Cumulative_Total3). What stands out?")
+   st.write("Use the dropdown menu below to see the league standings if this were a roto league (Cumlative_Total) as well as the 3-week roto standings (Cumulative_Total3). What stands out?")
    line = st.selectbox("Choose Metric:", ['Cumulative_Total','Cumulative_Total3'])
    cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24,title="Cumulative Roto Standings").update_xaxes(type='category')
    st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
