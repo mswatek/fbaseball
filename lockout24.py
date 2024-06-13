@@ -534,7 +534,7 @@ with tab1:
         " of that week (to allow the week's stats to accumulate). Let me know what you think, and feel free to make suggestions of things you'd like to see!")
    st.divider()
    st.write("This table shows the current standings, the roto standings, and the roto standings over the past 3 weeks.")
-   st.dataframe(standings_current.style.format({'Wins_Cumulative': "{:.1f}",'Cumulative_Total': "{:.1f}",'Cumulative_Total3': "{:.1f}"}).\
+   st.dataframe(standings_current.style.format({'Wins': "{:.1f}",'Roto Points': "{:.1f}",'3-Week Roto Points': "{:.1f}"}).\
                 background_gradient(cmap=cm_power, subset=['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']),hide_index=True,use_container_width=True)
    st.write("There are many ways to win in this league. The scatterplot below shows how each team stacks up in innings pitched, plate appearances, and transactions.")
    st.plotly_chart(scatter_plot, theme=None,use_container_width=True)
