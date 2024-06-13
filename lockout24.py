@@ -11,7 +11,6 @@ import seaborn as sns
 ###### to-do list! #####
 ###### to-do list! #####
 ###### to-do list! #####
-#transactions counter - clean up the table; format date and do a time series chart by day of season
 #initial table - games back, difference in wins expected, counts of lucky and unlucky weeks (threshold of 1.5 runs?),IP,PA,Pickups
 #luck charts/tables - downgrade them a bit - maybe take off 33%?
 
@@ -24,11 +23,10 @@ import seaborn as sns
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 
 #other individual manager stuff?
-#add text/comments
 #figure out how to do info button or hover over so that the text doesn't overwhelm on mobile view...st.info ?
 #make charts nicer (clean up axis labels)
 #format numbers so they look nicer in the tables
-#just in general, is there a way to make the interactive charts update faster?
+#figure out how to get site to upload more than once an hour
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
 
@@ -193,9 +191,9 @@ team_player_tree = px.treemap(player_df, path=['Team','Player'], values='Count',
                   color='Team', hover_data=['Team','Player'],title="Tree Map of Pickups by Team")
 
 
-trans_line = px.bar(daily_df, x="Day", y="Count",title="Transactions by Day").add_traces(px.line(daily_df, x="Day", y="Rolling",markers=True).update_traces(line_color='#0000ff',showlegend=True, name="Rolling").data)
+trans_line = px.bar(daily_df, x="Day", y="Count",title="Transactions by Day").add_traces(px.line(daily_df, x="Day", y="Rolling",markers=True).update_traces(line_color='#0000ff',showlegend=True, name="7-Day Rolling Average").data)
 
-dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transactions by Day of Week") 
+dow_bar = px.bar(dow_df, x="DOW", y="Count",color="Position2",title="Transactions by Day of Week",labels={"Position2":"Position"}) 
 
 
 ##### BRING IN ALL WEEKS #####
@@ -537,7 +535,7 @@ with tab1:
                 background_gradient(cmap=cm_power, subset=['Wins_Cumulative','Cumulative_Total','Cumulative_Total3']),hide_index=True,use_container_width=True)
    st.write("There are many ways to win in this league. The scatterplot below shows how each team stacks up in innings pitched, plate appearances, and transactions.")
    st.plotly_chart(scatter_plot, theme=None,use_container_width=True)
-   st.write("Use the dropdown menu below to see the league standings if this were a roto league as well as the 3-week roto standings. What stands out?")
+   st.write("Use the dropdown menu below to see the league standings if this were a roto league (Cumlative_Total as well as the 3-week roto standings (Cumulative_Total3). What stands out?")
    line = st.selectbox("Choose Metric:", ['Cumulative_Total','Cumulative_Total3'])
    cumulative_roto = px.line(all_weeks, x="Week", y=line, markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24,title="Cumulative Roto Standings").update_xaxes(type='category')
    st.plotly_chart(cumulative_roto, theme=None,use_container_width=True)
@@ -562,7 +560,7 @@ with tab3:
    st.dataframe(lucky_weeks,hide_index=True,use_container_width=True)
    st.write("This table shows the unluckiest weeks, where good weeks went up against great ones.")
    st.dataframe(unlucky_weeks,hide_index=True,use_container_width=True)
-   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_Cumulative", markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24,title="Difference In Wins (Actual-Expected)").update_xaxes(type='category')
+   cumulative_expected = px.line(all_weeks, x="Week", y="Wins_Diff_Cumulative", markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24,title="Difference In Wins (Actual-Expected)",labels={"Wins_Diff_Cumulative":"Cumulative Difference in Wins"}).update_xaxes(type='category')
    st.write("I've added up Week_Expected over the course of the season to get the cumulative effect. Obviously, managers do different things based on their current opponent, but I think this makes sense at least directionally.")
    st.plotly_chart(cumulative_expected, theme=None,use_container_width=True)
 
@@ -590,7 +588,7 @@ with tab4:
    #st.plotly_chart(strength_bar, theme=None,use_container_width=True)
    #strength_box = px.violin(strength_df, x="Team", y="% Difference",color="Team", hover_data="Opponent").update_layout(title="Opponent Performance Relative to Average",yaxis_title="Opponent Performance (% Different Than Average)",showlegend=False)
    #st.plotly_chart(strength_box, theme=None,use_container_width=True)
-   strength_bar = px.bar(strength_cats, x="Team", y="Count",color="Opponent...",color_discrete_sequence=["red", "orange", "yellow", "blue", "green"],title="Opponent Performance By Week")
+   strength_bar = px.bar(strength_cats, x="Team", y="Count",color="Opponent...",color_discrete_sequence=["red", "orange", "yellow", "blue", "green"],title="Opponent Performance By Week",labels={"Count":"Number of Matchups"})
    st.write("See how opponent variation plays out for each team in the bar chart below. Teams with a lot of green and blue have had some tough schedule luck.")
    st.plotly_chart(strength_bar, theme=None,use_container_width=True)
 
