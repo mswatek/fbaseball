@@ -13,22 +13,27 @@ from google.oauth2.service_account import Credentials
 ###### to-do list! #####
 ###### to-do list! #####
 ###### to-do list! #####
-#initial table - games back, difference in wins expected, counts of lucky and unlucky weeks (threshold of 1.5 runs?),IP,PA,Pickups
 #luck charts/tables - downgrade them a bit - maybe take off 33%?
-
 #explore individual player data - are players tied to manager team somehow?
 #can I incorporate elo rating somehow?
 #clusters of teams? might just be similar to the current scatterplot/spider plots
 
-#should I include league info or history info on here? (keeper history, historical standings, league rules, champion photos)
-#other cool stuff to add would be the all-time trade history and a map of where everyone lives
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 
-#other individual manager stuff?
 #figure out how to do info button or hover over so that the text doesn't overwhelm on mobile view...st.info ?
 #make charts nicer (clean up axis labels)
 #format numbers so they look nicer in the tables
 #figure out how to get site to upload more than once an hour
+
+#league history tab:
+#clean up tables
+#add keeper history somehow
+#summarize trade table into some charts?
+#league history write-up...when changes were made? or maybe exclude
+#add table with league win pct and number of championships?
+#map of where everyone lives
+#champion photos
+#league rules?
 
 ###note for each new season to check if there's an updated version of yahoofantasy to install...otherwise might run into issues
 
@@ -551,7 +556,7 @@ med_pa = scatter_current["PA_Cumulative"].median()
 med_ip = scatter_current["IP_New_Cumulative"].median()
 
 scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
-                 size='Count',text='Team').add_hline(y=med_ip,line_color="green").add_vline(x=med_pa,line_color="green").update_layout(title="League Landscape")
+                 size='Count',text='Team',labels={"PA_Cumulative":"Plate Appearances","IP_New_Cumulative":"Innings Pitched"}).add_hline(y=med_ip,line_color="green").add_vline(x=med_pa,line_color="green").update_layout(title="League Landscape")
 
 
 ############################################################################################################
