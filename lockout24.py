@@ -556,7 +556,7 @@ med_pa = scatter_current["PA_Cumulative"].median()
 med_ip = scatter_current["IP_New_Cumulative"].median()
 
 scatter_plot = px.scatter(scatter_current, x="PA_Cumulative", y="IP_New_Cumulative", color="Wins_Cumulative",
-                 size='Count',text='Team',labels={"PA_Cumulative":"Plate Appearances","IP_New_Cumulative":"Innings Pitched"}).add_hline(y=med_ip,line_color="green").add_vline(x=med_pa,line_color="green").update_layout(title="League Landscape")
+                 size='Count',text='Team',labels={"PA_Cumulative":"Plate Appearances","IP_New_Cumulative":"Innings Pitched","Wins_Cumulative":"Wins"}).add_hline(y=med_ip,line_color="green").add_vline(x=med_pa,line_color="green").update_layout(title="League Landscape")
 
 
 ############################################################################################################
