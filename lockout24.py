@@ -6,6 +6,8 @@ import requests,base64
 import plotly.express as px
 from datetime import datetime
 import seaborn as sns
+import gspread
+from google.oauth2.service_account import Credentials
 #from time import strftime, localtime
 
 ###### to-do list! #####
@@ -33,7 +35,7 @@ import seaborn as sns
 st.set_page_config(layout="wide",page_title="No Lockout!")
 st.title(":blue[No More Lockouts in MLB!]")
 
-tab1, tab2, tab3, tab4, tab5= st.tabs(["League Trends","Best Weeks", "Expected Stats", "Individual Team Stats","Transactions"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["League Trends","Best Weeks", "Expected Stats", "Individual Team Stats","Transactions","History"])
 
 now = datetime.now()
 now = now.strftime('%Y-%m-%d')
@@ -62,6 +64,34 @@ else: currentweek=1
 
 if dow>2: theweek = currentweek
 else: theweek=currentweek-1
+
+##### GOOGLE SHEET DATA #####
+##### GOOGLE SHEET DATA #####
+##### GOOGLE SHEET DATA #####
+
+scopes = [
+    "https://www.googleapis.com/auth/spreadsheets",
+]
+
+skey = st.secrets["gcp_service_account"]
+credentials = Credentials.from_service_account_info(
+    skey,
+    scopes=scopes,
+)
+client = gspread.authorize(credentials)
+
+url = st.secrets["private_gsheets_url"]
+
+
+## .600 Seasons
+sheet_name=".600 Seasons"
+sh = client.open_by_url(url)
+df_seasons6 = pd.DataFrame(sh.worksheet(sheet_name).get_all_records())
+
+## Trade History
+sheet_name="Trades"
+sh = client.open_by_url(url)
+df_trades = pd.DataFrame(sh.worksheet(sheet_name).get_all_records())
 
 
 ##### ESTABLISH THE CONNECTION #####
@@ -604,4 +634,9 @@ with tab5:
    st.plotly_chart(position_tree)
    st.write("The team/player tree map is kinda fun, identifying players that have been picked up multiple times and teams that have more streamable/volatile players.")
    st.plotly_chart(team_player_tree,use_scontainer_width=True)
-   
+
+with tab6:
+   st.write("Here are all the seasons where a team had a >.600 winning percentage.")
+   st.dataframe(df_seasons6,hide_index=True,use_container_width=True)
+   st.write("These are all the trades in the history of this league.")
+   st.dataframe(df_trades,hide_index=True,use_container_width=True)
