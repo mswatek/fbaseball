@@ -18,6 +18,8 @@ from google.oauth2.service_account import Credentials
 #can I incorporate elo rating somehow?
 #clusters of teams? might just be similar to the current scatterplot/spider plots
 
+#fix cumulative wins error
+
 #eventually add a tab for the playoff bracket...still need to figure out how to get closer to accurate OBPs without manual
 
 #figure out how to do info button or hover over so that the text doesn't overwhelm on mobile view...st.info ?
@@ -642,6 +644,8 @@ with tab5:
 
 with tab6:
    st.write("Here are all the seasons where a team had a >.600 winning percentage.")
-   st.dataframe(df_seasons6,hide_index=True,use_container_width=True)
+   st.dataframe(df_seasons6.style.format({"Season": "{}","Percent" : "{:.3f}"}),hide_index=True,use_container_width=True)
    st.write("These are all the trades in the history of this league.")
-   st.dataframe(df_trades,hide_index=True,use_container_width=True)
+   st.dataframe(df_trades.style.format({"Season": "{}"}),hide_index=True,use_container_width=True)
+
+   
