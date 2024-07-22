@@ -583,9 +583,9 @@ with tab1:
    
 
 with tab2:
-   st.write("Here are the best individual weeks of the season based on Overall_Wins. To derive Overall_Wins, I looked at how each stat compared to all other weeks of the season and then figured out how often that would have generated a win. Note that Week 1 was excluded since it was an extra-long matchup.")
+   st.write("Here are the best individual weeks of the season based on Overall_Wins. To derive Overall_Wins, I looked at how each stat compared to all other weeks of the season and then figured out how often that would have generated a win. Note that Weeks 1/15 were excluded since they were extra-long matchups.")
    st.dataframe(best_weeks,hide_index=True,use_container_width=True)
-   st.write("Use the dropdown below to see how everyone has trended across each stat over the season. The table underneath will update to show the ten best weeks for the stat selected. Note that Week 1 was excluded since it was an extra-long matchup.")
+   st.write("Use the dropdown below to see how everyone has trended across each stat over the season. The table underneath will update to show the ten best weeks for the stat selected. Note that Weeks 1/15 were excluded since they were extra-long matchups.")
    line2 = st.selectbox("Choose Metric:", ['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
    cumulative_cats = px.line(cumulative_cats_df, x="Week", y=line2, markers=True, color='Team', symbol='Team',color_discrete_sequence=px.colors.qualitative.Light24).update_xaxes(type='category').update_layout(title="Average "+line2+" by Week")
    st.plotly_chart(cumulative_cats, theme=None,use_container_width=True)
