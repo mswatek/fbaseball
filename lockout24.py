@@ -372,7 +372,7 @@ all_weeks = all_weeks.sort_values(['Week', 'Team'], ascending=[True, True])
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 
 #nonweek1 = all_weeks[all_weeks["Week"] > 1]
-nonweek1 = all_weeks[~all_weeks.Week.isin([1,15])] #taking out week1 and week15, the two long weeks
+nonweek1 = all_weeks[~all_weeks.Week.isin([1])] #taking out week1, only take out week 15 when accessing top weeks
 
 cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Opponent','ERA','WHIP','OBP']]
 cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'Team','Opponent']]
@@ -503,7 +503,6 @@ cumulative_cats_df = cumulative_cats_df[cumulative_cats_df["Week"] > 1]
 
 cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H']
 top_cats_df = all_weeks[cols]
-#top_cats_df = top_cats_df[top_cats_df["Week"] > 1]
 top_cats_df = top_cats_df[~top_cats_df.Week.isin([1,15])] 
 
 cols = ['Week','Team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_Cumulative','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
@@ -614,7 +613,7 @@ with tab4:
    cumrank_radar = pd.melt(cumrank_current, id_vars='Team', value_vars=['R','HR','RBI','SB','OBP','ERA','WHIP','K','QS','SV+H'])
    cumrank_radar = cumrank_radar[cumrank_radar['Team']==line3]
    fig = px.line_polar(cumrank_radar, r='value', theta='variable', line_close=True).update_traces(fill='toself')
-   team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (reduced_weeks['Week']>1)]
+   team_individual = reduced_weeks[(reduced_weeks['Team']== line3) & (~reduced_weeks.Week.isin([1,15]))] ##take out the two long weeks
    indi_best = team_individual .sort_values('Overall_Wins',ascending = False).head(2)
    indi_worst = team_individual .sort_values('Overall_Wins',ascending = True).head(2)
    strength_indi = strength_df[strength_df['Team']==line3]
