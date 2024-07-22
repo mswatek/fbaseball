@@ -372,7 +372,7 @@ all_weeks = all_weeks.sort_values(['Week', 'Team'], ascending=[True, True])
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 
 #nonweek1 = all_weeks[all_weeks["Week"] > 1]
-nonweek1 = all_weeks[~all_weeks.Week.isin([,151])] #taking out week1 and week15
+nonweek1 = all_weeks[~all_weeks.Week.isin([1,15])] #taking out week1 and week15
 
 cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Opponent','ERA','WHIP','OBP']]
 cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'Team','Opponent']]
