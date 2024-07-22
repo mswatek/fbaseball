@@ -371,7 +371,8 @@ all_weeks = all_weeks.sort_values(['Week', 'Team'], ascending=[True, True])
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 ##### CUMULATIVE SUM AND AVG/MOVING AVG VARIABLES #####
 
-nonweek1 = all_weeks[all_weeks["Week"] > 1]
+#nonweek1 = all_weeks[all_weeks["Week"] > 1]
+nonweek1 = all_weeks[~all_weeks.Week.isin(1,15)] #taking out week1 and week15, the two long weeks
 
 cat_cols = [col for col in all_weeks.columns if col not in ['H/AB', 'Team','Opponent','ERA','WHIP','OBP']]
 cat_cols2 = [col for col in all_weeks.columns if col in ['H/AB', 'Team','Opponent']]
@@ -502,7 +503,8 @@ cumulative_cats_df = cumulative_cats_df[cumulative_cats_df["Week"] > 1]
 
 cols = ['Week','Team','Opponent','R','HR','RBI','SB','OBP','IP','ERA','WHIP','K','QS','SV+H']
 top_cats_df = all_weeks[cols]
-top_cats_df = top_cats_df[top_cats_df["Week"] > 1] ##get rid of week 1
+#top_cats_df = top_cats_df[top_cats_df["Week"] > 1]
+top_cats_df = top_cats_df[~top_cats_df.Week.isin(1,15)] 
 
 cols = ['Week','Team','R_avg','HR_avg','RBI_avg','SB_avg','OBP_avg','IP_New_Cumulative','ERA_avg','WHIP_avg','K_avg','QS_avg','SV+H_avg' \
         ,'R_avg3','HR_avg3','RBI_avg3','SB_avg3','OBP_avg3','ERA_avg3','WHIP_avg3','K_avg3','QS_avg3','SV+H_avg3']
